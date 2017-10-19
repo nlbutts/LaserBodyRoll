@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source C:\projects\LaserBodyRoll\Hardware\LaserBodyRoll.sch)
-    (date "10/18/2017 3:41:07 AM")
+    (date "10/19/2017 7:06:40 AM")
     (tool "Eeschema (2017-07-04 revision 1724f902a)-makepkg")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
