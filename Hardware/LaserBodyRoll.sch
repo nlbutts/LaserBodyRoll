@@ -29,11 +29,12 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:General
+LIBS:LaserBodyRoll-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 2
+Sheet 1 3
 Title ""
 Date ""
 Rev ""
@@ -48,5 +49,11 @@ S 1550 2100 2500 2000
 U 59E70A39
 F0 "Power" 60
 F1 "Power.sch" 60
+$EndSheet
+$Sheet
+S 4600 2100 2950 2000
+U 59E951CD
+F0 "Processor" 60
+F1 "Processor.sch" 60
 $EndSheet
 $EndSCHEMATC
