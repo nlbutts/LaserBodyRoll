@@ -1,0 +1,24 @@
+Circuit: * C:\projects\LaserBodyRoll\Hardware\simulation\esd_analog_input.asc
+
+Limiting rise time of source v1 to 2e-006
+Limiting fall time of source v1 to 2e-006
+Direct Newton iteration for .op point succeeded.
+
+Date: Sat Oct 21 21:01:11 2017
+Total elapsed time: 0.088 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 2238
+traniter = 2230
+tranpoints = 1083
+accept = 1070
+rejected = 13
+matrix size = 8
+fillins = 0
+solver = Normal
+Matrix Compiler1: 246 bytes object code size  0.1/0.1/[0.0]
+Matrix Compiler2: off  [0.0]/0.1/0.0
+
+

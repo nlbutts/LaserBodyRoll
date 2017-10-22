@@ -34,7 +34,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 3
+Sheet 2 4
 Title "POV Base Controller"
 Date "2016-09-25"
 Rev "R00"
@@ -298,7 +298,7 @@ Wire Wire Line
 Wire Wire Line
 	9900 1350 9900 1550
 Wire Wire Line
-	3900 2600 5150 2600
+	3700 2600 5150 2600
 Wire Wire Line
 	4300 2450 4300 2900
 Connection ~ 4300 2600
@@ -388,7 +388,7 @@ Wire Wire Line
 	8050 3000 8050 4000
 Connection ~ 8050 4000
 Wire Wire Line
-	8050 2700 8050 2600
+	8050 2350 8050 2700
 Connection ~ 8050 2600
 $Comp
 L A5970AD U1
@@ -474,12 +474,28 @@ F 3 "" H 3400 3200 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	3600 3150 3900 3150
+	3900 3150 3600 3150
 Wire Wire Line
-	3900 3150 3900 2600
+	3900 2400 3900 3150
 Wire Wire Line
 	3900 4000 3900 3250
 Wire Wire Line
 	3900 3250 3600 3250
 Connection ~ 4300 4000
+Text GLabel 3900 2400 1    60   Input ~ 0
+12V
+Connection ~ 3900 2600
+Text HLabel 8250 2350 2    60   Input ~ 0
+VCC
+Wire Wire Line
+	8250 2350 8050 2350
+Text HLabel 8250 3800 2    60   Input ~ 0
+GND
+Wire Wire Line
+	8250 3800 8150 3800
+Wire Wire Line
+	8150 3800 8150 4000
+Connection ~ 8150 4000
+Text HLabel 3700 2600 0    60   Input ~ 0
+12V
 $EndSCHEMATC
