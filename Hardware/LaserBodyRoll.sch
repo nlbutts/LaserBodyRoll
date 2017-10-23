@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:LaserBodyRoll-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -29,7 +30,6 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:General
-LIBS:LaserBodyRoll-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268

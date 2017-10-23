@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:LaserBodyRoll-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -29,7 +30,6 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:General
-LIBS:LaserBodyRoll-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -463,7 +463,7 @@ F 5 "824520201" V 4300 3600 60  0001 C CNN "Partnum"
 	0    1    1    0   
 $EndComp
 $Comp
-L CONN_01X02 J1
+L Conn_01x02 J1
 U 1 1 59E71894
 P 3400 3200
 F 0 "J1" H 3478 3241 50  0000 L CNN
