@@ -1,5 +1,4 @@
 EESchema Schematic File Version 2
-LIBS:LaserBodyRoll-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -30,6 +29,7 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:General
+LIBS:LaserBodyRoll-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -104,12 +104,12 @@ $EndComp
 $Comp
 L Conn_01x02 J5
 U 1 1 59EA07D1
-P 5900 4100
-F 0 "J5" V 5865 3962 50  0000 R CNN
-F 1 "CONN_01X02" V 5774 3962 50  0000 R CNN
-F 2 "" H 5900 4100 50  0001 C CNN
-F 3 "" H 5900 4100 50  0001 C CNN
-	1    5900 4100
+P 5850 4100
+F 0 "J5" V 5815 3962 50  0000 R CNN
+F 1 "CONN_01X02" V 5724 3962 50  0000 R CNN
+F 2 "" H 5850 4100 50  0001 C CNN
+F 3 "" H 5850 4100 50  0001 C CNN
+	1    5850 4100
 	0    -1   -1   0   
 $EndComp
 Text Label 5700 4850 0    60   ~ 0
@@ -125,10 +125,6 @@ F 3 "" H 10550 3150 50  0001 C CNN
 	1    10550 3150
 	1    0    0    -1  
 $EndComp
-Text Label 9800 2950 0    60   ~ 0
-12v
-Text Label 9800 3050 0    60   ~ 0
-GND
 Text Label 9800 3150 0    60   ~ 0
 DOUT1
 Text Label 9800 3250 0    60   ~ 0
@@ -321,12 +317,12 @@ $EndComp
 $Comp
 L Conn_01x02 J6
 U 1 1 59EB592B
-P 8750 4100
-F 0 "J6" V 8715 3962 50  0000 R CNN
-F 1 "CONN_01X02" V 8624 3962 50  0000 R CNN
-F 2 "" H 8750 4100 50  0001 C CNN
-F 3 "" H 8750 4100 50  0001 C CNN
-	1    8750 4100
+P 8700 4100
+F 0 "J6" V 8665 3962 50  0000 R CNN
+F 1 "CONN_01X02" V 8574 3962 50  0000 R CNN
+F 2 "" H 8700 4100 50  0001 C CNN
+F 3 "" H 8700 4100 50  0001 C CNN
+	1    8700 4100
 	0    -1   -1   0   
 $EndComp
 Text Label 8550 4850 0    60   ~ 0
@@ -465,11 +461,11 @@ $EndComp
 Text HLabel 2300 1400 0    60   Input ~ 0
 12V
 Text HLabel 7550 4100 1    60   Input ~ 0
-VCC
++3V3
 Text HLabel 10400 4100 1    60   Input ~ 0
-VCC
++3V3
 Text HLabel 2800 1400 2    60   Input ~ 0
-VCC
++3V3
 Text HLabel 1300 2350 0    60   Input ~ 0
 CPU_ANA_OUT1
 Text HLabel 1300 2550 0    60   Input ~ 0
@@ -626,7 +622,7 @@ F 3 "" H 2250 4500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text HLabel 1750 3800 1    60   Input ~ 0
-VCC
++3V3
 $Comp
 L GND #PWR022
 U 1 1 59EDC73D
@@ -674,7 +670,7 @@ F 3 "" H 2250 6050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text HLabel 1750 5350 1    60   Input ~ 0
-VCC
++3V3
 $Comp
 L GND #PWR023
 U 1 1 59EDCBD3
@@ -1073,4 +1069,8 @@ Text HLabel 3250 5800 2    60   Input ~ 0
 CPU_ANA_IN2
 Wire Wire Line
 	3250 5800 3100 5800
+NoConn ~ 9400 5200
+NoConn ~ 6550 5200
+NoConn ~ 10450 1850
+NoConn ~ 7450 1850
 $EndSCHEMATC
