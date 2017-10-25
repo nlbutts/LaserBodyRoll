@@ -1,0 +1,7 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|ffdbee70-e903-4e93-911f-2278ee3cb426
+C:\Users\nbutts\Documents\PSoC Creator\4.1\Downloads ( 4.1).cylib\Downloads ( 4.1).cyprj|021010f5-6fd4-4cee-ac71-bc46216c7d7c
+C:\Users\nbutts\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|0cab89ca-3b40-483c-9189-ed7189d9fc47
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|47db532e-e58b-4912-986f-55f47ad86aa9
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|3c514415-30ec-44c2-8c93-84cdd0155fa8
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|ef978d35-e27c-4c45-a758-e9659fd1436a
+C:\projects\LaserBodyRoll\Software\IOBoard.cydsn\IOBoard.cyprj|591afa6c-9dfd-47a5-a46c-88b66ec0d8c7
