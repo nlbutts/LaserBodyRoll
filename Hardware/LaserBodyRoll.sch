@@ -51,8 +51,7 @@ F0 "Power" 60
 F1 "Power.sch" 60
 F2 "GND" I R 3550 1750 60 
 F3 "12V" I R 3550 1250 60 
-F4 "+3V3" I R 3550 1500 60 
-F5 "+5V" I R 3550 2000 60 
+F4 "+5V" I R 3550 2000 60 
 $EndSheet
 $Sheet
 S 4000 4000 2950 2000
@@ -92,8 +91,6 @@ Wire Wire Line
 	3550 1250 7950 1250
 Wire Wire Line
 	3550 1750 7950 1750
-Wire Wire Line
-	3550 1500 7950 1500
 Wire Wire Line
 	4000 4150 3900 4150
 Wire Wire Line
@@ -158,4 +155,6 @@ Wire Wire Line
 	7150 4150 7150 1900
 Wire Wire Line
 	7150 1900 7950 1900
+Wire Wire Line
+	3750 1500 7950 1500
 $EndSCHEMATC
