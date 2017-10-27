@@ -417,6 +417,11 @@
       (net 7 "Net-(D6-Pad1)"))
     (pad 1 smd rect (at -5.145 0) (size 2.92 2.79) (layers F.Cu F.Paste F.Mask)
       (net 5 VCC))
+    (model C:/projects/KicadFootprint/IND_B82476A1.step
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (module Resistors_SMD:R_0603_HandSoldering (layer F.Cu) (tedit 58E0A804) (tstamp 59EC8EE4)
@@ -861,6 +866,11 @@
       (net 13 "Net-(U2-Pad7)"))
     (pad 8 smd rect (at 1.05 -0.975) (size 0.5 0.4) (layers F.Cu F.Paste F.Mask)
       (net 9 "Net-(C2-Pad1)"))
+    (model C:/projects/KicadFootprint/SIL0008D.stp
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
 )
