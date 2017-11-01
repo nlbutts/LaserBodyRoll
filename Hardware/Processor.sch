@@ -584,7 +584,7 @@ U 1 1 59EDF50F
 P 6800 3850
 F 0 "J8" H 6800 5328 50  0000 C CNN
 F 1 "Raspberry_Pi_2_3" H 6800 5237 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_2x20" H 7800 5100 50  0001 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x20_Pitch2.54mm" H 7800 5100 50  0001 C CNN
 F 3 "" H 6850 3700 50  0001 C CNN
 	1    6800 3850
 	1    0    0    -1  
