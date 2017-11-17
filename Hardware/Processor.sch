@@ -910,7 +910,7 @@ Wire Wire Line
 	9850 5700 9950 5700
 Connection ~ 9950 5700
 Wire Wire Line
-	8650 5750 8050 5750
+	8650 5500 8050 5500
 Wire Wire Line
 	8650 4900 8400 4900
 Wire Wire Line
@@ -937,8 +937,7 @@ Wire Wire Line
 Wire Wire Line
 	8250 5200 8650 5200
 Connection ~ 8250 5100
-NoConn ~ 8650 5650
-Text Label 8150 5750 0    60   ~ 0
+Text Label 8150 5500 0    60   ~ 0
 ICM_INT
 NoConn ~ 3350 3500
 NoConn ~ 3350 3600
@@ -978,4 +977,31 @@ Connection ~ 10900 5000
 Connection ~ 10600 5000
 NoConn ~ 7700 4350
 NoConn ~ 5900 4150
+NoConn ~ 8650 5400
+$Comp
+L C C6
+U 1 1 5A048FEC
+P 8400 5950
+F 0 "C6" H 8515 5996 50  0000 L CNN
+F 1 "0.1u" H 8515 5905 50  0000 L CNN
+F 2 "Capacitors_SMD:C_0603" H 8438 5800 50  0001 C CNN
+F 3 "" H 8400 5950 50  0001 C CNN
+	1    8400 5950
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR05
+U 1 1 5A049074
+P 8400 6200
+F 0 "#PWR05" H 8400 5950 50  0001 C CNN
+F 1 "GND" H 8405 6027 50  0000 C CNN
+F 2 "" H 8400 6200 50  0001 C CNN
+F 3 "" H 8400 6200 50  0001 C CNN
+	1    8400 6200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8750 5800 8400 5800
+Wire Wire Line
+	8400 6100 8400 6200
 $EndSCHEMATC

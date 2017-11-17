@@ -427,17 +427,6 @@ ANA_IN1
 Text Label 2250 7350 0    60   ~ 0
 ANA_IN2
 $Comp
-L Conn_01x03 J3
-U 1 1 59EC68B0
-P 2550 1200
-F 0 "J3" V 2515 1012 50  0000 R CNN
-F 1 "CONN_01X03" V 2424 1012 50  0000 R CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm" H 2550 1200 50  0001 C CNN
-F 3 "" H 2550 1200 50  0001 C CNN
-	1    2550 1200
-	0    -1   -1   0   
-$EndComp
-$Comp
 L GND #PWR021
 U 1 1 59EC6B5F
 P 2600 3600
@@ -448,13 +437,11 @@ F 3 "" H 2600 3600 50  0001 C CNN
 	1    2600 3600
 	1    0    0    -1  
 $EndComp
-Text HLabel 2300 1400 0    60   Input ~ 0
+Text HLabel 2700 2200 2    60   Input ~ 0
 12V
 Text HLabel 7550 4100 1    60   Input ~ 0
 +3V3
 Text HLabel 10400 4100 1    60   Input ~ 0
-+3V3
-Text HLabel 2800 1400 2    60   Input ~ 0
 +3V3
 Text HLabel 1300 2350 0    60   Input ~ 0
 CPU_ANA_OUT1
@@ -828,15 +815,9 @@ Wire Wire Line
 Wire Wire Line
 	2750 6950 1900 6950
 Wire Wire Line
-	2550 1400 2550 2200
-Wire Wire Line
 	2550 2750 2600 2750
 Wire Wire Line
 	2550 2350 4150 2350
-Wire Wire Line
-	2300 1400 2450 1400
-Wire Wire Line
-	2800 1400 2650 1400
 Wire Wire Line
 	1350 2350 1300 2350
 Wire Wire Line
@@ -845,7 +826,7 @@ Wire Wire Line
 	2750 2550 2750 3050
 Connection ~ 2750 2550
 Wire Wire Line
-	3150 1750 3150 3050
+	3150 1700 3150 3050
 Connection ~ 3150 2350
 Wire Wire Line
 	2750 3350 2750 3500
@@ -913,16 +894,12 @@ Wire Wire Line
 Wire Wire Line
 	4450 2550 4900 2550
 Wire Wire Line
-	1350 2250 1350 1750
-Wire Wire Line
-	1350 1750 3150 1750
+	1350 1700 1350 2250
 Wire Wire Line
 	2600 2750 2600 3600
 Connection ~ 2600 3500
 Wire Wire Line
-	1350 2650 1350 2900
-Wire Wire Line
-	1350 2900 2750 2900
+	1350 2650 1350 3100
 Connection ~ 2750 2900
 Wire Wire Line
 	2600 4350 2600 4250
@@ -1035,4 +1012,94 @@ F 5 "732-9779-1-ND" V 10250 1800 60  0001 C CNN "Digikey"
 	1    10250 1800
 	0    1    1    0   
 $EndComp
+$Comp
+L R R30
+U 1 1 5A04301A
+P 1950 1700
+F 0 "R30" V 2157 1700 50  0000 C CNN
+F 1 "30k" V 2066 1700 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 1880 1700 50  0001 C CNN
+F 3 "" H 1950 1700 50  0001 C CNN
+	1    1950 1700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R1
+U 1 1 5A043102
+P 1000 1700
+F 0 "R1" V 793 1700 50  0000 C CNN
+F 1 "10k" V 884 1700 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 930 1700 50  0001 C CNN
+F 3 "" H 1000 1700 50  0001 C CNN
+	1    1000 1700
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR01
+U 1 1 5A0433D9
+P 750 1800
+F 0 "#PWR01" H 750 1550 50  0001 C CNN
+F 1 "GND" H 755 1627 50  0000 C CNN
+F 2 "" H 750 1800 50  0001 C CNN
+F 3 "" H 750 1800 50  0001 C CNN
+	1    750  1800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	750  1800 750  1700
+Wire Wire Line
+	750  1700 850  1700
+Wire Wire Line
+	1150 1700 1800 1700
+Connection ~ 1350 1700
+Wire Wire Line
+	2100 1700 3150 1700
+$Comp
+L R R29
+U 1 1 5A043797
+P 1850 3100
+F 0 "R29" V 2057 3100 50  0000 C CNN
+F 1 "30k" V 1966 3100 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 1780 3100 50  0001 C CNN
+F 3 "" H 1850 3100 50  0001 C CNN
+	1    1850 3100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R2
+U 1 1 5A043833
+P 1000 3100
+F 0 "R2" V 793 3100 50  0000 C CNN
+F 1 "10k" V 884 3100 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 930 3100 50  0001 C CNN
+F 3 "" H 1000 3100 50  0001 C CNN
+	1    1000 3100
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR02
+U 1 1 5A0438C1
+P 750 3150
+F 0 "#PWR02" H 750 2900 50  0001 C CNN
+F 1 "GND" H 755 2977 50  0000 C CNN
+F 2 "" H 750 3150 50  0001 C CNN
+F 3 "" H 750 3150 50  0001 C CNN
+	1    750  3150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	750  3150 750  3100
+Wire Wire Line
+	750  3100 850  3100
+Wire Wire Line
+	1150 3100 1700 3100
+Connection ~ 1350 3100
+Wire Wire Line
+	2000 3100 2300 3100
+Wire Wire Line
+	2300 3100 2300 2900
+Wire Wire Line
+	2300 2900 2750 2900
+Wire Wire Line
+	2700 2200 2550 2200
 $EndSCHEMATC
