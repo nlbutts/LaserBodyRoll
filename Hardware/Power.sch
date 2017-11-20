@@ -192,7 +192,7 @@ U 1 1 584868C9
 P 2150 6200
 F 0 "W14" H 2150 6470 50  0000 C CNN
 F 1 "TEST_1P" H 2150 6400 50  0000 C CNN
-F 2 "Measurement_Points:Measurement_Point_Round-SMD-Pad_Small" H 2350 6200 50  0001 C CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 2350 6200 50  0001 C CNN
 F 3 "" H 2350 6200 50  0000 C CNN
 	1    2150 6200
 	1    0    0    -1  
@@ -205,7 +205,7 @@ U 1 1 59E71894
 P 3000 2450
 F 0 "J1" H 3078 2491 50  0000 L CNN
 F 1 "CONN_01X02" H 3078 2400 50  0000 L CNN
-F 2 "Connectors_Phoenix:PhoenixContact_MSTBVA-G_02x5.00mm_Vertical" H 3000 2450 50  0001 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 3000 2450 50  0001 C CNN
 F 3 "" H 3000 2450 50  0001 C CNN
 F 4 "277-1667-ND" H 3000 2450 60  0001 C CNN "Digikey"
 	1    3000 2450
