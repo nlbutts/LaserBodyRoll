@@ -124,12 +124,12 @@ $EndComp
 $Comp
 L GND #PWR09
 U 1 1 59E96769
-P 1000 1600
-F 0 "#PWR09" H 1000 1350 50  0001 C CNN
-F 1 "GND" H 1005 1427 50  0000 C CNN
-F 2 "" H 1000 1600 50  0001 C CNN
-F 3 "" H 1000 1600 50  0001 C CNN
-	1    1000 1600
+P 600 1650
+F 0 "#PWR09" H 600 1400 50  0001 C CNN
+F 1 "GND" H 605 1477 50  0000 C CNN
+F 2 "" H 600 1650 50  0001 C CNN
+F 3 "" H 600 1650 50  0001 C CNN
+	1    600  1650
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -149,10 +149,6 @@ Text Label 3400 2550 0    60   ~ 0
 SWDCLK
 Text Label 3400 2650 0    60   ~ 0
 XRES
-Text Label 2050 1150 0    60   ~ 0
-SWDIO
-Text Label 2050 1250 0    60   ~ 0
-SWDCLK
 Text Label 2050 1550 0    60   ~ 0
 XRES
 $Comp
@@ -331,30 +327,11 @@ Wire Wire Line
 Wire Wire Line
 	1000 1150 1000 1000
 Wire Wire Line
-	1000 1550 1150 1550
-Wire Wire Line
-	1000 1250 1000 1600
-Wire Wire Line
-	1150 1250 1000 1250
-Connection ~ 1000 1550
-Wire Wire Line
-	1150 1350 1000 1350
-Connection ~ 1000 1350
-Wire Wire Line
-	1150 1450 1000 1450
-Connection ~ 1000 1450
-Wire Wire Line
 	3350 2450 4050 2450
 Wire Wire Line
 	3350 2550 4050 2550
 Wire Wire Line
 	3350 2650 4050 2650
-Wire Wire Line
-	2000 1150 2500 1150
-Wire Wire Line
-	2000 1250 2500 1250
-Wire Wire Line
-	2000 1550 2650 1550
 Wire Wire Line
 	10300 1450 10550 1450
 Wire Wire Line
@@ -723,7 +700,7 @@ Wire Wire Line
 Text Label 7800 2950 0    60   ~ 0
 SDA
 Text Label 7800 3050 0    60   ~ 0
-SCLK
+SCL
 $Comp
 L +5V #PWR025
 U 1 1 59F00FC9
@@ -820,7 +797,6 @@ Wire Wire Line
 Text HLabel 7100 2350 2    60   Input ~ 0
 +3V3
 NoConn ~ 2000 1350
-NoConn ~ 2000 1450
 NoConn ~ 1350 2450
 NoConn ~ 1350 2550
 NoConn ~ 1350 2850
@@ -856,7 +832,7 @@ Wire Wire Line
 Wire Wire Line
 	10900 5600 10900 6100
 Wire Wire Line
-	9850 4900 10900 4900
+	9650 4900 10900 4900
 Connection ~ 10900 4900
 $Comp
 L C C22
@@ -870,10 +846,10 @@ F 3 "" H 10200 5150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9850 5000 10900 5000
+	9650 5000 10900 5000
 Connection ~ 10200 5000
 Wire Wire Line
-	9850 5800 10900 5800
+	9650 5800 10900 5800
 Connection ~ 10900 5800
 Wire Wire Line
 	10600 5300 10600 5800
@@ -882,49 +858,49 @@ Wire Wire Line
 	10200 5300 10200 5800
 Connection ~ 10200 5800
 Wire Wire Line
-	9850 5300 9950 5300
+	9650 5300 9750 5300
 Wire Wire Line
-	9950 5300 9950 5800
-Connection ~ 9950 5800
+	9750 5300 9750 5800
+Connection ~ 9750 5800
 Wire Wire Line
-	9850 5400 9950 5400
-Connection ~ 9950 5400
+	9650 5400 9750 5400
+Connection ~ 9750 5400
 Wire Wire Line
-	9850 5500 9950 5500
-Connection ~ 9950 5500
+	9650 5500 9750 5500
+Connection ~ 9750 5500
 Wire Wire Line
-	9850 5600 9950 5600
-Connection ~ 9950 5600
+	9650 5600 9750 5600
+Connection ~ 9750 5600
 Wire Wire Line
-	9850 5700 9950 5700
-Connection ~ 9950 5700
+	9650 5700 9750 5700
+Connection ~ 9750 5700
 Wire Wire Line
-	8650 4900 8400 4900
+	8450 4900 8200 4900
 Wire Wire Line
-	8650 5000 8400 5000
-Text Label 8450 4900 0    60   ~ 0
+	8450 5000 8200 5000
+Text Label 8250 4900 0    60   ~ 0
 SCL
-Text Label 8450 5000 0    60   ~ 0
+Text Label 8250 5000 0    60   ~ 0
 SDA
 $Comp
 L VCC #PWR03
 U 1 1 59F1E6C3
-P 8250 5000
-F 0 "#PWR03" H 8250 4850 50  0001 C CNN
-F 1 "VCC" H 8267 5173 50  0000 C CNN
-F 2 "" H 8250 5000 50  0001 C CNN
-F 3 "" H 8250 5000 50  0001 C CNN
-	1    8250 5000
+P 8050 5000
+F 0 "#PWR03" H 8050 4850 50  0001 C CNN
+F 1 "VCC" H 8067 5173 50  0000 C CNN
+F 2 "" H 8050 5000 50  0001 C CNN
+F 3 "" H 8050 5000 50  0001 C CNN
+	1    8050 5000
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8650 5100 8250 5100
+	8450 5100 8050 5100
 Wire Wire Line
-	8250 5000 8250 5200
+	8050 5000 8050 5200
 Wire Wire Line
-	8250 5200 8650 5200
-Connection ~ 8250 5100
-Text Label 8100 5750 0    60   ~ 0
+	8050 5200 8450 5200
+Connection ~ 8050 5100
+Text Label 7900 5750 0    60   ~ 0
 ICM_INT
 NoConn ~ 3350 3500
 NoConn ~ 3350 3600
@@ -967,30 +943,28 @@ NoConn ~ 5900 4150
 $Comp
 L ICM-20602 U5
 U 1 1 59F1D1C3
-P 9250 5250
-F 0 "U5" H 9250 5887 60  0000 C CNN
-F 1 "ICM-20602" H 9250 5781 60  0000 C CNN
-F 2 "KicadFootprint:QFN-16-no_center_3x3mm_Pitch0.5mm" H 9250 5250 60  0001 C CNN
-F 3 "" H 9250 5250 60  0001 C CNN
-	1    9250 5250
+P 9050 5250
+F 0 "U5" H 9050 5887 60  0000 C CNN
+F 1 "ICM-20602" H 9050 5781 60  0000 C CNN
+F 2 "KicadFootprint:QFN-16-no_center_3x3mm_Pitch0.5mm" H 9050 5250 60  0001 C CNN
+F 3 "" H 9050 5250 60  0001 C CNN
+	1    9050 5250
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8650 5750 8050 5750
-NoConn ~ 8650 5650
+	8450 5750 7850 5750
+NoConn ~ 8450 5650
 $Comp
 L Test_Point TP1
 U 1 1 5A122F3D
-P 2650 1500
-F 0 "TP1" H 2708 1620 50  0000 L CNN
-F 1 "Test_Point" H 2708 1529 50  0000 L CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 2850 1500 50  0001 C CNN
-F 3 "" H 2850 1500 50  0001 C CNN
-	1    2650 1500
-	1    0    0    -1  
+P 2350 1550
+F 0 "TP1" H 2408 1670 50  0000 L CNN
+F 1 "Test_Point" H 2408 1579 50  0000 L CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 2550 1550 50  0001 C CNN
+F 3 "" H 2550 1550 50  0001 C CNN
+	1    2350 1550
+	-1   0    0    1   
 $EndComp
-Wire Wire Line
-	2650 1550 2650 1500
 $Comp
 L Test_Point TP4
 U 1 1 5A1230AB
@@ -1041,4 +1015,61 @@ Connection ~ 6600 2200
 Wire Wire Line
 	6950 2200 6900 2200
 Connection ~ 6900 2200
+$Comp
+L C C6
+U 1 1 5A142057
+P 9950 5500
+F 0 "C6" H 10065 5546 50  0000 L CNN
+F 1 "0.1u" H 10065 5455 50  0000 L CNN
+F 2 "Capacitors_SMD:C_0603" H 9988 5350 50  0001 C CNN
+F 3 "" H 9950 5500 50  0001 C CNN
+	1    9950 5500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9650 5200 9950 5200
+Wire Wire Line
+	9950 5200 9950 5350
+Wire Wire Line
+	9950 5650 9950 5800
+Connection ~ 9950 5800
+Wire Wire Line
+	700  1250 1150 1250
+Wire Wire Line
+	700  1450 1150 1450
+Text Label 750  1250 0    60   ~ 0
+SWDIO
+Text Label 750  1450 0    60   ~ 0
+SWDCLK
+Wire Wire Line
+	2000 1150 2500 1150
+Text Label 2100 1150 0    60   ~ 0
+SWDV
+Wire Wire Line
+	1150 1350 600  1350
+Wire Wire Line
+	600  1350 600  1650
+Wire Wire Line
+	1150 1550 600  1550
+Connection ~ 600  1550
+$Comp
+L GND #PWR?
+U 1 1 5A157E69
+P 2550 1650
+F 0 "#PWR?" H 2550 1400 50  0001 C CNN
+F 1 "GND" H 2555 1477 50  0000 C CNN
+F 2 "" H 2550 1650 50  0001 C CNN
+F 3 "" H 2550 1650 50  0001 C CNN
+	1    2550 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2000 1550 2350 1550
+Wire Wire Line
+	2000 1250 2550 1250
+Wire Wire Line
+	2550 1250 2550 1650
+Wire Wire Line
+	2000 1450 2550 1450
+Connection ~ 2550 1450
 $EndSCHEMATC
