@@ -458,34 +458,6 @@ Wire Wire Line
 Wire Wire Line
 	8550 1500 8550 1650
 Connection ~ 8350 1500
-$Comp
-L R R35
-U 1 1 59EDD7ED
-P 8750 3400
-F 0 "R35" H 8820 3446 50  0000 L CNN
-F 1 "10k" H 8820 3355 50  0000 L CNN
-F 2 "Resistors_SMD:R_0603" V 8680 3400 50  0001 C CNN
-F 3 "" H 8750 3400 50  0001 C CNN
-	1    8750 3400
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9400 3550 8750 3550
-$Comp
-L VCC #PWR031
-U 1 1 59EDD981
-P 8750 3150
-F 0 "#PWR031" H 8750 3000 50  0001 C CNN
-F 1 "VCC" H 8767 3323 50  0000 C CNN
-F 2 "" H 8750 3150 50  0001 C CNN
-F 3 "" H 8750 3150 50  0001 C CNN
-	1    8750 3150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8750 3150 8750 3250
-Text Label 8950 3550 0    60   ~ 0
-TEMP_INT
 Text Notes 9350 4050 0    60   ~ 0
 I2C address 0x48
 $Comp
@@ -613,22 +585,6 @@ Text Label 1100 4450 0    60   ~ 0
 SCL
 Text Label 1100 4550 0    60   ~ 0
 SDA
-Wire Wire Line
-	3350 3000 4050 3000
-Wire Wire Line
-	3350 3100 4050 3100
-Wire Wire Line
-	3350 3200 4050 3200
-Wire Wire Line
-	3350 3300 4050 3300
-Text Label 3400 3100 0    60   ~ 0
-MISO
-Text Label 3400 3000 0    60   ~ 0
-MOSI
-Text Label 3400 3200 0    60   ~ 0
-SCLK
-Text Label 3400 3300 0    60   ~ 0
-SS
 Text HLabel 1250 4950 0    60   Input ~ 0
 CPU_ANA_IN1
 Text HLabel 1250 5150 0    60   Input ~ 0
@@ -655,12 +611,10 @@ Text Label 7150 1450 0    60   ~ 0
 SCL
 Text HLabel 1250 2750 0    60   Input ~ 0
 CPU_ANA_OUT1
-Text HLabel 1250 3550 0    60   Input ~ 0
+Text HLabel 1250 2650 0    60   Input ~ 0
 CPU_ANA_OUT2
 Wire Wire Line
 	1350 2750 1250 2750
-Wire Wire Line
-	1350 3550 1250 3550
 Text HLabel 1250 5050 0    60   Input ~ 0
 CPU_FREQ_IN1
 Text HLabel 1250 4850 0    60   Input ~ 0
@@ -671,10 +625,8 @@ Wire Wire Line
 	1350 5050 1250 5050
 Text HLabel 1250 3050 0    60   Input ~ 0
 CPU_FREQ_OUT1
-Text HLabel 1250 2650 0    60   Input ~ 0
+Text HLabel 1250 2850 0    60   Input ~ 0
 CPU_FREQ_OUT2
-Wire Wire Line
-	1250 2650 1350 2650
 Wire Wire Line
 	1250 3050 1350 3050
 Wire Wire Line
@@ -799,12 +751,8 @@ Text HLabel 7100 2350 2    60   Input ~ 0
 NoConn ~ 2000 1350
 NoConn ~ 1350 2450
 NoConn ~ 1350 2550
-NoConn ~ 1350 2850
 NoConn ~ 1350 2950
 NoConn ~ 1350 3150
-NoConn ~ 1350 3450
-NoConn ~ 1350 3650
-NoConn ~ 1350 3750
 NoConn ~ 1350 3850
 NoConn ~ 1350 3950
 NoConn ~ 1350 4050
@@ -904,22 +852,6 @@ Text Label 7900 5750 0    60   ~ 0
 ICM_INT
 NoConn ~ 3350 3500
 NoConn ~ 3350 3600
-Wire Wire Line
-	3350 3700 4050 3700
-Wire Wire Line
-	3350 3800 4050 3800
-Wire Wire Line
-	3350 3900 4050 3900
-Wire Wire Line
-	3350 4000 4050 4000
-Text Label 3450 3700 0    60   ~ 0
-GP1
-Text Label 3450 3800 0    60   ~ 0
-GP2
-Text Label 3450 3900 0    60   ~ 0
-GP3
-Text Label 3450 4000 0    60   ~ 0
-GP4
 Wire Wire Line
 	5900 3150 5400 3150
 Wire Wire Line
@@ -1053,10 +985,10 @@ Wire Wire Line
 	1150 1550 600  1550
 Connection ~ 600  1550
 $Comp
-L GND #PWR?
+L GND #PWR05
 U 1 1 5A157E69
 P 2550 1650
-F 0 "#PWR?" H 2550 1400 50  0001 C CNN
+F 0 "#PWR05" H 2550 1400 50  0001 C CNN
 F 1 "GND" H 2555 1477 50  0000 C CNN
 F 2 "" H 2550 1650 50  0001 C CNN
 F 3 "" H 2550 1650 50  0001 C CNN
@@ -1072,4 +1004,33 @@ Wire Wire Line
 Wire Wire Line
 	2000 1450 2550 1450
 Connection ~ 2550 1450
+Wire Wire Line
+	1350 2650 1250 2650
+Wire Wire Line
+	1350 2850 1250 2850
+Wire Wire Line
+	1350 3450 800  3450
+Wire Wire Line
+	1350 3550 800  3550
+Wire Wire Line
+	1350 3650 800  3650
+Wire Wire Line
+	1350 3750 800  3750
+Text Label 850  3450 0    60   ~ 0
+MOSI
+Text Label 850  3550 0    60   ~ 0
+MISO
+Text Label 850  3650 0    60   ~ 0
+SCLK
+Text Label 850  3750 0    60   ~ 0
+SS
+NoConn ~ 3350 3000
+NoConn ~ 3350 3100
+NoConn ~ 3350 3200
+NoConn ~ 3350 3300
+NoConn ~ 3350 3700
+NoConn ~ 3350 3800
+NoConn ~ 3350 3900
+NoConn ~ 3350 4000
+NoConn ~ 9400 3550
 $EndSCHEMATC
