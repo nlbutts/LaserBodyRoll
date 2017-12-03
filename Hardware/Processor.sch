@@ -118,6 +118,7 @@ F 0 "J2" H 1575 1797 60  0000 C CNN
 F 1 "FTSH-105-01-L-DV-K" H 1575 1691 60  0000 C CNN
 F 2 "KicadFootprint:FTSH-105-01-L-DV-K" H 1700 1350 60  0001 C CNN
 F 3 "" H 1700 1350 60  0001 C CNN
+F 4 "SAM8799-ND" H 1550 1350 60  0001 C CNN "Digikey"
 	1    1550 1350
 	1    0    0    -1  
 $EndComp
@@ -535,6 +536,7 @@ F 0 "J8" H 6800 5328 50  0000 C CNN
 F 1 "Raspberry_Pi_2_3" H 6800 5237 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_2x20_Pitch2.54mm" H 7800 5100 50  0001 C CNN
 F 3 "" H 6850 3700 50  0001 C CNN
+F 4 "S6106-ND" H 6800 3850 60  0001 C CNN "Digikey"
 	1    6800 3850
 	1    0    0    -1  
 $EndComp
@@ -880,6 +882,7 @@ F 0 "U5" H 9050 5887 60  0000 C CNN
 F 1 "ICM-20602" H 9050 5781 60  0000 C CNN
 F 2 "KicadFootprint:QFN-16-no_center_3x3mm_Pitch0.5mm" H 9050 5250 60  0001 C CNN
 F 3 "" H 9050 5250 60  0001 C CNN
+F 4 "1428-1060-1-ND" H 9050 5250 60  0001 C CNN "Digikey"
 	1    9050 5250
 	1    0    0    -1  
 $EndComp
