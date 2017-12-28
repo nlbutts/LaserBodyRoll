@@ -16,10 +16,16 @@ int main(void)
     CyGlobalIntEnable; /* Enable global interrupts. */
 
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
-
+    int i = 0;
+    
     for(;;)
     {
         /* Place your application code here. */
+        i++;
+        if (i > 1000)
+        {
+            i = 0;
+        }
     }
 }
 
