@@ -42,20 +42,25 @@ int main(void)
     {
         /* Place your application code here. */
         CyDelay(100);
-        GREEN_Write(!GREEN_Read());
+        //GREEN_Write(!GREEN_Read());
+        GREEN_Write(1);
+        RED_Write(1);
         
         VDAC_1_SetValue(dacValue);
         VDAC_2_SetValue(dacValue);
         dacValue += 10;
         
-        if (SPI_SpiUartGetTxBufferSize())
-        {
-            rxIndex = 0;
-            SPI_SpiUartPutArray(txTestData, 4);
-        }
         while (SPI_SpiUartGetRxBufferSize() > 0)        
         {
+            RED_Write(0);
             txTestData[rxIndex++] = SPI_SpiUartReadRxData();
+        }
+        if (SPI_SpiUartGetTxBufferSize() == 0)
+        {
+            txTestData[0] = DIGITAL_IN2_Read();
+            GREEN_Write(0);
+            rxIndex = 0;
+            SPI_SpiUartPutArray(txTestData, 4);
         }
 //        switch (state)
 //        {
