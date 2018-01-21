@@ -25,47 +25,38 @@ int main(void)
     VDAC_1_Start();
     VDAC_2_Start();
     
+   SPI_Start();
+    
     VDAC_1_SetValue(1);
     VDAC_2_SetValue(0);
     
     int dacValue = 0;
     
     int digitalTest = 0;
+
+    uint8_t rxIndex = 0;
+    uint8_t txTestData[4] = {0x12, 0x34, 0x45, 0x67};
+    uint8_t rxTestData[4];
     
     for(;;)
     {
         /* Place your application code here. */
         CyDelay(100);
+        GREEN_Write(!GREEN_Read());
+        
         VDAC_1_SetValue(dacValue);
         VDAC_2_SetValue(dacValue);
         dacValue += 10;
         
-        digitalTest++;
-        if (digitalTest > 50)
+        if (SPI_SpiUartGetTxBufferSize())
         {
-            digitalTest = 0;
-            DIGITAL_OUT1_Write(!DIGITAL_OUT1_Read());
-            DIGITAL_OUT2_Write(!DIGITAL_OUT2_Read());
+            rxIndex = 0;
+            SPI_SpiUartPutArray(txTestData, 4);
         }
-        
-        if (DIGITAL_IN1_Read() > 0)
+        while (SPI_SpiUartGetRxBufferSize() > 0)        
         {
-            RED_Write(0);
+            txTestData[rxIndex++] = SPI_SpiUartReadRxData();
         }
-        else
-        {
-            RED_Write(1);
-        }
-
-        if (DIGITAL_IN2_Read() > 0)
-        {
-            GREEN_Write(0);
-        }
-        else
-        {
-            GREEN_Write(1);
-        }
-
 //        switch (state)
 //        {
 //            case 0:
