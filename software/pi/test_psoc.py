@@ -8,4 +8,4 @@ voltage = 0
 while (True):
     p.updateVoltage(voltage);
     time.sleep(0.2)
-    voltage += 100
+    voltage += 0.1
