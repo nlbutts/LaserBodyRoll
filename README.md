@@ -26,8 +26,8 @@ The PSoC and the Raspberry PI are connected via an SPI bus. The Pi is the SPI Ma
 | 2    | Sync2 = 0xAA |
 | 3    | Output Voltage MSB |
 | 4    | Output Voltage LSB |
-| 4    | Setting Bits |
-| 5    | Checksum |
+| 5    | Setting Bits |
+| 6    | Checksum |
 
 ## Output Voltage
 The output voltage is a 16-bit value where each bit represents a millivolt. So a value of 100 would be a desired output of 100 millivolts. A value of 9876 would be a desired output of 9.876 volts.
@@ -55,8 +55,8 @@ The packet the PSoC sends back is shown below.
 | 2    | Sync2 = 0xAA |
 | 3    | Input Voltage MSB |
 | 4    | Input Voltage LSB |
-| 4    | Status Bits |
-| 5    | Checksum |
+| 5    | Status Bits |
+| 6    | Checksum |
 
 ## Input Voltage
 Input voltage is the input voltage signal in millivolts. This is currently not implemented

@@ -3,6 +3,9 @@ from laser_board import psoc
 
 p = psoc.PSOC()
 
+voltage = 0
+
 while (True):
-    p.test();
+    p.updateVoltage(voltage);
     time.sleep(0.2)
+    voltage += 100
