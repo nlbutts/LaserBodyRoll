@@ -34,6 +34,7 @@ The output voltage is a 16-bit value where each bit represents a millivolt. So a
 ## Bits
 
 | Bit | Description |
+| --- | ------------|
 | 1   | Set digital out 1 high |
 | 2   | Set digital out 2 high |
 | 3   | Reserved |
@@ -48,6 +49,7 @@ To jump to bootblock 4 packets need to be send where the jump to bootblock value
 The packet the PSoC sends back is shown below.
 
 | Byte | Description |
+| ---- | ------------|
 | 1    | Sync1 = 0x55 |
 | 2    | Sync2 = 0xAA |
 | 3    | Input Voltage MSB |
@@ -60,6 +62,7 @@ Input voltage is the input voltage signal in millivolts. This is currently not i
 
 ## Status Bits
 | Bit | Description |
+| --- | ------------|
 | 1   | Digital input 1 status |
 | 2   | Digital input 2 status |
 | 3   | Reserved |
