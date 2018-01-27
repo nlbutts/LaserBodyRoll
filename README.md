@@ -21,6 +21,7 @@ ECU Connector
 The PSoC and the Raspberry PI are connected via an SPI bus. The Pi is the SPI Master and the PSoC is a slave device. The packet that is transmitted to the PSOC is shown below
 
 | Byte | Description |
+| ---- | ------------|
 | 1    | Sync1 = 0x55 |
 | 2    | Sync2 = 0xAA |
 | 3    | Output Voltage MSB |
