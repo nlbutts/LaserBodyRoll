@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request, flash
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import datetime
+import random
+import numpy as np
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176b'
 
 class ReusableForm(Form):
-    name = TextField('Name:', validators=[validators.required()])
+    name = TextField('mm to mv:', validators=[validators.required()])
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
@@ -64,6 +67,15 @@ def action(deviceName, action):
               'ledGrn'  : ledGrnSts,
     }
     return render_template('index.html', **templateData)
+
+@app.route("/distance")
+def getDistance():
+    a = np.random.rand(10)
+    plt.clf()
+    plt.plot(a)
+    plt.savefig('static/test.jpg')
+    return str(random.random())
+
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=80, debug=True)
