@@ -1,16 +1,22 @@
 #include <stdint.h>
 
+// COMMANDS
+enum ProtocolMessages
+{
+    Invalid,
+    IncomingData,
+    OutgoingData,
+    Reprogram
+};
 
 /**
-* This function creates the return packet to be transmitted back to the Pi
+* This function processes and sends data to to the Pi
+*
+* @param protocolCommand which command to send
 */
-void protocol_pushPacket();
+void protocol_pushPacket(uint8_t protocolCommand);
 /**
 * This function checks and process packets from the Pi
-*
-* @param
-* @param
-* @return
 */
 void protocol_process();
 

@@ -18,8 +18,6 @@ int main(void)
     VDAC_1_SetValue(1);
     VDAC_2_SetValue(0);
 
-    int dacValue = 0;
-
     for(;;)
     {
         /* Place your application code here. */
@@ -28,12 +26,8 @@ int main(void)
         GREEN_Write(1);
         RED_Write(1);
 
-        VDAC_1_SetValue(dacValue);
-        VDAC_2_SetValue(dacValue);
-        dacValue += 10;
-
         protocol_process();
-        protocol_pushPacket();
+        protocol_pushPacket(OutgoingData);
     }
 }
 
