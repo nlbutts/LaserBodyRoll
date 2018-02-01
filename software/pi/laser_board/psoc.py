@@ -13,7 +13,7 @@ class PSOC:
     def updateVoltage(self, desiredVoltage):
         print("Sending data to PSOC")
         v = struct.pack('>H', int(desiredVoltage * 1000))
-        txdata = [0x55, 0xAA, v[0], v[1], 0]
+        txdata = [0x55, 0xAA, 3, 3, v[0], v[1], 0]
         txdata.append(self.calculateChecksum(txdata))
         rxdata = self.spi.xfer(txdata)
         self.msg_count += 1
