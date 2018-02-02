@@ -89,15 +89,15 @@ void protocol_pushPacket(uint8_t protocolCommand)
         switch (protocolCommand)
         {
             case OutgoingData:
-                packetLength           = 3 + PKT_OVERHEAD - 1;
+                packetLength           = 3 + PKT_OVERHEAD;
                 psocData[CMD_POS]      = OutgoingData;
-                psocData[LEN_POS]      = 2;
+                psocData[LEN_POS]      = 3;
                 psocData[DATA_POS]     = 0;
                 psocData[DATA_POS + 1] = 0;
                 psocData[DATA_POS + 2] = (DIGITAL_IN2_Read() << 1) | DIGITAL_IN1_Read();
                 break;
         }
-        psocData[5] = calculateChecksum(psocData, packetLength);
+        psocData[DATA_POS + 3] = calculateChecksum(psocData, packetLength - 1);
         SPI_SpiUartPutArray(psocData, packetLength);
     }
     GREEN_Write(0);
@@ -173,7 +173,24 @@ void executeCommand(uint8_t command, uint8_t * payload)
         case IncomingData:
             outputVoltage = ((uint16_t)payload[0] << 8);
             outputVoltage |= payload[1];
-            piBits = payload[2];
+            piBits = payload[2];         
+            VDAC_1_SetValue(outputVoltage);
+            if (piBits & 1)
+            {
+                DIGITAL_OUT1_Write(1);
+            }
+            else
+            {
+                DIGITAL_OUT1_Write(0);                
+            }
+            if (piBits & 2)
+            {
+                DIGITAL_OUT2_Write(1);
+            }
+            else
+            {
+                DIGITAL_OUT2_Write(0);                
+            }
             break;
         case OutgoingData:
             break;
