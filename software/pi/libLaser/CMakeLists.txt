@@ -10,7 +10,6 @@ add_subdirectory(libVL53L0X)
 #add_custom_command(OUTPUT laser.so DEPENDS ${PROJECT_SOURCE_DIR}/liblaser.so COMMAND cp liblaser.so laser.so )
 #add_custom_target(laser.so ALL DEPENDS laser.so COMMAND cp liblaser.so laser.so)
 
-message(STATUS ${CSRC})
 add_library(${PROJECT_NAME} STATIC src/libentry.cpp src/vl53l0x_i2c_platform.c ${CSRC})
 
 target_link_libraries(${PROJECT_NAME} VL53L0X)

@@ -177,12 +177,13 @@ else ()
     add_definitions(-DSYS_LOG_LEVEL=LOG_NONE)
 
     # Libraries
-    #add_subdirectory(libReprogram)
+    add_subdirectory(libReprogram)
     add_subdirectory(libLaser)
-    #add_subdirectory(third-party/tclap-1.2.1)
+    add_subdirectory(third-party/tclap-1.2.1)
 
     # Executables
     #add_subdirectory(imagegen)
+    add_subdirectory(reprogram_psoc)
     add_subdirectory(ut)
 endif ()
 
