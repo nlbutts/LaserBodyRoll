@@ -4,7 +4,7 @@
  * All rights reserved.
  */
 
-#include <Python.h>
+//#include <Python.h>
 #include "vl53l0x_api.h"
 #include "vl53l0x_platform.h"
 #include <malloc.h>
@@ -246,6 +246,7 @@ void disconnect()
     }
 }
 
+#if 0
 /**
 * Python bindings below
 */
@@ -337,3 +338,4 @@ PyInit_laser(void)
     // PyModule_AddObject(m, "error", LaserError);
     return m;
 }
+#endif
