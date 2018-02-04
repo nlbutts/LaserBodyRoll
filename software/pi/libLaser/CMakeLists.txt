@@ -10,12 +10,11 @@ add_subdirectory(libVL53L0X)
 #add_custom_command(OUTPUT laser.so DEPENDS ${PROJECT_SOURCE_DIR}/liblaser.so COMMAND cp liblaser.so laser.so )
 #add_custom_target(laser.so ALL DEPENDS laser.so COMMAND cp liblaser.so laser.so)
 
-add_library(${PROJECT_NAME} STATIC src/libentry.cpp src/vl53l0x_i2c_platform.c ${CSRC})
+add_library(${PROJECT_NAME} STATIC src/vl53l0x.cpp src/vl53l0x_i2c_platform.c ${CSRC})
 
 target_link_libraries(${PROJECT_NAME} VL53L0X)
 
-include_directories(${PROJECT_SOURCE_DIR}/libVL53L0X/core/inc)
-include_directories(${PROJECT_SOURCE_DIR}/libVL53L0X/platform/inc)
-#include_directories(${PYTHON_INCLUDE_PATH})
-#include_directories(/usr/include/python3.4m)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/libVL53L0X/core/inc)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/libVL53L0X/platform/inc)
 

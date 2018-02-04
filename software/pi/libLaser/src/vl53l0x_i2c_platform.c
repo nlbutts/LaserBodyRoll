@@ -69,6 +69,7 @@ int32_t VL53L0X_comms_initialise(uint8_t  comms_type, uint16_t comms_speed_khz)
         perror("Failed to acquire bus access and/or talk to slave");
         exit(1);
     }
+    return 0;
 }
 
 /**
@@ -84,6 +85,7 @@ int32_t VL53L0X_comms_close(void)
     {
         close(_i2c);
     }
+    return 0;
 }
 
 /**
@@ -95,7 +97,7 @@ int32_t VL53L0X_comms_close(void)
 
 int32_t VL53L0X_cycle_power(void)
 {
-
+    return 0;
 }
 
 

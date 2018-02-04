@@ -91,6 +91,8 @@ add_compile_options(-Wall)
 # compilers without this.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")
 
+set(CMAKE_C_FLAGS_DEBUG "-DDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG")
 
 # ------------------------------------------------------ VERSIONING INFORMATION
 # Compiler definitions like this should NOT be used as global definitions, as
@@ -170,6 +172,7 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm)
 
     # Executables
     add_subdirectory(reprogram_psoc)
+    add_subdirectory(analog_laser)
 
     # This must be included last
     #add_subdirectory(fwimages)

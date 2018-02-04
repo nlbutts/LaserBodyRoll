@@ -30,11 +30,7 @@ void usleep(int microseconds)
 
 int openSPI(void)
 {
-    uint8_t temp[50];
-    int err = wiringPiSPISetup(0, 1000000);
-    //wiringPiSPIDataRW(0, temp, 32);
-    //usleep(500000);
-    cout << "wiringPiSPISetup: " << err << endl;
+    wiringPiSPISetup(0, 1000000);
 
     return CYRET_SUCCESS;
 }
@@ -54,10 +50,10 @@ int readData(uint8_t *buf, int length)
     do
     {
         usleep(1000);
-        int err = wiringPiSPIDataRW(0, &temp, 1);
+        wiringPiSPIDataRW(0, &temp, 1);
     } while (temp == 0xFF);
 
-    int err = wiringPiSPIDataRW(0, &buf[1], length - 1);
+    wiringPiSPIDataRW(0, &buf[1], length - 1);
     buf[0] = temp;
 
     // for (int i = 0; i < length; i++)
@@ -78,7 +74,7 @@ int writeData(uint8_t *buf, int length)
     //     printf("%02X ", buf[i]);
     // }
     // printf("\n");
-    int err = wiringPiSPIDataRW(0, buf, length);
+    wiringPiSPIDataRW(0, buf, length);
     return CYRET_SUCCESS;
 }
 

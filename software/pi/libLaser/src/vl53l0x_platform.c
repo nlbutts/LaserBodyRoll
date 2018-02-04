@@ -262,8 +262,6 @@ VL53L0X_Error VL53L0X_PollingDelay(VL53L0X_DEV Dev){
     VL53L0X_Error status = VL53L0X_ERROR_NONE;
     LOG_FUNCTION_START("");
 
-    CyDelay(5);
-
     LOG_FUNCTION_END(status);
     return status;
 }
