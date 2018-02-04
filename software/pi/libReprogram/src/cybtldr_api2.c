@@ -1,7 +1,7 @@
 /*******************************************************************************
 * Copyright 2011-2012, Cypress Semiconductor Corporation.  All rights reserved.
-* You may use this file only in accordance with the license, terms, conditions, 
-* disclaimers, and limitations in the end user license agreement accompanying 
+* You may use this file only in accordance with the license, terms, conditions,
+* disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
 ********************************************************************************/
 
@@ -22,7 +22,7 @@ int ProcessDataRow_v0(CyBtldr_Action action, uint32_t rowSize, uint8_t* rowData,
     uint8_t arrayId;
     uint16_t rowNum;
     uint8_t checksum;
-    
+
     int err;
 
     err = CyBtldr_ParseRowData(rowSize, rowData, &arrayId, &rowNum, buffer, &bufSize, &checksum);
@@ -133,18 +133,18 @@ int RunAction_v0(CyBtldr_Action action, uint32_t lineLen, uint8_t* line, uint8_t
             appId = INVALID_APP;
         }
 
-        if ((CYRET_SUCCESS == err) && (appId != INVALID_APP))
-        {
-            /* This will return error if bootloader is for single app */
-            err = CyBtldr_GetApplicationStatus(appId, &isValid, &isActive);
+        // if ((CYRET_SUCCESS == err) && (appId != INVALID_APP))
+        // {
+        //     /* This will return error if bootloader is for single app */
+        //     err = CyBtldr_GetApplicationStatus(appId, &isValid, &isActive);
 
-            /* Active app can be verified, but not programmed or erased */
-            if (CYRET_SUCCESS == err && VERIFY != action && isActive)
-            {
-                /* This is multi app */
-                err = CYRET_ERR_ACTIVE;
-            }
-        }
+        //      Active app can be verified, but not programmed or erased
+        //     if (CYRET_SUCCESS == err && VERIFY != action && isActive)
+        //     {
+        //         /* This is multi app */
+        //         err = CYRET_ERR_ACTIVE;
+        //     }
+        // }
     }
 
     while (CYRET_SUCCESS == err)
@@ -267,7 +267,7 @@ int RunAction_v1(CyBtldr_Action action, uint32_t lineLen, uint8_t* line,
     return err;
 }
 
-int CyBtldr_RunAction(CyBtldr_Action action, const char* file, const uint8_t* securityKey, 
+int CyBtldr_RunAction(CyBtldr_Action action, const char* file, const uint8_t* securityKey,
     uint8_t appId, CyBtldr_CommunicationsData* comm, CyBtldr_ProgressUpdate* update)
 {
     g_abort = 0;
@@ -276,7 +276,7 @@ int CyBtldr_RunAction(CyBtldr_Action action, const char* file, const uint8_t* se
 
     int err;
     uint8_t fileVersion = 0;
-	
+
     err = CyBtldr_OpenDataFile(file);
     if (CYRET_SUCCESS == err)
     {
@@ -313,13 +313,13 @@ int CyBtldr_Program(const char* file, const uint8_t* securityKey, uint8_t appId,
     return CyBtldr_RunAction(PROGRAM, file, securityKey, appId, comm, update);
 }
 
-int CyBtldr_Erase(const char* file, const uint8_t* securityKey, CyBtldr_CommunicationsData* comm, 
+int CyBtldr_Erase(const char* file, const uint8_t* securityKey, CyBtldr_CommunicationsData* comm,
     CyBtldr_ProgressUpdate* update)
 {
     return CyBtldr_RunAction(ERASE, file, securityKey, 0, comm, update);
 }
 
-int CyBtldr_Verify(const char* file, const uint8_t* securityKey, CyBtldr_CommunicationsData* comm, 
+int CyBtldr_Verify(const char* file, const uint8_t* securityKey, CyBtldr_CommunicationsData* comm,
     CyBtldr_ProgressUpdate* update)
 {
     return CyBtldr_RunAction(VERIFY, file, securityKey, 0, comm, update);

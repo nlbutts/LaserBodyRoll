@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.4)
 set(THIS tclap)
 
 # --------------------------------------------------------------- EXTRACT TCLAP
-if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/tclap-1.2.1/README")
+if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/README")
    message(STATUS "TCLAP needs to be extracted")
    execute_process(COMMAND tar -xf ${CMAKE_CURRENT_LIST_DIR}/../tclap-1.2.1.tar.gz -C ${CMAKE_CURRENT_LIST_DIR}/..)
 else()

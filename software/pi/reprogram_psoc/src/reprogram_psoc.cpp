@@ -1,57 +1,12 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <cstring>
 #include "tclap/CmdLine.h"
-
-extern "C" {
-#include "cybtldr_api.h"
-#include "cybtldr_api2.h"
-}
+#include "reprogram_logic.h"
 
 using namespace TCLAP;
 using namespace std;
-
-int openSPI(void)
-{
-    return CYRET_SUCCESS;
-}
-
-int closeSPI()
-{
-    return CYRET_SUCCESS;
-
-}
-
-int readData(uint8_t *buf, int length)
-{
-    return CYRET_SUCCESS;
-
-}
-
-int writeData(uint8_t *buf, int length)
-{
-    return CYRET_SUCCESS;
-
-}
-
-void updateStatus(uint8_t arrayId, uint16_t rowNum)
-{
-    cout << "arrayId: " << (int)arrayId << " rowNum: " << rowNum << endl;
-}
-
-
-void programPsoC(std::string inputFile)
-{
-    CyBtldr_CommunicationsData comm;
-    comm.OpenConnection     = openSPI;
-    comm.CloseConnection    = closeSPI;
-    comm.ReadData           = readData;
-    comm.WriteData          = writeData;
-    comm.MaxTransferSize    = 32;
-
-    CyBtldr_Program(inputFile.c_str(), 0, 1, &comm, updateStatus);
-}
-
 
 int main(int argc, char** argv)
 {

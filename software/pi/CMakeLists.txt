@@ -137,35 +137,39 @@ message(STATUS "VCS commit hash: ${SMART_NOZZLE_VCS_HASH}")
 
 
 # ---------------------------------------------------------- LOCATE EXTRA TOOLS
-find_program(SREC_CAT srec_cat NO_CMAKE_FIND_ROOT_PATH)
-if(NOT "${SREC_CAT}" STREQUAL "SREC_CAT-NOTFOUND")
-    message(STATUS "Found srec_cat: ${SREC_CAT}")
-    execute_process(
-        COMMAND ${SREC_CAT} --version
-        OUTPUT_VARIABLE SREC_CAT_OUTPUT
-    )
+# find_program(SREC_CAT srec_cat NO_CMAKE_FIND_ROOT_PATH)
+# if(NOT "${SREC_CAT}" STREQUAL "SREC_CAT-NOTFOUND")
+#     message(STATUS "Found srec_cat: ${SREC_CAT}")
+#     execute_process(
+#         COMMAND ${SREC_CAT} --version
+#         OUTPUT_VARIABLE SREC_CAT_OUTPUT
+#     )
 
-    string(REGEX MATCH "([0-9]+(\\.[^ \n\r]+)+)" SREC_CAT_VERSION "${SREC_CAT_OUTPUT}")
-    message(STATUS "srec_cat version: ${SREC_CAT_VERSION}")
+#     string(REGEX MATCH "([0-9]+(\\.[^ \n\r]+)+)" SREC_CAT_VERSION "${SREC_CAT_OUTPUT}")
+#     message(STATUS "srec_cat version: ${SREC_CAT_VERSION}")
 
-    if(SREC_CAT_VERSION VERSION_LESS "1.62")
-        message(FATAL_ERROR "srec_cat is too old. Please install 1.62.D001")
-    endif()
-else()
-    message(FATAL_ERROR "Could not locate srec_cat. You need to install srecord 1.62.D001")
-endif()
+#     if(SREC_CAT_VERSION VERSION_LESS "1.62")
+#         message(FATAL_ERROR "srec_cat is too old. Please install 1.62.D001")
+#     endif()
+# else()
+#     message(FATAL_ERROR "Could not locate srec_cat. You need to install srecord 1.62.D001")
+# endif()
 
 
 # ------------------------------------------------------------ INCLUDE PROJECTS
-if(${CMAKE_SYSTEM_PROCESSOR} MATCHES pi)
+if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm)
     # --------------------------------------------------STRATUS DEBUG LOG LEVEL
     # build for arm only
     # TODO: Do not pass this definition globally, make it part of the libAppareo build
     add_definitions(-DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING)
 
     # Libraries
-    add_subdirectory(reprogram)
+    add_subdirectory(libReprogram)
     add_subdirectory(libLaser)
+    add_subdirectory(third-party/tclap-1.2.1)
+
+    # Executables
+    add_subdirectory(reprogram_psoc)
 
     # This must be included last
     #add_subdirectory(fwimages)
@@ -183,7 +187,6 @@ else ()
 
     # Executables
     #add_subdirectory(imagegen)
-    add_subdirectory(reprogram_psoc)
     add_subdirectory(ut)
 endif ()
 
