@@ -1,4 +1,4 @@
-update=10/26/2017 5:56:17 AM
+update=2/11/2018 7:29:28 AM
 version=1
 last_client=kicad
 [pcbnew]
@@ -59,3 +59,5 @@ LibName27=atmel
 LibName28=contrib
 LibName29=valves
 LibName30=C:/projects/KicadLib/General
+LibName31=stm32
+LibName32=infineon
