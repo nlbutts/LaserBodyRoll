@@ -17,6 +17,8 @@ ECU Connector
 | 3   | Voltage Output  |
 | 4   | Button input    |
 
+The goal is to fit into this ![box](https://www.digikey.com/product-detail/en/bud-industries/PN-1320-CMB/377-1887-ND/2674151 "enclosure")
+
 # Protocol between PSoC and Raspberry Pi
 The PSoC and the Raspberry PI are connected via an SPI bus. The Pi is the SPI Master and the PSoC is a slave device. The packet that is transmitted to the PSOC is shown below
 
