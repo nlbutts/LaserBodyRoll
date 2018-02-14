@@ -142,7 +142,7 @@ Text GLabel 2500 6450 0    60   Input ~ 0
 FLASH_MISO
 Text GLabel 13550 5150 2    60   Input ~ 0
 FLASH_CS
-Text GLabel 2500 5750 0    60   Input ~ 0
+Text GLabel 13550 6450 2    60   Input ~ 0
 IMU_INT
 Text GLabel 13550 6550 2    60   Input ~ 0
 IMU_CS
@@ -152,11 +152,11 @@ Text GLabel 13550 6850 2    60   Input ~ 0
 IMU_MOSI
 Text GLabel 13550 6650 2    60   Input ~ 0
 IMU_SCLK
-Text GLabel 13550 5550 2    60   Input ~ 0
-BLUE
 Text GLabel 13550 6350 2    60   Input ~ 0
+BLUE
+Text GLabel 13550 5550 2    60   Input ~ 0
 GREEN
-Text GLabel 13550 6450 2    60   Input ~ 0
+Text GLabel 13550 5450 2    60   Input ~ 0
 RED
 Text GLabel 13550 5650 2    60   Input ~ 0
 BLE_SCLK
@@ -252,8 +252,6 @@ Wire Wire Line
 Wire Wire Line
 	2500 5650 2850 5650
 Wire Wire Line
-	2500 5750 2850 5750
-Wire Wire Line
 	2500 5850 2850 5850
 Wire Wire Line
 	2500 6250 2850 6250
@@ -261,10 +259,6 @@ Wire Wire Line
 	2500 6350 2850 6350
 Wire Wire Line
 	2500 6450 2850 6450
-Wire Wire Line
-	13550 6350 13250 6350
-Wire Wire Line
-	13250 6450 13550 6450
 Wire Wire Line
 	13550 6550 13250 6550
 Wire Wire Line
@@ -277,8 +271,6 @@ Wire Wire Line
 	13550 5850 13250 5850
 Wire Wire Line
 	13250 5650 13550 5650
-Wire Wire Line
-	13550 5550 13250 5550
 Wire Wire Line
 	13550 5150 13250 5150
 Wire Wire Line
@@ -524,18 +516,14 @@ Connection ~ 2450 4050
 $Comp
 L VCC #PWR09
 U 1 1 5A8132D9
-P 1200 4150
-F 0 "#PWR09" H 1200 4000 50  0001 C CNN
-F 1 "VCC" H 1217 4323 50  0000 C CNN
-F 2 "" H 1200 4150 50  0001 C CNN
-F 3 "" H 1200 4150 50  0001 C CNN
-	1    1200 4150
+P 1200 3950
+F 0 "#PWR09" H 1200 3800 50  0001 C CNN
+F 1 "VCC" H 1217 4123 50  0000 C CNN
+F 2 "" H 1200 3950 50  0001 C CNN
+F 3 "" H 1200 3950 50  0001 C CNN
+	1    1200 3950
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	1200 4150 1200 4350
-Wire Wire Line
-	1200 4350 1400 4350
 $Comp
 L Crystal Y1
 U 1 1 5A813392
@@ -771,7 +759,6 @@ NoConn ~ 13250 3850
 NoConn ~ 13250 4550
 NoConn ~ 13250 4650
 NoConn ~ 13250 5350
-NoConn ~ 13250 5450
 NoConn ~ 13250 5750
 NoConn ~ 13250 5950
 NoConn ~ 13250 6050
@@ -829,4 +816,27 @@ Text GLabel 13550 3950 2    60   Input ~ 0
 BLE_CS
 Wire Wire Line
 	13550 3950 13250 3950
+Wire Wire Line
+	13550 6450 13250 6450
+Wire Wire Line
+	13550 6350 13250 6350
+Wire Wire Line
+	13550 5550 13250 5550
+Wire Wire Line
+	13550 5450 13250 5450
+$Comp
+L R R?
+U 1 1 5A842D85
+P 1200 4200
+F 0 "R?" V 993 4200 50  0000 C CNN
+F 1 "0" V 1084 4200 50  0000 C CNN
+F 2 "Resistors_SMD:R_0603" V 1130 4200 50  0001 C CNN
+F 3 "" H 1200 4200 50  0001 C CNN
+	1    1200 4200
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1200 3950 1200 4050
+Wire Wire Line
+	1200 4350 1400 4350
 $EndSCHEMATC
