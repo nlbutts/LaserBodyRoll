@@ -505,12 +505,12 @@ Text Label 4600 5050 0    60   ~ 0
 ANA_OUT1
 Text Label 4600 5150 0    60   ~ 0
 ANA_OUT2
-Text Label 4600 5250 0    60   ~ 0
-DOUT
-Text Label 4600 5350 0    60   ~ 0
-DIN
 Text GLabel 5550 5450 0    60   Input ~ 0
 CANH
 Text GLabel 5550 5550 0    60   Input ~ 0
 CANL
+Text Label 4600 5250 0    60   ~ 0
+DIN
+Text Label 4600 5350 0    60   ~ 0
+DOUT
 $EndSCHEMATC
