@@ -1030,135 +1030,171 @@ Wire Wire Line
 	6350 6700 6350 6900
 Connection ~ 6500 6900
 $Comp
-L Test_Point TP?
+L Test_Point TP10
 U 1 1 5A89A76B
-P 8150 3350
-F 0 "TP?" H 8092 3377 50  0000 R CNN
-F 1 " " H 8092 3468 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8350 3350 50  0001 C CNN
-F 3 "" H 8350 3350 50  0001 C CNN
-	1    8150 3350
+P 8150 3300
+F 0 "TP10" H 8092 3327 50  0000 R CNN
+F 1 " " H 8092 3418 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8350 3300 50  0001 C CNN
+F 3 "" H 8350 3300 50  0001 C CNN
+	1    8150 3300
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP13
 U 1 1 5A89AA57
-P 8250 3450
-F 0 "TP?" H 8192 3477 50  0000 R CNN
-F 1 " " H 8192 3568 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8450 3450 50  0001 C CNN
-F 3 "" H 8450 3450 50  0001 C CNN
-	1    8250 3450
+P 8300 3400
+F 0 "TP13" H 8242 3427 50  0000 R CNN
+F 1 " " H 8242 3518 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8500 3400 50  0001 C CNN
+F 3 "" H 8500 3400 50  0001 C CNN
+	1    8300 3400
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP15
 U 1 1 5A89AAAF
-P 8400 3550
-F 0 "TP?" H 8342 3577 50  0000 R CNN
-F 1 " " H 8342 3668 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8600 3550 50  0001 C CNN
-F 3 "" H 8600 3550 50  0001 C CNN
-	1    8400 3550
+P 8400 3500
+F 0 "TP15" H 8342 3527 50  0000 R CNN
+F 1 " " H 8342 3618 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8600 3500 50  0001 C CNN
+F 3 "" H 8600 3500 50  0001 C CNN
+	1    8400 3500
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP11
 U 1 1 5A89AB07
-P 8150 3850
-F 0 "TP?" H 8092 3877 50  0000 R CNN
-F 1 " " H 8092 3968 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8350 3850 50  0001 C CNN
-F 3 "" H 8350 3850 50  0001 C CNN
-	1    8150 3850
+P 8150 3800
+F 0 "TP11" H 8092 3827 50  0000 R CNN
+F 1 " " H 8092 3918 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8350 3800 50  0001 C CNN
+F 3 "" H 8350 3800 50  0001 C CNN
+	1    8150 3800
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP9
 U 1 1 5A89AB6B
-P 8050 4900
-F 0 "TP?" H 7992 4927 50  0000 R CNN
-F 1 " " H 7992 5018 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8250 4900 50  0001 C CNN
-F 3 "" H 8250 4900 50  0001 C CNN
-	1    8050 4900
+P 8100 4850
+F 0 "TP9" H 8042 4877 50  0000 R CNN
+F 1 " " H 8042 4968 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8300 4850 50  0001 C CNN
+F 3 "" H 8300 4850 50  0001 C CNN
+	1    8100 4850
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP12
 U 1 1 5A89AD05
-P 8150 5000
-F 0 "TP?" H 8092 5027 50  0000 R CNN
-F 1 " " H 8092 5118 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8350 5000 50  0001 C CNN
-F 3 "" H 8350 5000 50  0001 C CNN
-	1    8150 5000
+P 8200 4950
+F 0 "TP12" H 8142 4977 50  0000 R CNN
+F 1 " " H 8142 5068 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8400 4950 50  0001 C CNN
+F 3 "" H 8400 4950 50  0001 C CNN
+	1    8200 4950
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP14
 U 1 1 5A89AD61
-P 8250 5100
-F 0 "TP?" H 8192 5127 50  0000 R CNN
-F 1 " " H 8192 5218 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8450 5100 50  0001 C CNN
-F 3 "" H 8450 5100 50  0001 C CNN
-	1    8250 5100
+P 8300 5050
+F 0 "TP14" H 8242 5077 50  0000 R CNN
+F 1 " " H 8242 5168 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8500 5050 50  0001 C CNN
+F 3 "" H 8500 5050 50  0001 C CNN
+	1    8300 5050
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP16
 U 1 1 5A89ADC1
-P 8400 5200
-F 0 "TP?" H 8342 5227 50  0000 R CNN
-F 1 " " H 8342 5318 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8600 5200 50  0001 C CNN
-F 3 "" H 8600 5200 50  0001 C CNN
-	1    8400 5200
+P 8400 5150
+F 0 "TP16" H 8342 5177 50  0000 R CNN
+F 1 " " H 8342 5268 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8600 5150 50  0001 C CNN
+F 3 "" H 8600 5150 50  0001 C CNN
+	1    8400 5150
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP5
 U 1 1 5A89B2C4
-P 1350 3600
-F 0 "TP?" H 1292 3627 50  0000 R CNN
-F 1 " " H 1292 3718 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1550 3600 50  0001 C CNN
-F 3 "" H 1550 3600 50  0001 C CNN
-	1    1350 3600
+P 1300 3550
+F 0 "TP5" H 1242 3577 50  0000 R CNN
+F 1 " " H 1242 3668 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1500 3550 50  0001 C CNN
+F 3 "" H 1500 3550 50  0001 C CNN
+	1    1300 3550
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP6
 U 1 1 5A89B438
-P 1400 3700
-F 0 "TP?" H 1342 3727 50  0000 R CNN
-F 1 " " H 1342 3818 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1600 3700 50  0001 C CNN
-F 3 "" H 1600 3700 50  0001 C CNN
-	1    1400 3700
+P 1400 3650
+F 0 "TP6" H 1342 3677 50  0000 R CNN
+F 1 " " H 1342 3768 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1600 3650 50  0001 C CNN
+F 3 "" H 1600 3650 50  0001 C CNN
+	1    1400 3650
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP7
 U 1 1 5A89B4A0
-P 1500 3800
-F 0 "TP?" H 1442 3827 50  0000 R CNN
-F 1 " " H 1442 3918 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1700 3800 50  0001 C CNN
-F 3 "" H 1700 3800 50  0001 C CNN
-	1    1500 3800
+P 1500 3750
+F 0 "TP7" H 1442 3777 50  0000 R CNN
+F 1 " " H 1442 3868 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1700 3750 50  0001 C CNN
+F 3 "" H 1700 3750 50  0001 C CNN
+	1    1500 3750
 	1    0    0    -1  
 $EndComp
 $Comp
-L Test_Point TP?
+L Test_Point TP8
 U 1 1 5A89B508
-P 1550 3900
-F 0 "TP?" H 1492 3927 50  0000 R CNN
-F 1 " " H 1492 4018 50  0000 R CNN
-F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1750 3900 50  0001 C CNN
-F 3 "" H 1750 3900 50  0001 C CNN
-	1    1550 3900
+P 1550 3850
+F 0 "TP8" H 1492 3877 50  0000 R CNN
+F 1 " " H 1492 3968 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1750 3850 50  0001 C CNN
+F 3 "" H 1750 3850 50  0001 C CNN
+	1    1550 3850
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	1300 3550 1300 3600
+Connection ~ 1300 3600
+Wire Wire Line
+	1400 3650 1400 3700
+Connection ~ 1400 3700
+Wire Wire Line
+	1500 3750 1500 3800
+Connection ~ 1500 3800
+Wire Wire Line
+	1550 3850 1550 3900
+Connection ~ 1550 3900
+Wire Wire Line
+	8400 5150 8400 5200
+Connection ~ 8400 5200
+Wire Wire Line
+	8300 5050 8300 5100
+Connection ~ 8300 5100
+Wire Wire Line
+	8200 4950 8200 5000
+Connection ~ 8200 5000
+Wire Wire Line
+	8100 4850 8100 4900
+Connection ~ 8100 4900
+Wire Wire Line
+	8400 3500 8400 3550
+Connection ~ 8400 3550
+Wire Wire Line
+	8300 3400 8300 3450
+Connection ~ 8300 3450
+Wire Wire Line
+	8150 3300 8150 3350
+Connection ~ 8150 3350
+Wire Wire Line
+	8150 3800 8150 3850
+Connection ~ 8150 3850
 $EndSCHEMATC
