@@ -783,9 +783,9 @@ Text GLabel 4550 6700 0    60   Input ~ 0
 5V
 Text GLabel 4550 6800 0    60   Input ~ 0
 CAN_RXD
-Text GLabel 6000 6600 2    60   Input ~ 0
+Text GLabel 6600 6450 2    60   Input ~ 0
 CANH
-Text GLabel 6000 6700 2    60   Input ~ 0
+Text GLabel 6600 6900 2    60   Input ~ 0
 CANL
 Wire Wire Line
 	4800 6500 4550 6500
@@ -793,10 +793,6 @@ Wire Wire Line
 	4800 6700 4550 6700
 Wire Wire Line
 	4800 6800 4550 6800
-Wire Wire Line
-	5800 6600 6000 6600
-Wire Wire Line
-	5800 6700 6000 6700
 Text GLabel 6000 6800 2    60   Input ~ 0
 VCC
 Wire Wire Line
@@ -1004,4 +1000,165 @@ Wire Wire Line
 	4450 3000 4450 3050
 Wire Wire Line
 	4450 3050 4550 3050
+$Comp
+L R R31
+U 1 1 5A899D1A
+P 6500 6650
+F 0 "R31" V 6400 6650 50  0000 C CNN
+F 1 "120" V 6500 6650 50  0000 C CNN
+F 2 "Resistors_SMD:R_0603" V 6430 6650 50  0001 C CNN
+F 3 "" H 6500 6650 50  0001 C CNN
+	1    6500 6650
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6350 6450 6600 6450
+Wire Wire Line
+	6500 6450 6500 6500
+Wire Wire Line
+	5800 6600 6350 6600
+Wire Wire Line
+	6350 6600 6350 6450
+Connection ~ 6500 6450
+Wire Wire Line
+	6500 6800 6500 6900
+Wire Wire Line
+	6350 6900 6600 6900
+Wire Wire Line
+	5800 6700 6350 6700
+Wire Wire Line
+	6350 6700 6350 6900
+Connection ~ 6500 6900
+$Comp
+L Test_Point TP?
+U 1 1 5A89A76B
+P 8150 3350
+F 0 "TP?" H 8092 3377 50  0000 R CNN
+F 1 " " H 8092 3468 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8350 3350 50  0001 C CNN
+F 3 "" H 8350 3350 50  0001 C CNN
+	1    8150 3350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89AA57
+P 8250 3450
+F 0 "TP?" H 8192 3477 50  0000 R CNN
+F 1 " " H 8192 3568 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8450 3450 50  0001 C CNN
+F 3 "" H 8450 3450 50  0001 C CNN
+	1    8250 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89AAAF
+P 8400 3550
+F 0 "TP?" H 8342 3577 50  0000 R CNN
+F 1 " " H 8342 3668 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8600 3550 50  0001 C CNN
+F 3 "" H 8600 3550 50  0001 C CNN
+	1    8400 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89AB07
+P 8150 3850
+F 0 "TP?" H 8092 3877 50  0000 R CNN
+F 1 " " H 8092 3968 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8350 3850 50  0001 C CNN
+F 3 "" H 8350 3850 50  0001 C CNN
+	1    8150 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89AB6B
+P 8050 4900
+F 0 "TP?" H 7992 4927 50  0000 R CNN
+F 1 " " H 7992 5018 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8250 4900 50  0001 C CNN
+F 3 "" H 8250 4900 50  0001 C CNN
+	1    8050 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89AD05
+P 8150 5000
+F 0 "TP?" H 8092 5027 50  0000 R CNN
+F 1 " " H 8092 5118 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8350 5000 50  0001 C CNN
+F 3 "" H 8350 5000 50  0001 C CNN
+	1    8150 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89AD61
+P 8250 5100
+F 0 "TP?" H 8192 5127 50  0000 R CNN
+F 1 " " H 8192 5218 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8450 5100 50  0001 C CNN
+F 3 "" H 8450 5100 50  0001 C CNN
+	1    8250 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89ADC1
+P 8400 5200
+F 0 "TP?" H 8342 5227 50  0000 R CNN
+F 1 " " H 8342 5318 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 8600 5200 50  0001 C CNN
+F 3 "" H 8600 5200 50  0001 C CNN
+	1    8400 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89B2C4
+P 1350 3600
+F 0 "TP?" H 1292 3627 50  0000 R CNN
+F 1 " " H 1292 3718 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1550 3600 50  0001 C CNN
+F 3 "" H 1550 3600 50  0001 C CNN
+	1    1350 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89B438
+P 1400 3700
+F 0 "TP?" H 1342 3727 50  0000 R CNN
+F 1 " " H 1342 3818 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1600 3700 50  0001 C CNN
+F 3 "" H 1600 3700 50  0001 C CNN
+	1    1400 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89B4A0
+P 1500 3800
+F 0 "TP?" H 1442 3827 50  0000 R CNN
+F 1 " " H 1442 3918 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1700 3800 50  0001 C CNN
+F 3 "" H 1700 3800 50  0001 C CNN
+	1    1500 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Test_Point TP?
+U 1 1 5A89B508
+P 1550 3900
+F 0 "TP?" H 1492 3927 50  0000 R CNN
+F 1 " " H 1492 4018 50  0000 R CNN
+F 2 "Connectors_TestPoints:Test_Point_Pad_d2.0mm" H 1750 3900 50  0001 C CNN
+F 3 "" H 1750 3900 50  0001 C CNN
+	1    1550 3900
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

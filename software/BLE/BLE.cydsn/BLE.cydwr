@@ -15,6 +15,7 @@
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/52f31aa9-2f0a-497d-9a1f-1424095e13e6" value="SPI_miso_s" />
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/3446580a-3b9d-491c-8730-f7ea34ca86e3" value="SPI_ss_s" />
       <Data key="3899b5dc-effb-43d8-8853-66d82e684bc9" value="LED_2" />
+      <Data key="70648977-2cf2-48f9-b0ea-b4bdbfa992e0" value="LED_3" />
       <Data key="bf10fafd-0b2b-433f-95d5-24cc426b237d" value="LED_1" />
     </Group>
   </Group>
@@ -3572,6 +3573,21 @@
     <Group key="7ca9760e-6931-4b43-a74b-782f631c6518/3446580a-3b9d-491c-8730-f7ea34ca86e3">
       <Group key="0">
         <Data key="Port Format" value="1,6" />
+      </Group>
+    </Group>
+    <Group key="3899b5dc-effb-43d8-8853-66d82e684bc9">
+      <Group key="0">
+        <Data key="Port Format" value="5,1" />
+      </Group>
+    </Group>
+    <Group key="70648977-2cf2-48f9-b0ea-b4bdbfa992e0">
+      <Group key="0">
+        <Data key="Port Format" value="5,0" />
+      </Group>
+    </Group>
+    <Group key="bf10fafd-0b2b-433f-95d5-24cc426b237d">
+      <Group key="0">
+        <Data key="Port Format" value="4,1" />
       </Group>
     </Group>
   </Group>
