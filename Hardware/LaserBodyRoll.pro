@@ -1,4 +1,4 @@
-update=2/11/2018 7:29:28 AM
+update=3/7/2018 5:57:42 AM
 version=1
 last_client=kicad
 [pcbnew]
@@ -61,3 +61,13 @@ LibName29=valves
 LibName30=C:/projects/KicadLib/General
 LibName31=stm32
 LibName32=infineon
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceAjustPassiveValues=0
+LabSize=60
+ERC_TestSimilarLabels=1
