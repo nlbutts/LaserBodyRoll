@@ -79,7 +79,7 @@ else()
     # Test coverage flags
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftest-coverage -fprofile-arcs")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov")
-    add_definitions(-DSTM32F40_41xxx)
+    add_definitions(-DSTM32F303xE)
 endif()
 
 
@@ -87,7 +87,7 @@ endif()
 # Enable warnings
 add_compile_options(-Wall)
 
-# There is legacy code in libAppareo that will not compile with newer
+# There is legacy code in that will not compile with newer
 # compilers without this.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")
 
@@ -161,11 +161,9 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
     # --------------------------------------------------STRATUS DEBUG LOG LEVEL
     # build for arm only
 
-    # Add toolchain
-    add_subdirectory(toolchain)
-
     # Libraries
     add_subdirectory(libst)
+    add_subdirectory(libembedded)
     #add_subdirectory(middleware)
 
     # Executables
@@ -174,7 +172,7 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
 else ()
     # --------------------------------------------------STRATUS DEBUG LOG LEVEL
     # build for x86 only
-    # TODO: Do not pass this definition globally, make it part of the libAppareo build
+    # TODO: Do not pass this definition globally
     add_definitions(-DSYS_LOG_LEVEL=LOG_NONE)
 
     # Libraries

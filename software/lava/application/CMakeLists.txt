@@ -25,13 +25,19 @@ file(GLOB_RECURSE SRC_FILES
     ${CMAKE_CURRENT_LIST_DIR}/src/*.S
 )
 
+file(GLOB_RECURSE SYSTEM_FILES
+    ${CMAKE_SOURCE_DIR}/system/src/*.cpp
+    ${CMAKE_SOURCE_DIR}/system/src/*.c
+    ${CMAKE_SOURCE_DIR}/system/src/*.S
+)
+
 
 # --------------------------------------------------------- DEFINE BUILD TARGET
-set(THIS_LINK_LIBS st)
-add_executable(${THIS_RELEASE} ${SRC_FILES})
+set(THIS_LINK_LIBS st embedded)
+add_executable(${THIS_RELEASE} ${SRC_FILES} ${SYSTEM_FILES})
 target_link_libraries(${THIS_RELEASE} ${THIS_LINK_LIBS})
 
-add_executable(${THIS_DEBUG} ${SRC_FILES})
+add_executable(${THIS_DEBUG} ${SRC_FILES} ${SYSTEM_FILES})
 target_link_libraries(${THIS_DEBUG} ${THIS_LINK_LIBS})
 
 
