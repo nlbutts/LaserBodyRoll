@@ -70,8 +70,8 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CPU_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPU_FLAGS}")
 
-    add_definitions(-D__FPU_PRESENT -DARM_MATH_CM4 -DUSE_STDPERIPH_DRIVER
-                    -DSTM32F40_41xxx)
+    add_definitions(-D__FPU_PRESENT -DARM_MATH_CM4 -DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING -DDUSE_HAL_DRIVER -DSTM32F303xE)
+    #add_definitions(-DARM_MATH_CM4 -DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING -DDUSE_HAL_DRIVER -DSTM32F303xE)
 
     # Don't use exceptions or RTTI on the target
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -fno-exceptions")
@@ -160,12 +160,13 @@ endif()
 if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
     # --------------------------------------------------STRATUS DEBUG LOG LEVEL
     # build for arm only
-    # TODO: Do not pass this definition globally, make it part of the libAppareo build
-    add_definitions(-DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING -DSTM32L476xx -DUSE_HAL_DRIVER -DUSE_STM32L4XX_NUCLEO)
+
+    # Add toolchain
+    add_subdirectory(toolchain)
 
     # Libraries
-    add_subdirectory(drivers)
-    add_subdirectory(middleware)
+    add_subdirectory(libst)
+    #add_subdirectory(middleware)
 
     # Executables
     add_subdirectory(application)
@@ -180,5 +181,6 @@ else ()
     add_subdirectory(third-party/tclap-1.2.1)
 
     # Executables
+    add_subdirectory(ut)
 endif ()
 

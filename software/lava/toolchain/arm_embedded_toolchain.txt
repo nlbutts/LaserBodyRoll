@@ -28,7 +28,7 @@ get_filename_component(THIS_TOOLCHAIN_PATH ${THIS_TOOLCHAIN_FILE} DIRECTORY)
 if (WIN32)
     set(TOOLCHAIN_PATH ${THIS_TOOLCHAIN_PATH}/gcc-arm-none-eabi/win32)
 else()
-    set(TOOLCHAIN_PATH ${THIS_TOOLCHAIN_PATH}/gcc-arm-none-eabi/linux)
+    set(TOOLCHAIN_PATH ${THIS_TOOLCHAIN_PATH}/gcc-arm-none-eabi-5_4-2016q3)
 endif()
 message(STATUS "Toolchain path: ${TOOLCHAIN_PATH}")
 
