@@ -75,7 +75,7 @@ target_link_libraries(${THIS_DEBUG}
 
 # ----------------------------------------------------- ADD VERSION INFORMATION
 # set_property(
-#     SOURCE ${CMAKE_CURRENT_LIST_DIR}/src/appareo/application/FirmwareVersion.cpp
+#     SOURCE ${CMAKE_CURRENT_LIST_DIR}/src/application/FirmwareVersion.cpp
 #     APPEND PROPERTY COMPILE_DEFINITIONS
 #         SMART_NOZZLE_APP_PN=\"${SMART_NOZZLE_APP_PN}\"
 #         SMART_NOZZLE_BUILD_VERSION=\"${SMART_NOZZLE_BUILD_VERSION}\"

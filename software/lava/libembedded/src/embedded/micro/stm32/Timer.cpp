@@ -1,3 +1,5 @@
+#pragma GCC diagnostic ignored "-Wtraditional"
+
 
 #include <cstdio>
 #include <cstring>
@@ -9,11 +11,11 @@ TIM_HandleTypeDef     Timer::_timer       =
 {
     .Instance = TIM2,
     .Init     = {0},
-    .Channel  = 1,
+    .Channel  = HAL_TIM_ACTIVE_CHANNEL_1,
 };
-uint32_t              Timer::_frequency   = 1000000;
-const __IO uint32_t * Timer::_timerReg    = &TIM2->CNT;   /*lint !e835 */
-Timer               * Timer::_root = NULL;
+uint32_t              Timer::_frequency = 1000000;
+const __IO uint32_t * Timer::_timerReg  = &TIM2->CNT;   /*lint !e835 */
+Timer               * Timer::_root      = NULL;
 
 Timer::Timer(const char * str)
 : _timerDesc(str)
@@ -58,13 +60,12 @@ void Timer::initialize()
 
 uint32_t Timer::setFrequency(uint32_t frequency)
 {
-    uint32_t timer_
-    RCC_GetClocksFreq(&clocks);
+    uint32_t timerClock = HAL_RCC_GetPCLK1Freq();
 
     /* Several PWM units will share the same divider. So a later PWM module can change this
      * divider. Be warned. Find the base frequency be assuming a 0.01% PWM resolution.
      * Find the prescaler. Write the prescaler to the hardware. */
-    uint32_t prescaler = (uint16_t) ((FakeTimerClock) / frequency) - 1;
+    uint32_t prescaler = (uint16_t) (timerClock / frequency) - 1;
     while (prescaler > 65535)
     {
         if (prescaler > 65535)
@@ -74,15 +75,10 @@ uint32_t Timer::setFrequency(uint32_t frequency)
     }
 
     /* Time base configuration */
-    TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-    TIM_TimeBaseStructure.TIM_Prescaler = static_cast<uint16_t>(prescaler);
-    TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_TimeBaseStructure.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    _timer.Init.Prescaler = prescaler;
+    HAL_TIM_Base_Init(&_timer);
 
-    HAL_TIM_Base_Init(_timer, &TIM_TimeBaseStructure);
-
-    return (FakeTimerClock) / (prescaler + 1);
+    return (timerClock) / (prescaler + 1);
 }
 
 void Timer::delayMs(uint32_t timeInMs)

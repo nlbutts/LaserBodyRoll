@@ -144,7 +144,7 @@ class Timer : public Embedded::Micro::Interface::ITimer
         void logTime(uint32_t timeSpan);
 
         static const uint32_t        FakeTimerClock = 84000000;
-        //static TIM_HandleTypeDef     _timer;             // pointer to the timer hardware module
+        static TIM_HandleTypeDef     _timer;             // pointer to the timer hardware module
         static uint32_t              _frequency;         // The frequency this timer is running at
         static const __IO uint32_t * _timerReg;          // this is a pointer to the free running timer
         static Timer               * _root;              // Root pointer to the linked list

@@ -36,10 +36,11 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
 extern "C" {
 #include "stm32f3xx_hal.h"
 }
+
+#include "main.h"
 
 #include <embedded/micro/stm32/GPIO.h>
 using Embedded::Micro::STM32::GPIO;
@@ -70,6 +71,9 @@ SPI_HandleTypeDef hspi2;
 SPI_HandleTypeDef hspi3;
 
 TIM_HandleTypeDef htim1;
+TIM_HandleTypeDef htim2;
+
+UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -88,6 +92,8 @@ static void MX_SPI2_Init(void);
 static void MX_SPI3_Init(void);
 static void MX_RTC_Init(void);
 static void MX_TIM1_Init(void);
+static void MX_USART1_UART_Init(void);
+static void MX_TIM2_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -135,20 +141,26 @@ int main(void)
     MX_ADC1_Init();
     MX_CAN_Init();
     MX_DAC1_Init();
-    MX_I2C3_Init();
+    //MX_I2C3_Init();
     MX_SPI1_Init();
     MX_SPI2_Init();
     MX_SPI3_Init();
     MX_RTC_Init();
     MX_TIM1_Init();
+    MX_USART1_UART_Init();
+    MX_TIM2_Init();
     /* USER CODE BEGIN 2 */
 
     // SysTickTimer tickTimer(1000000);
     // tickTimer.start(systickisr);
 
-    GPIO blue(GPIO::PORTB, GPIO::Pin_10, false);
+    GPIO red  (GPIO::PORTB, GPIO::Pin_1,  true);
+    GPIO green(GPIO::PORTB, GPIO::Pin_2,  true);
+    GPIO blue (GPIO::PORTB, GPIO::Pin_10, true);
     Timer timer;
     timer.setTimerMs(1000);
+
+    __HAL_RCC_MCO1_CONFIG(RCC_MCO1SOURCE_SYSCLK, RCC_MCODIV_1);
 
     while (1)
     {
@@ -236,7 +248,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
@@ -519,6 +531,62 @@ static void MX_TIM1_Init(void)
   sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
+
+/* TIM2 init function */
+static void MX_TIM2_Init(void)
+{
+    __HAL_RCC_TIM2_CLK_ENABLE();
+    TIM_ClockConfigTypeDef sClockSourceConfig;
+    TIM_MasterConfigTypeDef sMasterConfig;
+
+    htim2.Instance = TIM2;
+    htim2.Init.Prescaler = 71;
+    htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+    htim2.Init.Period = 0;
+    htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE - 1;
+    if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+    {
+        _Error_Handler(__FILE__, __LINE__);
+    }
+
+    sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+    if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+    {
+        _Error_Handler(__FILE__, __LINE__);
+    }
+
+    sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+    sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+    if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+    {
+        _Error_Handler(__FILE__, __LINE__);
+    }
+
+    HAL_TIM_Base_Start(&htim2);
+}
+
+/* USART1 init function */
+static void MX_USART1_UART_Init(void)
+{
+
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 38400;
+  huart1.Init.WordLength = UART_WORDLENGTH_7B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }

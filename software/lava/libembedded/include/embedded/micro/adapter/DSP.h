@@ -232,7 +232,7 @@ private:
     std::array<float, stages * NUMBER_OF_STATE_VARS_PER_SOS>    _state;
     IIRFilterInstance                                           _instance;
     #else
-    Appareo::Utility::Filter::IIRFilterSOS                      _instance;
+    Embedded::Utility::Filter::IIRFilterSOS                     _instance;
     #endif
 
 

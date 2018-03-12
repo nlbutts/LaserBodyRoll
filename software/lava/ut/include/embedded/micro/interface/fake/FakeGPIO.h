@@ -1,14 +1,14 @@
 #ifndef FAKE_GPIO_H
 #define FAKE_GPIO_H
 
-#include <appareo/micro/interface/IGPIO.h>
+#include <embedded/micro/interface/IGPIO.h>
 
-namespace Appareo {
+namespace Embedded {
 namespace Micro {
 namespace Interface {
 namespace Fake {
 
-class FakeGPIO : public Appareo::Micro::Interface::IGPIO
+class FakeGPIO : public Embedded::Micro::Interface::IGPIO
 {
 public:
     FakeGPIO() :
@@ -79,6 +79,6 @@ private:
 } // namespace Fake
 } // namespace Interface
 } // namespace Micro
-} // namespace Appareo
+} // namespace Embedded
 
 #endif /* FAKE_GPIO_H */
