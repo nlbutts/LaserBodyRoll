@@ -143,7 +143,13 @@ class Timer : public Embedded::Micro::Interface::ITimer
          */
         void logTime(uint32_t timeSpan);
 
-        static const uint32_t        FakeTimerClock = 84000000;
+        /**
+         * @brief Converts the time span from the timer register into microseconds
+         *
+         * @param timerSpan timespan from hardware registers
+         */
+        inline static uint32_t toMicroseconds(uint32_t timeSpan) {return (timeSpan / (_frequency / 1000000)); }
+
         static TIM_HandleTypeDef     _timer;             // pointer to the timer hardware module
         static uint32_t              _frequency;         // The frequency this timer is running at
         static const __IO uint32_t * _timerReg;          // this is a pointer to the free running timer

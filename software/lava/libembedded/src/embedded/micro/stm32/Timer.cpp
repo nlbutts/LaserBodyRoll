@@ -13,7 +13,7 @@ TIM_HandleTypeDef     Timer::_timer       =
     .Init     = {0},
     .Channel  = HAL_TIM_ACTIVE_CHANNEL_1,
 };
-uint32_t              Timer::_frequency = 1000000;
+uint32_t              Timer::_frequency = 72000000;
 const __IO uint32_t * Timer::_timerReg  = &TIM2->CNT;   /*lint !e835 */
 Timer               * Timer::_root      = NULL;
 
@@ -90,7 +90,7 @@ void Timer::delayUs(uint32_t timeInUs)
 {
     uint32_t startDelay = *_timerReg;
     uint32_t now = startDelay;
-    while ((now - startDelay) < timeInUs)
+    while (toMicroseconds(now - startDelay) < timeInUs)
     {
         now = *_timerReg;
     }
@@ -170,7 +170,7 @@ void Timer::advanceTimerUs(uint32_t timeoutInUs)
 bool Timer::isTimerExpired() const
 {
     uint32_t now = *_timerReg;
-    if (_expired || ((now - _expireStart) >= _expireDuration))
+    if (_expired || (toMicroseconds(now - _expireStart) >= _expireDuration))
     {
         return true;
     }

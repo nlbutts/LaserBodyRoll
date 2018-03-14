@@ -160,8 +160,6 @@ int main(void)
     Timer timer;
     timer.setTimerMs(1000);
 
-    __HAL_RCC_MCO1_CONFIG(RCC_MCO1SOURCE_SYSCLK, RCC_MCODIV_1);
-
     while (1)
     {
         if (timer.isTimerExpired())
