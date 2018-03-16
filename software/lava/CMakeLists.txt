@@ -175,6 +175,9 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
     # Executables
     add_subdirectory(application)
 
+    # This must be included last
+    add_subdirectory(fwimages)
+
 else ()
     # --------------------------------------------------STRATUS DEBUG LOG LEVEL
     # build for x86 only
