@@ -139,7 +139,7 @@ int main(void)
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
     MX_ADC1_Init();
-    MX_CAN_Init();
+    //MX_CAN_Init();
     MX_DAC1_Init();
     //MX_I2C3_Init();
     MX_SPI1_Init();
@@ -154,12 +154,20 @@ int main(void)
     // SysTickTimer tickTimer(1000000);
     // tickTimer.start(systickisr);
 
-    GPIO red  (GPIO::PORTB, GPIO::Pin_1,  true);
-    GPIO green(GPIO::PORTB, GPIO::Pin_2,  true);
-    GPIO blue (GPIO::PORTB, GPIO::Pin_10, true);
+    Timer::initialize();
+
+    GPIO red      (GPIO::PORTB, GPIO::Pin_1,  true);
+    GPIO green    (GPIO::PORTB, GPIO::Pin_2,  true);
+    GPIO blue     (GPIO::PORTB, GPIO::Pin_10, true);
+    GPIO dout     (GPIO::PORTC, GPIO::Pin_0, false);
+    GPIO pullup12v(GPIO::PORTC, GPIO::Pin_2, false);
+    GPIO din      (GPIO::PORTC, GPIO::Pin_5, GPIO::GPIO_RESISTOR::NO_PULL);
+
     Timer timer;
     timer.setTimerMs(1000);
 
+
+    bool din_value = false;
     while (1)
     {
         if (timer.isTimerExpired())
@@ -168,6 +176,8 @@ int main(void)
             timer.setTimerMs(1000);
 
             blue.toggle();
+            //dout.toggle();
+            //din_value = din.get();
         }
     }
 }
@@ -549,6 +559,7 @@ static void MX_TIM2_Init(void)
     htim2.Init.Period = 0;
     htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE - 1;
+
     if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
     {
         _Error_Handler(__FILE__, __LINE__);

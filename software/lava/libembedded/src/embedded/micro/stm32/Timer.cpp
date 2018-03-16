@@ -60,7 +60,7 @@ void Timer::initialize()
 
 uint32_t Timer::setFrequency(uint32_t frequency)
 {
-    uint32_t timerClock = HAL_RCC_GetPCLK1Freq();
+    uint32_t timerClock = HAL_RCC_GetPCLK1Freq() * 2;
 
     /* Several PWM units will share the same divider. So a later PWM module can change this
      * divider. Be warned. Find the base frequency be assuming a 0.01% PWM resolution.
@@ -77,6 +77,10 @@ uint32_t Timer::setFrequency(uint32_t frequency)
     /* Time base configuration */
     _timer.Init.Prescaler = prescaler;
     HAL_TIM_Base_Init(&_timer);
+
+    // ST Timer code is horribly broke. Fix it.
+    _timer.Instance->CR1 = 0x1;
+    _timer.Instance->ARR = 0 - 1;
 
     return (timerClock) / (prescaler + 1);
 }
