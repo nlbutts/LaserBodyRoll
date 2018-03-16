@@ -70,11 +70,17 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CPU_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPU_FLAGS}")
 
+    add_compile_options(--specs=nano.specs)
     add_definitions(-D__FPU_PRESENT -DARM_MATH_CM4 -DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING -DDUSE_HAL_DRIVER -DSTM32F303xE)
     #add_definitions(-DARM_MATH_CM4 -DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING -DDUSE_HAL_DRIVER -DSTM32F303xE)
 
     # Don't use exceptions or RTTI on the target
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -fno-exceptions")
+
+    # Set Newlib-nano as the standard library
+    add_compile_options(--specs=nano.specs)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --specs=nano.specs")
+
 else()
     # Test coverage flags
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftest-coverage -fprofile-arcs")

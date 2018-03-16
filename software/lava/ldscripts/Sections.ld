@@ -27,17 +27,14 @@ _vect_tab_address_ = ORIGIN(FLASH);
 /* Define output sections */
 SECTIONS
 {
-  /* The startup code goes first into FLASH */
-  .isr_vector :
-  {
-    . = ALIGN(4);
-    KEEP(*(.isr_vector)) /* Startup code */
-    . = ALIGN(0x100);
-  } >FLASH
-
-  /* The program code and other data goes into FLASH */
+  /* Program code and the IVT */
   .text :
   {
+    FILL(0xFF);
+
+    /* The IVT goes first into FLASH */
+    KEEP(*(.isr_vector))
+
     . = ALIGN(4);
     *(.text)           /* .text sections (code) */
     *(.text*)          /* .text* sections (code) */
@@ -52,6 +49,7 @@ SECTIONS
     _etext = .;        /* define a global symbols at end of code */
   } >FLASH
 
+
   /* Constant data goes into FLASH */
   .rodata :
   {
@@ -61,18 +59,23 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+
+  /* ARM instruction specific sections go into FLASH, most likely 0 length */
   .ARM.extab :
   {
     *(.ARM.extab* .gnu.linkonce.armextab.*)
   } >FLASH
 
-  .ARM : {
+  .ARM :
+  {
     __exidx_start = .;
     *(.ARM.exidx*)
     __exidx_end = .;
   } >FLASH
 
-  .preinit_array     :
+
+  /* C++ Support sections go into FLASH */
+  .preinit_array :
   {
     PROVIDE_HIDDEN (__preinit_array_start = .);
     KEEP (*(.preinit_array*))
@@ -95,11 +98,9 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
 
-  /* used by the startup to initialize data */
-  _sidata = .;
 
-  /* Initialized data sections goes into RAM, load LMA copy after code */
-  .data : AT ( _sidata )
+  /* Initialized data goes into RAM (VMA), and is stored in FLASH (LMA) */
+  .data : ALIGN_WITH_INPUT
   {
     . = ALIGN(4);
     _sdata = .;        /* create a global symbol at data start */
@@ -108,20 +109,25 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >RAM
+  } >RAM AT>FLASH
+  /* used by the startup to initialize data */
+  _sidata = LOADADDR(.data);
 
-  /* Section for functions that need to execute out of RAM */
-  _ram_function_lma = _sidata + SIZEOF(.data);
-  ._ram_function_vma : AT( _ram_function_lma )
+
+  /* Functions that need to execute out of RAM (VMA), and are stored in FLASH (LMA) */
+  ._ram_function_vma : ALIGN_WITH_INPUT
   {
     . = ALIGN(4);
     _s_ram_function_vma = .;
     *(._ram_function)
     . = ALIGN(4);
     _e_ram_function_vma = .;
-  } >RAM
+  } >RAM AT>FLASH
+  /* used by the startup code to copy the LMA data */
+  _ram_function_lma = LOADADDR(._ram_function_vma);
 
-  /* Uninitialized data section */
+
+  /* Uninitialized data section goes into RAM */
   . = ALIGN(4);
   .bss (NOLOAD) :
   {
@@ -141,7 +147,7 @@ SECTIONS
     PROVIDE ( _end = _ebss );
   } >RAM
 
-  /* Heap and stack allocation */
+  /* Heap and stack go into RAM */
   ._user_heap_stack (NOLOAD) :
   {
     /* Heap */
@@ -164,7 +170,7 @@ SECTIONS
 
 
   /* Message passing data for communication between the application */
-  /* and bootblock. */
+  /* and bootblock goes into CCM */
   .message_passing (NOLOAD) :
   {
     . = ALIGN(4);
@@ -181,5 +187,6 @@ SECTIONS
     libgcc.a ( * )
   }
 
+  /* ELF only section */
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }
