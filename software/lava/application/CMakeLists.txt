@@ -33,16 +33,16 @@ file(GLOB_RECURSE SYSTEM_FILES
 
 
 # -------------------------------------------------------------- PRINT THE SIZE
-add_custom_target(RELEASE_APP_SIZE ALL 
+add_custom_target(RELEASE_APP_SIZE ALL
                   COMMAND ${CROSS_SZ} ${CMAKE_CURRENT_BINARY_DIR}/${THIS_RELEASE}
                   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${THIS_RELEASE})
-add_custom_target(DEBUG_APP_SIZE ALL 
+add_custom_target(DEBUG_APP_SIZE ALL
                   COMMAND ${CROSS_SZ} ${CMAKE_CURRENT_BINARY_DIR}/${THIS_DEBUG}
                   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${THIS_DEBUG})
 
 
 # --------------------------------------------------------- DEFINE BUILD TARGET
-set(THIS_LINK_LIBS st embedded)
+set(THIS_LINK_LIBS st embedded vl53l0x)
 add_executable(${THIS_RELEASE} ${SRC_FILES} ${SYSTEM_FILES})
 target_link_libraries(${THIS_RELEASE} ${THIS_LINK_LIBS})
 

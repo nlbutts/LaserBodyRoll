@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <sys/times.h>
 #include <sys/unistd.h>
+#include <string.h>
 //#include <stm32f4xx.h>
 
 
@@ -239,7 +240,13 @@ int _wait(int *status) {
  Write a character to a file. `libc' subroutines will use this system routine for output to all files, including stdout
  Returns -1 on error or number of bytes sent
  */
-int _write(int file, char *ptr, int len) {
+char data[100];
+int _write(int file, char *ptr, int len)
+{
+    int copyBytes = len > 100 ? 100 : len;
+
+    memcpy(data, ptr, copyBytes);
+    len++;
 //    int n;
 //    switch (file) {
 //    case STDOUT_FILENO: /*stdout*/

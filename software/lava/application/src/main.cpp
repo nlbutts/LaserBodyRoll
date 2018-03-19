@@ -36,11 +36,21 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
+
+/*
+I'm sorry, but due to ST's crap this file will generate a fuck-ton of warnings. GCC 5.4 generates
+a lot of great warnings to help you write better code, but in this case I am pulling in a bunch
+of ST code for hardware initialization and driver stuff that I am tired of re-writting, so I plan
+on just using ST's code, but that causes the compiler to generate a metric shit-ton of warnings.
+*/
+
 extern "C" {
 #include "stm32f3xx_hal.h"
 }
 
+#include <string>
 #include "main.h"
+
 
 #include <embedded/micro/stm32/GPIO.h>
 using Embedded::Micro::STM32::GPIO;
@@ -50,6 +60,9 @@ using Embedded::Micro::STM32::Timer;
 
 #include <embedded/micro/stm32/SysTickTimer.h>
 using Embedded::Micro::STM32::SysTickTimer;
+
+#include <vl53l0x.h>
+using STSensors::VL53L0X;
 
 /* USER CODE BEGIN Includes */
 
@@ -94,6 +107,8 @@ static void MX_RTC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM2_Init(void);
+
+static void CPPError_Handler(std::string file, int line);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -141,14 +156,14 @@ int main(void)
     MX_ADC1_Init();
     //MX_CAN_Init();
     MX_DAC1_Init();
-    //MX_I2C3_Init();
+    MX_I2C3_Init();
     MX_SPI1_Init();
     MX_SPI2_Init();
     MX_SPI3_Init();
     MX_RTC_Init();
     MX_TIM1_Init();
     MX_USART1_UART_Init();
-    MX_TIM2_Init();
+    //MX_TIM2_Init();
     /* USER CODE BEGIN 2 */
 
     // SysTickTimer tickTimer(1000000);
@@ -161,13 +176,19 @@ int main(void)
     GPIO blue     (GPIO::PORTB, GPIO::Pin_10, true);
     GPIO dout     (GPIO::PORTC, GPIO::Pin_0, false);
     GPIO pullup12v(GPIO::PORTC, GPIO::Pin_2, false);
-    GPIO din      (GPIO::PORTC, GPIO::Pin_5, GPIO::GPIO_RESISTOR::NO_PULL);
+    GPIO din      (GPIO::PORTC, GPIO::Pin_5, GPIO::GPIO_RESISTOR::PULL_UP);
 
     Timer timer;
     timer.setTimerMs(1000);
 
+    uint8_t txBuf[10];
+    uint8_t rxBuf[10];
 
-    bool din_value = false;
+    VL53L0X laser(hi2c3);
+    laser.initialize();
+
+
+
     while (1)
     {
         if (timer.isTimerExpired())
@@ -176,8 +197,16 @@ int main(void)
             timer.setTimerMs(1000);
 
             blue.toggle();
-            //dout.toggle();
-            //din_value = din.get();
+            green = din.get();
+            txBuf[0] = 0x70;
+            txBuf[1] = 0x40;
+            HAL_SPI_Transmit(&hspi2, txBuf, 2, 1000);
+
+            txBuf[0] = 0x80 | 0x75;
+            txBuf[1] = 0x0;
+            HAL_SPI_TransmitReceive(&hspi2, txBuf, rxBuf, 2, 1000);
+
+            laser.run();
         }
     }
 }
@@ -189,131 +218,130 @@ int main(void)
 void SystemClock_Config(void)
 {
 
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_PeriphCLKInitTypeDef PeriphClkInit;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
     /**Initializes the CPU, AHB and APB busses clocks
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
-  RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+    RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
     /**Initializes the CPU, AHB and APB busses clocks
     */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C3|RCC_PERIPHCLK_RTC
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C3|RCC_PERIPHCLK_RTC
                               |RCC_PERIPHCLK_TIM1|RCC_PERIPHCLK_ADC12;
-  PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
-  PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_SYSCLK;
-  PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
-  PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
+    PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_SYSCLK;
+    PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+    PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
     /**Configure the Systick interrupt time
     */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
-  // This should give us a 1 us Systick time
+    HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+    // This should give us a 1 us Systick time
 
     /**Configure the Systick
     */
-  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+    HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 }
 
 /* ADC1 init function */
 static void MX_ADC1_Init(void)
 {
 
-  ADC_MultiModeTypeDef multimode;
-  ADC_ChannelConfTypeDef sConfig;
+    ADC_MultiModeTypeDef multimode;
+    ADC_ChannelConfTypeDef sConfig;
 
     /**Common config
     */
-  hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
-  hadc1.Init.ContinuousConvMode = ENABLE;
-  hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 1;
-  hadc1.Init.DMAContinuousRequests = DISABLE;
-  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-  hadc1.Init.LowPowerAutoWait = DISABLE;
-  hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
-  if (HAL_ADC_Init(&hadc1) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    hadc1.Instance = ADC1;
+    hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+    hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+    hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+    hadc1.Init.ContinuousConvMode = ENABLE;
+    hadc1.Init.DiscontinuousConvMode = DISABLE;
+    hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+    hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+    hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+    hadc1.Init.NbrOfConversion = 1;
+    hadc1.Init.DMAContinuousRequests = DISABLE;
+    hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+    hadc1.Init.LowPowerAutoWait = DISABLE;
+    hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+    if (HAL_ADC_Init(&hadc1) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
     /**Configure the ADC multi-mode
     */
-  multimode.Mode = ADC_MODE_INDEPENDENT;
-  if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    multimode.Mode = ADC_MODE_INDEPENDENT;
+    if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
     /**Configure Regular Channel
     */
-  sConfig.Channel = ADC_CHANNEL_1;
-  sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-  sConfig.OffsetNumber = ADC_OFFSET_NONE;
-  sConfig.Offset = 0;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    sConfig.Channel = ADC_CHANNEL_1;
+    sConfig.Rank = ADC_REGULAR_RANK_1;
+    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+    sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+    sConfig.Offset = 0;
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
 }
 
 /* CAN init function */
 static void MX_CAN_Init(void)
 {
-
-  hcan.Instance = CAN;
-  hcan.Init.Prescaler = 16;
-  hcan.Init.Mode = CAN_MODE_NORMAL;
-  hcan.Init.SJW = CAN_SJW_1TQ;
-  hcan.Init.BS1 = CAN_BS1_1TQ;
-  hcan.Init.BS2 = CAN_BS2_1TQ;
-  hcan.Init.TTCM = DISABLE;
-  hcan.Init.ABOM = DISABLE;
-  hcan.Init.AWUM = DISABLE;
-  hcan.Init.NART = DISABLE;
-  hcan.Init.RFLM = DISABLE;
-  hcan.Init.TXFP = DISABLE;
-  if (HAL_CAN_Init(&hcan) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    hcan.Instance = CAN;
+    hcan.Init.Prescaler = 16;
+    hcan.Init.Mode = CAN_MODE_NORMAL;
+    hcan.Init.SJW = CAN_SJW_1TQ;
+    hcan.Init.BS1 = CAN_BS1_1TQ;
+    hcan.Init.BS2 = CAN_BS2_1TQ;
+    hcan.Init.TTCM = DISABLE;
+    hcan.Init.ABOM = DISABLE;
+    hcan.Init.AWUM = DISABLE;
+    hcan.Init.NART = DISABLE;
+    hcan.Init.RFLM = DISABLE;
+    hcan.Init.TXFP = DISABLE;
+    if (HAL_CAN_Init(&hcan) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
 }
 
@@ -321,31 +349,31 @@ static void MX_CAN_Init(void)
 static void MX_DAC1_Init(void)
 {
 
-  DAC_ChannelConfTypeDef sConfig;
+    DAC_ChannelConfTypeDef sConfig;
 
     /**DAC Initialization
     */
-  hdac1.Instance = DAC1;
-  if (HAL_DAC_Init(&hdac1) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    hdac1.Instance = DAC1;
+    if (HAL_DAC_Init(&hdac1) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
     /**DAC channel OUT1 config
     */
-  sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
-  sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
-  if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_1) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
+    sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+    if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_1) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
     /**DAC channel OUT2 config
     */
-  if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
 }
 
@@ -353,33 +381,33 @@ static void MX_DAC1_Init(void)
 static void MX_I2C3_Init(void)
 {
 
-  hi2c3.Instance = I2C3;
-  hi2c3.Init.Timing = 0x00702681;
-  hi2c3.Init.OwnAddress1 = 0;
-  hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c3.Init.OwnAddress2 = 0;
-  hi2c3.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c3) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    hi2c3.Instance = I2C3;
+    hi2c3.Init.Timing = 0x00702681;
+    hi2c3.Init.OwnAddress1 = 0;
+    hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+    hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+    hi2c3.Init.OwnAddress2 = 0;
+    hi2c3.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+    hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+    hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+    if (HAL_I2C_Init(&hi2c3) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
     /**Configure Analogue filter
     */
-  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c3, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    if (HAL_I2CEx_ConfigAnalogFilter(&hi2c3, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
     /**Configure Digital filter
     */
-  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c3, 0) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
+    if (HAL_I2CEx_ConfigDigitalFilter(&hi2c3, 0) != HAL_OK)
+    {
+        CPPError_Handler(std::string(__FILE__), __LINE__);
+    }
 
 }
 
@@ -402,7 +430,7 @@ if(HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0) != 0x32F2){
   hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
   if (HAL_RTC_Init(&hrtc) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
     /**Initialize RTC and set the Time and Date
@@ -414,7 +442,7 @@ if(HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0) != 0x32F2){
   sTime.StoreOperation = RTC_STOREOPERATION_RESET;
   if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
   sDate.WeekDay = RTC_WEEKDAY_MONDAY;
@@ -424,7 +452,7 @@ if(HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0) != 0x32F2){
 
   if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
     HAL_RTCEx_BKUPWrite(&hrtc,RTC_BKP_DR0,0x32F2);
@@ -440,7 +468,7 @@ static void MX_SPI1_Init(void)
   hspi1.Instance = SPI1;
   hspi1.Init.Mode = SPI_MODE_MASTER;
   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi1.Init.DataSize = SPI_DATASIZE_4BIT;
+  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
@@ -453,7 +481,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
   if (HAL_SPI_Init(&hspi1) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
 }
@@ -466,11 +494,11 @@ static void MX_SPI2_Init(void)
   hspi2.Instance = SPI2;
   hspi2.Init.Mode = SPI_MODE_MASTER;
   hspi2.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi2.Init.DataSize = SPI_DATASIZE_4BIT;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi2.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -479,7 +507,7 @@ static void MX_SPI2_Init(void)
   hspi2.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
   if (HAL_SPI_Init(&hspi2) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
 }
@@ -492,7 +520,7 @@ static void MX_SPI3_Init(void)
   hspi3.Instance = SPI3;
   hspi3.Init.Mode = SPI_MODE_MASTER;
   hspi3.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi3.Init.DataSize = SPI_DATASIZE_4BIT;
+  hspi3.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi3.Init.NSS = SPI_NSS_HARD_OUTPUT;
@@ -505,7 +533,7 @@ static void MX_SPI3_Init(void)
   hspi3.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
   if (HAL_SPI_Init(&hspi3) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
 }
@@ -526,13 +554,13 @@ static void MX_TIM1_Init(void)
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
   if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
@@ -540,7 +568,7 @@ static void MX_TIM1_Init(void)
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
 }
@@ -562,20 +590,20 @@ static void MX_TIM2_Init(void)
 
     if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
     {
-        _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
     }
 
     sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
     if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
     {
-        _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
     }
 
     sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
     sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
     if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
     {
-        _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
     }
 
     HAL_TIM_Base_Start(&htim2);
@@ -597,7 +625,7 @@ static void MX_USART1_UART_Init(void)
   huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
   if (HAL_UART_Init(&huart1) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+        CPPError_Handler(std::string(__FILE__), __LINE__);
   }
 
 }
@@ -674,14 +702,14 @@ static void MX_GPIO_Init(void)
   * @param  line: The line in file as a number.
   * @retval None
   */
-void _Error_Handler(char *file, int line)
+void CPPError_Handler(std::string file, int line)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
+  /* USER CODE BEGIN CPPError_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   while(1)
   {
   }
-  /* USER CODE END Error_Handler_Debug */
+  /* USER CODE END CPPError_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT

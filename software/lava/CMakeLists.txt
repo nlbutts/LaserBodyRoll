@@ -71,7 +71,7 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CPU_FLAGS}")
 
     add_compile_options(--specs=nano.specs)
-    add_definitions(-D__FPU_PRESENT -DARM_MATH_CM4 -DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING -DDUSE_HAL_DRIVER -DSTM32F303xE)
+    add_definitions(-D__FPU_PRESENT -DARM_MATH_CM4 -DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING -DDUSE_HAL_DRIVER -DSTM32F303xE -DUSE_I2C_2V8)
     #add_definitions(-DARM_MATH_CM4 -DSYS_LOG_LEVEL=LOG_DEBUG -DDEBUG_LOGGING -DDUSE_HAL_DRIVER -DSTM32F303xE)
 
     # Don't use exceptions or RTTI on the target
@@ -170,6 +170,7 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
     # Libraries
     add_subdirectory(libst)
     add_subdirectory(libembedded)
+    add_subdirectory(libvl53l0x)
     #add_subdirectory(middleware)
 
     # Executables
