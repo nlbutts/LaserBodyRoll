@@ -49,11 +49,15 @@ extern "C" {
 }
 
 #include <string>
+#include <array>
 #include "main.h"
 
 
 #include <embedded/micro/stm32/GPIO.h>
 using Embedded::Micro::STM32::GPIO;
+
+#include <embedded/micro/interface/IGPIO.h>
+using Embedded::Micro::Interface::IGPIO;
 
 #include <embedded/micro/stm32/Timer.h>
 using Embedded::Micro::STM32::Timer;
@@ -107,6 +111,8 @@ static void MX_RTC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM2_Init(void);
+static void sendByteToBLE(uint8_t data, IGPIO & cs);
+
 
 static void CPPError_Handler(std::string file, int line);
 
@@ -178,6 +184,11 @@ int main(void)
     GPIO pullup12v(GPIO::PORTC, GPIO::Pin_2, false);
     GPIO din      (GPIO::PORTC, GPIO::Pin_5, GPIO::GPIO_RESISTOR::PULL_UP);
 
+    GPIO imu_cs   (GPIO::PORTB, GPIO::Pin_12, true);
+    GPIO flash_cs (GPIO::PORTA, GPIO::Pin_15, true);
+
+    GPIO ble_cs   (GPIO::PORTA, GPIO::Pin_3, true);
+
     Timer timer;
     timer.setTimerMs(1000);
 
@@ -187,7 +198,9 @@ int main(void)
     VL53L0X laser(hi2c3);
     laser.initialize();
 
+    std::array<uint8_t, 3> psocTest = {0x55, 0xAA, 0x12};
 
+    int i = 0;
 
     while (1)
     {
@@ -200,15 +213,42 @@ int main(void)
             green = din.get();
             txBuf[0] = 0x70;
             txBuf[1] = 0x40;
+            imu_cs = 0;
             HAL_SPI_Transmit(&hspi2, txBuf, 2, 1000);
+            imu_cs = 1;
 
+            memset(txBuf, 0, 10);
+            memset(rxBuf, 0, 10);
             txBuf[0] = 0x80 | 0x75;
             txBuf[1] = 0x0;
+            imu_cs = 0;
             HAL_SPI_TransmitReceive(&hspi2, txBuf, rxBuf, 2, 1000);
+            imu_cs = 1;
+
+            sendByteToBLE(psocTest[i++], ble_cs);
+
+            memset(txBuf, 0, 10);
+            memset(rxBuf, 0, 10);
+            txBuf[0] = 0x9F;
+            flash_cs = 0;
+            Timer::delayUs(10);
+            HAL_SPI_TransmitReceive(&hspi3, txBuf, rxBuf, 10, 1000);
+            Timer::delayUs(10);
+            flash_cs = 1;
+
 
             laser.run();
         }
     }
+}
+
+void sendByteToBLE(uint8_t data, IGPIO & cs)
+{
+    cs = 0;
+    Timer::delayUs(100);
+    uint8_t rxBuf;
+    HAL_SPI_TransmitReceive(&hspi1, &data, &rxBuf, 1, 1000);
+    cs = 1;
 }
 
 /**
@@ -472,7 +512,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -524,7 +564,7 @@ static void MX_SPI3_Init(void)
   hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi3.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;

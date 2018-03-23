@@ -1,5 +1,3 @@
-#pragma GCC diagnostic ignored "-Wtraditional"
-
 
 #include <cstdio>
 #include <cstring>
