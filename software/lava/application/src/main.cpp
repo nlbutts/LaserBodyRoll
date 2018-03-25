@@ -160,11 +160,11 @@ int main(void)
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
     MX_ADC1_Init();
-    //MX_CAN_Init();
+    MX_CAN_Init();
     MX_DAC1_Init();
     MX_I2C3_Init();
     MX_SPI1_Init();
-    MX_SPI2_Init();
+    //MX_SPI2_Init();
     MX_SPI3_Init();
     MX_RTC_Init();
     MX_TIM1_Init();
@@ -185,6 +185,7 @@ int main(void)
     GPIO din      (GPIO::PORTC, GPIO::Pin_5, GPIO::GPIO_RESISTOR::PULL_UP);
 
     GPIO imu_cs   (GPIO::PORTB, GPIO::Pin_12, true);
+    GPIO imu_sa0  (GPIO::PORTB, GPIO::Pin_14, true);
     GPIO flash_cs (GPIO::PORTA, GPIO::Pin_15, true);
 
     GPIO ble_cs   (GPIO::PORTA, GPIO::Pin_3, true);
@@ -202,39 +203,41 @@ int main(void)
 
     int i = 0;
 
+    HAL_StatusTypeDef status;
+
+    uint16_t dacVoltage = 0;
+
+    HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
+    HAL_DAC_Start(&hdac1, DAC_CHANNEL_2);
+
     while (1)
     {
         if (timer.isTimerExpired())
         {
             /* USER CODE END WHILE */
-            timer.setTimerMs(1000);
+            timer.setTimerMs(100);
 
             blue.toggle();
             green = din.get();
-            txBuf[0] = 0x70;
-            txBuf[1] = 0x40;
-            imu_cs = 0;
-            HAL_SPI_Transmit(&hspi2, txBuf, 2, 1000);
-            imu_cs = 1;
 
-            memset(txBuf, 0, 10);
-            memset(rxBuf, 0, 10);
-            txBuf[0] = 0x80 | 0x75;
-            txBuf[1] = 0x0;
-            imu_cs = 0;
-            HAL_SPI_TransmitReceive(&hspi2, txBuf, rxBuf, 2, 1000);
-            imu_cs = 1;
+            HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1,  DAC_ALIGN_12B_R, dacVoltage);
+            HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2,  DAC_ALIGN_12B_R, dacVoltage);
+            dacVoltage += 10;
+            if (dacVoltage >= 4096)
+            {
+                dacVoltage = 0;
+            }
 
-            sendByteToBLE(psocTest[i++], ble_cs);
+            // sendByteToBLE(psocTest[i++], ble_cs);
 
-            memset(txBuf, 0, 10);
-            memset(rxBuf, 0, 10);
-            txBuf[0] = 0x9F;
-            flash_cs = 0;
-            Timer::delayUs(10);
-            HAL_SPI_TransmitReceive(&hspi3, txBuf, rxBuf, 10, 1000);
-            Timer::delayUs(10);
-            flash_cs = 1;
+            // memset(txBuf, 0, 10);
+            // memset(rxBuf, 0, 10);
+            // txBuf[0] = 0x9F;
+            // flash_cs = 0;
+            // Timer::delayUs(10);
+            // HAL_SPI_TransmitReceive(&hspi3, txBuf, rxBuf, 10, 1000);
+            // Timer::delayUs(10);
+            // flash_cs = 1;
 
 
             laser.run();

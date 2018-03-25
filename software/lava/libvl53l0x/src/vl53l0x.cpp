@@ -28,6 +28,8 @@ bool VL53L0X::initialize()
     VL53L0X_DeviceInfo_t        DeviceInfo;
 
 
+    memset(pMyDevice, 0, sizeof(VL53L0X_Dev_t));
+
     _stLaser.I2cDevAddr         = 0x52;
     _stLaser.comms_type         =  1;
     _stLaser.comms_speed_khz    =  400;
@@ -68,10 +70,11 @@ bool VL53L0X::initialize()
             printf("Device Type : %s\n", DeviceInfo.Type);
             printf("Device ID : %s\n", DeviceInfo.ProductId);
             printf("ProductRevisionMajor : %d\n", DeviceInfo.ProductRevisionMajor);
-        printf("ProductRevisionMinor : %d\n", DeviceInfo.ProductRevisionMinor);
+            printf("ProductRevisionMinor : %d\n", DeviceInfo.ProductRevisionMinor);
 
-        if ((DeviceInfo.ProductRevisionMinor != 1) && (DeviceInfo.ProductRevisionMinor != 1)) {
-            printf("Error expected cut 1.1 but found cut %d.%d\n",
+            if ((DeviceInfo.ProductRevisionMinor != 1) && (DeviceInfo.ProductRevisionMinor != 1))
+            {
+                printf("Error expected cut 1.1 but found cut %d.%d\n",
                        DeviceInfo.ProductRevisionMajor, DeviceInfo.ProductRevisionMinor);
                 Status = VL53L0X_ERROR_NOT_SUPPORTED;
             }

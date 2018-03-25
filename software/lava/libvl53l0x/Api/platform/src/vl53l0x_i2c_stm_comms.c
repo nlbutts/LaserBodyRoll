@@ -82,8 +82,17 @@ int32_t VL53L0X_write_multi(uint8_t address, uint8_t reg, uint8_t *pdata, int32_
     char *pvalue_as_str;
 #endif
 
-    status = HAL_I2C_Master_Transmit(gI2C, address, &reg, 1, TIMEOUT);
-    status = HAL_I2C_Master_Transmit(gI2C, address, pdata, count, TIMEOUT);
+    if (count < 9)
+    {
+        uint8_t buffer[10];
+        buffer[0] = reg;
+        memcpy(&buffer[1], pdata, count);
+        status = HAL_I2C_Master_Transmit(gI2C, address, buffer, count + 1, TIMEOUT);
+    }
+    else
+    {
+        status = HAL_ERROR;
+    }
 
 #ifdef VL53L0X_LOG_ENABLE
 
@@ -114,7 +123,7 @@ int32_t VL53L0X_read_multi(uint8_t address, uint8_t index, uint8_t *pdata, int32
 #endif
 
     status = HAL_I2C_Master_Transmit(gI2C, address, &index, 1, TIMEOUT);
-    status = HAL_I2C_Master_Transmit(gI2C, address, pdata, count, TIMEOUT);
+    status = HAL_I2C_Master_Receive (gI2C, address, pdata, count, TIMEOUT);
 
 #ifdef VL53L0X_LOG_ENABLE
 

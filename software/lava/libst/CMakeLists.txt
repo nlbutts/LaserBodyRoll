@@ -29,6 +29,7 @@ foreach(item ${SRC_FILES})
     endif()
 endforeach()
 
+
 #----------------------------------------------------- Define the build target
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
