@@ -26,6 +26,10 @@ bool VL53L0X::initialize()
     VL53L0X_Version_t           Version;
     VL53L0X_Version_t           *pVersion   = &Version;
     VL53L0X_DeviceInfo_t        DeviceInfo;
+    uint32_t refSpadCount;
+    uint8_t isApertureSpads;
+    uint8_t VhvSettings;
+    uint8_t PhaseCal;
 
 
     memset(pMyDevice, 0, sizeof(VL53L0X_Dev_t));
@@ -82,31 +86,6 @@ bool VL53L0X::initialize()
         print_pal_error(Status);
     }
 
-    return (Status == VL53L0X_ERROR_NONE) ? true: false;
-}
-
-bool VL53L0X::start()
-{
-    return true;
-
-}
-
-bool VL53L0X::stop()
-{
-    return true;
-
-}
-
-void VL53L0X::run()
-{
-    VL53L0X_Error Status = VL53L0X_ERROR_NONE;
-    VL53L0X_RangingMeasurementData_t    RangingMeasurementData;
-    VL53L0X_Dev_t *pMyDevice = &_stLaser;
-    int i;
-    uint32_t refSpadCount;
-    uint8_t isApertureSpads;
-    uint8_t VhvSettings;
-    uint8_t PhaseCal;
 
     if(Status == VL53L0X_ERROR_NONE)
     {
@@ -128,7 +107,7 @@ void VL53L0X::run()
         printf ("Call of VL53L0X_PerformRefSpadManagement\n");
         Status = VL53L0X_PerformRefSpadManagement(pMyDevice,
                 &refSpadCount, &isApertureSpads); // Device Initialization
-        printf ("refSpadCount = %d, isApertureSpads = %d\n", refSpadCount, isApertureSpads);
+        printf ("refSpadCount = %d, isApertureSpads = %d\n", (int)refSpadCount, (int)isApertureSpads);
         print_pal_error(Status);
     }
 
@@ -180,28 +159,30 @@ void VL53L0X::run()
                 VL53L0X_VCSEL_PERIOD_FINAL_RANGE, 14);
     }
 
+    return (Status == VL53L0X_ERROR_NONE) ? true: false;
+}
 
-    /*
-     *  Step  4 : Test ranging mode
-     */
+bool VL53L0X::start()
+{
+    return true;
 
-    if(Status == VL53L0X_ERROR_NONE)
-    {
-        for(i=0;i<50;i++){
-            printf ("Call of VL53L0X_PerformSingleRangingMeasurement\n");
-            Status = VL53L0X_PerformSingleRangingMeasurement(pMyDevice,
-                    &RangingMeasurementData);
+}
 
-            print_pal_error(Status);
-            //print_range_status(&RangingMeasurementData);
+bool VL53L0X::stop()
+{
+    return true;
 
+}
 
-            if (Status != VL53L0X_ERROR_NONE) break;
+void VL53L0X::run()
+{
+    VL53L0X_RangingMeasurementData_t    RangingMeasurementData;
+    VL53L0X_Error Status =      VL53L0X_ERROR_NONE;
 
-            printf("Measured distance: %i\n\n", RangingMeasurementData.RangeMilliMeter);
-            _latestMeasurement = RangingMeasurementData.RangeMilliMeter;
-        }
-    }
+    Status = VL53L0X_PerformSingleRangingMeasurement(&_stLaser,
+            &RangingMeasurementData);
+    if (Status == VL53L0X_ERROR_NONE)
+        _latestMeasurement = RangingMeasurementData.RangeMilliMeter;
 }
 
 void VL53L0X::print_pal_error(VL53L0X_Error Status)

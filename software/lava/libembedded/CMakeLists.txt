@@ -9,7 +9,9 @@ set(LOCAL_PROJ_NAME embedded)
 #     ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp
 #     ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
 set(SRC_FILES src/embedded/micro/stm32/Timer.cpp
-              src/embedded/micro/stm32/GPIO.cpp)
+              src/embedded/micro/stm32/GPIO.cpp
+              src/embedded/micro/stm32/DigitalToAnalog.cpp
+              src/embedded/memory/winbond/NORFlash.cpp)
 
 # Analogs.cpp
 # CAN.cpp

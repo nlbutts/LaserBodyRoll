@@ -65,6 +65,15 @@ using Embedded::Micro::STM32::Timer;
 #include <embedded/micro/stm32/SysTickTimer.h>
 using Embedded::Micro::STM32::SysTickTimer;
 
+#include <embedded/micro/stm32/DigitalToAnalog.h>
+using Embedded::Micro::STM32::DigitalToAnalog;
+
+#include <embedded/micro/stm32/SPI.h>
+using Embedded::Micro::STM32::SPI;
+
+#include "embedded/memory/winbond/NORFlash.h"
+using Embedded::Memory::Winbond::NORFlash;
+
 #include <vl53l0x.h>
 using STSensors::VL53L0X;
 
@@ -110,7 +119,6 @@ static void MX_SPI3_Init(void);
 static void MX_RTC_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
-static void MX_TIM2_Init(void);
 static void sendByteToBLE(uint8_t data, IGPIO & cs);
 
 
@@ -169,7 +177,6 @@ int main(void)
     MX_RTC_Init();
     MX_TIM1_Init();
     MX_USART1_UART_Init();
-    //MX_TIM2_Init();
     /* USER CODE BEGIN 2 */
 
     // SysTickTimer tickTimer(1000000);
@@ -193,22 +200,17 @@ int main(void)
     Timer timer;
     timer.setTimerMs(1000);
 
-    uint8_t txBuf[10];
-    uint8_t rxBuf[10];
-
     VL53L0X laser(hi2c3);
     laser.initialize();
 
     std::array<uint8_t, 3> psocTest = {0x55, 0xAA, 0x12};
 
-    int i = 0;
+    DigitalToAnalog dac1(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
+    DigitalToAnalog dac2(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
 
-    HAL_StatusTypeDef status;
-
-    uint16_t dacVoltage = 0;
-
-    HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
-    HAL_DAC_Start(&hdac1, DAC_CHANNEL_2);
+    SPI norSPI(&hspi3);
+    Timer norTimer;
+    NORFlash nor(norSPI, flash_cs, norTimer);
 
     while (1)
     {
@@ -219,14 +221,6 @@ int main(void)
 
             blue.toggle();
             green = din.get();
-
-            HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1,  DAC_ALIGN_12B_R, dacVoltage);
-            HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2,  DAC_ALIGN_12B_R, dacVoltage);
-            dacVoltage += 10;
-            if (dacVoltage >= 4096)
-            {
-                dacVoltage = 0;
-            }
 
             // sendByteToBLE(psocTest[i++], ble_cs);
 
@@ -241,6 +235,9 @@ int main(void)
 
 
             laser.run();
+            int32_t range = laser.getDistanceInMillimeters();
+            dac1.set(range / 100.0f);
+            dac2.set(range / 100.0f);
         }
     }
 }
@@ -616,41 +613,6 @@ static void MX_TIM1_Init(void)
 
 }
 
-
-/* TIM2 init function */
-static void MX_TIM2_Init(void)
-{
-    __HAL_RCC_TIM2_CLK_ENABLE();
-    TIM_ClockConfigTypeDef sClockSourceConfig;
-    TIM_MasterConfigTypeDef sMasterConfig;
-
-    htim2.Instance = TIM2;
-    htim2.Init.Prescaler = 71;
-    htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-    htim2.Init.Period = 0;
-    htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-    htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE - 1;
-
-    if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-    {
-        CPPError_Handler(std::string(__FILE__), __LINE__);
-    }
-
-    sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-    if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-    {
-        CPPError_Handler(std::string(__FILE__), __LINE__);
-    }
-
-    sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-    sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-    if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-    {
-        CPPError_Handler(std::string(__FILE__), __LINE__);
-    }
-
-    HAL_TIM_Base_Start(&htim2);
-}
 
 /* USART1 init function */
 static void MX_USART1_UART_Init(void)
