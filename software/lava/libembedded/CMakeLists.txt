@@ -11,7 +11,8 @@ set(LOCAL_PROJ_NAME embedded)
 set(SRC_FILES src/embedded/micro/stm32/Timer.cpp
               src/embedded/micro/stm32/GPIO.cpp
               src/embedded/micro/stm32/DigitalToAnalog.cpp
-              src/embedded/memory/winbond/NORFlash.cpp)
+              src/embedded/memory/winbond/NORFlash.cpp
+              src/embedded/micro/stm32/SPIInterface.cpp)
 
 # Analogs.cpp
 # CAN.cpp

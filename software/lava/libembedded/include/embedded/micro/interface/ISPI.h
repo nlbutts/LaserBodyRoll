@@ -46,25 +46,6 @@ public:
      */
     virtual uint16_t write(const uint8_t * tx, uint8_t * rx, uint16_t len) = 0;
 
-    /**
-     * @brief Configures the SPI module
-     *
-     * @param master true for master mode, false for slave mode
-     * @param size8b true for 8 bit data, false for 16 bit
-     * @param CPOLhigh true for clock idle polarity high, false for clock idle polarity low
-     * @param CPHAedge1 true for bit sampling on rising edge, false for bit sampling on falling edge
-     * @param msbFirst true for MSBit transmit first
-     */
-    virtual void setupSPI(bool master, bool size8b, bool CPOLhigh, bool CPHAedge1, bool msbFirst) = 0;
-
-    /**
-     * Sets the SPI Clock frequency,
-     *
-     * @param frequency the frequency in Hz
-     * @return the actual SPI frequency
-     */
-    virtual uint32_t setFrequency(uint32_t frequency) = 0;
-
 protected:
     /**
      * Constructor

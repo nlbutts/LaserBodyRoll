@@ -29,18 +29,37 @@ NORFlash::~NORFlash()
     _cs  = nullptr;
 }
 
-uint32_t NORFlash::getSize()
+bool NORFlash::writeEnable()
 {
-    return 0;
+    bool success = sendCommand(WRITEENABLE, 0, nullptr);
 }
 
-uint16_t NORFlash::getJEDECID(uint8_t * mfgID, uint16_t * id)
+
+uint32_t NORFlash::getSize()
 {
+    bool success = false;
     uint8_t data[4];
-    uint16_t rv = sendCommand(JEDECID, 4, data);
-    *mfgID = data[1];
-    *id    = (data[2] << 8) | data[3];
-    return rv;
+    uint16_t bytesRxed = sendCommand(JEDECID, 4, data);
+    if (bytesRxed == 4)
+}
+
+bool NORFlash::getJEDECID(uint8_t * mfgID, uint16_t * id)
+{
+    bool success = false;
+    uint8_t data[4];
+    uint16_t bytesRxed = sendCommand(JEDECID, 4, data);
+    if (bytesRxed == 4)
+    {
+        *mfgID  = data[1];
+        *id     = (data[2] << 8) | data[3];
+        success = true;
+    }
+    else
+    {
+        *mfgID = 0;
+        *id = 0;
+    }
+    return success;
 }
 
 uint16_t NORFlash::sendCommand(uint8_t command, uint32_t expectedBytes, uint8_t * buf)

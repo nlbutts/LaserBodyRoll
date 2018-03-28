@@ -68,8 +68,8 @@ using Embedded::Micro::STM32::SysTickTimer;
 #include <embedded/micro/stm32/DigitalToAnalog.h>
 using Embedded::Micro::STM32::DigitalToAnalog;
 
-#include <embedded/micro/stm32/SPI.h>
-using Embedded::Micro::STM32::SPI;
+#include <embedded/micro/stm32/SPIInterface.h>
+using Embedded::Micro::STM32::SPIInterface;
 
 #include "embedded/memory/winbond/NORFlash.h"
 using Embedded::Memory::Winbond::NORFlash;
@@ -208,9 +208,13 @@ int main(void)
     DigitalToAnalog dac1(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
     DigitalToAnalog dac2(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
 
-    SPI norSPI(&hspi3);
+    SPIInterface norSPI(hspi3);
     Timer norTimer;
     NORFlash nor(norSPI, flash_cs, norTimer);
+
+    uint8_t mfgID;
+    uint16_t jedecID;
+    nor.getJEDECID(&mfgID, &jedecID);
 
     while (1)
     {
