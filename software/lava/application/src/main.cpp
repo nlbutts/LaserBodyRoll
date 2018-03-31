@@ -214,7 +214,48 @@ int main(void)
 
     uint8_t mfgID;
     uint16_t jedecID;
-    nor.getJEDECID(&mfgID, &jedecID);
+    volatile uint8_t temp;
+    volatile uint32_t busyCnt = 0;
+    temp = nor.getSize();
+    temp = nor.readStatusReg(NORFlash::SR1);
+    temp = nor.readStatusReg(NORFlash::SR2);
+    temp = nor.readStatusReg(NORFlash::SR3);
+
+    uint8_t rdData[1000];
+    uint8_t wrData[1000];
+
+    memset(rdData, 0, 1000);
+
+    for (int i = 0; i < 1000; i++)
+    {
+        wrData[i] = i;
+    }
+
+    Timer norTimer2;
+    norTimer2.start();
+    nor.sectorErase(0);
+    while (nor.isBusy())
+    {
+        busyCnt++;
+    }
+
+    volatile uint32_t diff = norTimer.getTimeInMs();
+
+    busyCnt = 0;
+    norTimer.start();
+
+    for (int i = 0; i < 4096; i += 256)
+    {
+        nor.pageProgram(i, wrData, 256);
+        while (nor.isBusy())
+        {
+            busyCnt++;
+        }
+    }
+
+    diff = norTimer.getTimeInMs();
+
+    nor.read(0, rdData, 1000);
 
     while (1)
     {
@@ -568,7 +609,7 @@ static void MX_SPI3_Init(void)
   hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi3.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
   hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;

@@ -75,7 +75,7 @@ public:
      *
      * @return bool true if the JEDEC ID was read
      */
-    uint16_t getJEDECID(uint8_t * mfgID, uint16_t * id);
+    bool getJEDECID(uint8_t * mfgID, uint16_t * id);
     /**
      * @brief Reads data from the part
      * @details Reads a bunch of data from the part. Be careful, this could
@@ -87,7 +87,7 @@ public:
      * @param fastRead perform a fast read from the part
      * @return bool true if the read was succesful
      */
-    bool readData(uint32_t address, uint8_t * buf, uint32_t len, bool fastRead = false);
+    bool read(uint32_t address, uint8_t * buf, uint32_t len, bool fastRead = false);
     /**
      * @brief Writes a page to the part
      * @details Writes a single page to the part
@@ -122,10 +122,9 @@ public:
     /**
      * @brief Erases the entire chip, be careful
      *
-     * @param address the address to erase
      * @return bool true if the erase was succesful
      */
-    bool chipErase(uint32_t address);
+    bool chipErase();
     /**
      * @brief Reads the status register
      * @return uint8_t the status register
@@ -133,9 +132,11 @@ public:
     uint8_t readStatusReg(SR sr);
     /**
      * @brief Writes to the status register
-     * @return uint8_t the status register
+     * @param sr the status register to write
+     * @param value the value to write
+     * @return bool true if the write was successful
      */
-    uint8_t writeStatusReg(SR sr);
+    bool writeStatusReg(SR sr, uint8_t value);
     /**
      * @brief Powers down the part
      * @return bool true if the part has shutdown
@@ -147,13 +148,20 @@ public:
      */
     bool reset();
     /**
-     * @brief Gets the total size of the flash
-     * @return uint32_t the size of the flash in bytes
+     * @brief Gets the total size of the flash in megabits
+     * @return uint32_t the size of the flash in bits
      */
     uint32_t getSize();
+    /**
+     * @brief Polls the flash to see if it is done writing/erasing
+     * @return bool true if the memory is busy
+     */
+    bool isBusy();
 
 private:
-    uint16_t sendCommand(uint8_t command, uint32_t expectedBytes, uint8_t * buf);
+    bool sendCommand(uint8_t command);
+    void setCommandAndAddress(uint8_t command, uint32_t address, uint8_t * buf);
+    bool erase(uint8_t command, uint32_t address);
 
 
 private:
