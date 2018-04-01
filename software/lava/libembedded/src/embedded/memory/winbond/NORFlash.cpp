@@ -61,7 +61,7 @@ bool NORFlash::getJEDECID(uint8_t * mfgID, uint16_t * id)
     return rv == 4 ? true : false;
 }
 
-bool NORFlash::read(uint32_t address, uint8_t * buf, uint32_t len, bool fastRead)
+bool NORFlash::readData(uint32_t address, uint8_t * buf, uint32_t len)
 {
     uint8_t commandBuf[4];
     setCommandAndAddress(READDATA, address, commandBuf);
@@ -174,6 +174,17 @@ bool NORFlash::isBusy()
     return statusReg & BUSY ? true : false;
 }
 
+bool NORFlash::writeDataPoll(uint32_t address, uint8_t * buf, uint32_t len)
+{
+    writeEnable();
+    return pageProgram(address, buf, len);
+}
+
+bool NORFlash::eraseSubsectorPoll(uint32_t address)
+{
+    writeEnable();
+    return sectorErase(address);
+}
 
 bool NORFlash::sendCommand(uint8_t command)
 {
@@ -198,6 +209,8 @@ bool NORFlash::erase(uint8_t command, uint32_t address)
     uint16_t rv = _spi->write(commandBuf, sizeof(commandBuf));
     return rv == sizeof(commandBuf) ? true : false;
 }
+
+
 
 } // namespace Winbond
 } // namespace Memory

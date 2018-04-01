@@ -12,7 +12,8 @@ set(SRC_FILES src/embedded/micro/stm32/Timer.cpp
               src/embedded/micro/stm32/GPIO.cpp
               src/embedded/micro/stm32/DigitalToAnalog.cpp
               src/embedded/memory/winbond/NORFlash.cpp
-              src/embedded/micro/stm32/SPIInterface.cpp)
+              src/embedded/micro/stm32/SPIInterface.cpp
+              src/embedded/memory/NVSection.cpp)
 
 # Analogs.cpp
 # CAN.cpp
@@ -60,7 +61,6 @@ if(NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm_baremetal")
         if(${item} MATCHES ".*micro.*\.cpp"
             OR ${item} MATCHES ".*device.*\.cpp"
             OR ${item} MATCHES ".*debug.*\.cpp"
-            OR ${item} MATCHES ".*NVSection\.cpp"
             OR ${item} MATCHES ".*JEDEC\.cpp"
             OR ${item} MATCHES ".*Button\.cpp")
             message(STATUS "excluding from build: ${item}")
@@ -72,7 +72,9 @@ endif()
 # --------------------------------------------------------- DEFINE BUILD TARGET
 add_library(${LOCAL_PROJ_NAME} STATIC ${SRC_FILES})
 
-target_link_libraries(${LOCAL_PROJ_NAME} PUBLIC st)
+if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm_baremetal")
+    target_link_libraries(${LOCAL_PROJ_NAME} PUBLIC st)
+endif()
 
 # -------------------------------------------------------------- FIND SRC FILES
 target_include_directories(${LOCAL_PROJ_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)

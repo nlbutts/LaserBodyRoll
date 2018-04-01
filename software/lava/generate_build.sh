@@ -76,8 +76,10 @@ function create_build()
     # Optionally select the toolchain file
     if [ ! -z "${3}" ]; then
         toolchain_file=$( realpath "${3}" )
-        cmake_args="-DCMAKE_TOOLCHAIN_FILE:PATH=${toolchain_file} -DCMAKE_BUILD_TYPE=Debug"
+        cmake_args="-DCMAKE_TOOLCHAIN_FILE:PATH=${toolchain_file}"
     fi
+
+    cmake_args="${cmake_args} -DCMAKE_BUILD_TYPE=Debug"
 
     # Call CMake to generate the build
     (

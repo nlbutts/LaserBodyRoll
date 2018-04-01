@@ -17,11 +17,12 @@ if (BUILD_UT)
     #     ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp
     #     ${CMAKE_CURRENT_LIST_DIR}/src/*.c
     # )
-    set(SRC_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test.cpp)
+    set(SRC_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test.cpp
+                  ${CMAKE_CURRENT_LIST_DIR}/src/NVSection_ut.cpp)
 
     # ------------------------------------------------------------ BUILD TARGET
     add_executable(${THIS} ${SRC_FILES})
-    target_link_libraries(${THIS} PRIVATE gmock_main)
+    target_link_libraries(${THIS} PUBLIC gmock_main embedded)
 
 
     # ------------------------------------------------------- ADD INCLUDE PATHS
@@ -29,6 +30,8 @@ if (BUILD_UT)
         PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include
         PRIVATE ${GMOCK_DIR}/googlemock/include
         PRIVATE ${GMOCK_DIR}/googletest/include
+        PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include
+        PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/mock
     )
 
     # --------------------------------------------------------- INSTALL TARGETS

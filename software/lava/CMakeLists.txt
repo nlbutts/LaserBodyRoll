@@ -189,6 +189,7 @@ else ()
     add_subdirectory(third-party/tclap-1.2.1)
 
     # Executables
+    add_subdirectory(libembedded)
     add_subdirectory(ut)
 endif ()
 

@@ -74,6 +74,9 @@ using Embedded::Micro::STM32::SPIInterface;
 #include "embedded/memory/winbond/NORFlash.h"
 using Embedded::Memory::Winbond::NORFlash;
 
+#include "embedded/memory/NVSection.h"
+using Embedded::Memory::NVSection;
+
 #include <vl53l0x.h>
 using STSensors::VL53L0X;
 
@@ -221,41 +224,29 @@ int main(void)
     temp = nor.readStatusReg(NORFlash::SR2);
     temp = nor.readStatusReg(NORFlash::SR3);
 
-    uint8_t rdData[1000];
-    uint8_t wrData[1000];
+    uint8_t rdData[4096];
+    nor.readData(0x0000, rdData, 4096);
+    nor.readData(0x1000, rdData, 4096);
+    nor.readData(0x2000, rdData, 4096);
 
-    memset(rdData, 0, 1000);
-
-    for (int i = 0; i < 1000; i++)
+    struct TestData
     {
-        wrData[i] = i;
-    }
+        uint32_t a;
+        uint32_t b;
+        uint32_t c;
+        uint32_t d;
+    };
 
-    Timer norTimer2;
-    norTimer2.start();
-    nor.sectorErase(0);
-    while (nor.isBusy())
+    constexpr TestData defaultData = {1,2,3,4};
+    TestData actualData;
+
+    volatile NVSection::NVSectionStatus status;
+    NVSection sec1(0, &actualData, &defaultData, sizeof(TestData), 3, nor);
+    status = sec1.load();
+    do
     {
-        busyCnt++;
-    }
-
-    volatile uint32_t diff = norTimer.getTimeInMs();
-
-    busyCnt = 0;
-    norTimer.start();
-
-    for (int i = 0; i < 4096; i += 256)
-    {
-        nor.pageProgram(i, wrData, 256);
-        while (nor.isBusy())
-        {
-            busyCnt++;
-        }
-    }
-
-    diff = norTimer.getTimeInMs();
-
-    nor.read(0, rdData, 1000);
+        status = sec1.save();
+    } while (status != NVSection::SUCCESS);
 
     while (1)
     {

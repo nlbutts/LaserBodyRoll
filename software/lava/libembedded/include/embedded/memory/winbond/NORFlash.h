@@ -2,6 +2,7 @@
 #define EMBEDDED_MEMORY_WINBOND_NORFLASH
 
 #include <stdint.h>
+#include "embedded/memory/IMemory.h"
 
 namespace Embedded {
 namespace Micro {
@@ -25,7 +26,7 @@ namespace Winbond {
  *
  * @return [description]
  */
-class NORFlash
+class NORFlash : public IMemory
 {
 public:
     enum SR
@@ -85,9 +86,8 @@ public:
      * @param buf a pointer to the buffer to store the return data
      * @param len the number of bytes to read
      * @param fastRead perform a fast read from the part
-     * @return bool true if the read was succesful
      */
-    bool read(uint32_t address, uint8_t * buf, uint32_t len, bool fastRead = false);
+    bool readData(uint32_t address, uint8_t * buf, uint32_t len);
     /**
      * @brief Writes a page to the part
      * @details Writes a single page to the part
@@ -149,14 +149,39 @@ public:
     bool reset();
     /**
      * @brief Gets the total size of the flash in megabits
-     * @return uint32_t the size of the flash in bits
+     * @return uint32_t the size of the flash in megabits
      */
     uint32_t getSize();
+    /**
+     * @brief This function gets the page write size
+     * @return uint32_t page size in bytes
+     */
+    uint32_t getPageSize()      {return 256;}
+    /**
+     * @brief Returns the minimum erase size in bytes
+     * @return uint32_t minimum erase size in bytes
+     */
+    uint32_t getMinEraseSize()  {return 4096;}
     /**
      * @brief Polls the flash to see if it is done writing/erasing
      * @return bool true if the memory is busy
      */
     bool isBusy();
+    /**
+     * @brief This is an alias for the write function
+     * @param address the address to write data
+     * @param buf a pointer to the buffer to store the return data
+     * @param len the number of bytes to read
+     * @return bool true if the write was succesful
+     */
+    bool writeDataPoll(uint32_t address, uint8_t * buf, uint32_t len);
+    /**
+     * @brief This is an alias for erase section
+     *
+     * @param address address the address to erase
+     * @return bool true if the erase is in progress
+     */
+    bool eraseSubsectorPoll(uint32_t address);
 
 private:
     bool sendCommand(uint8_t command);
