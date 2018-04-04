@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 12)
+    (drawings 13)
     (tracks 43)
     (zones 0)
     (modules 10)
@@ -34,7 +34,7 @@
   )
 
   (setup
-    (last_trace_width 0.3048)
+    (last_trace_width 0.25)
     (user_trace_width 0.3048)
     (trace_clearance 0.2)
     (zone_clearance 0.2032)
@@ -496,6 +496,9 @@
     )
   )
 
+  (gr_text "AOZ1280 Buck Rev A" (at 147 108) (layer B.SilkS)
+    (effects (font (size 1.5 1.5) (thickness 0.3)) (justify mirror))
+  )
   (gr_line (start 134.442742 100) (end 160.237258 100) (angle 90) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 162.5 102.262742) (end 162.5 114.057258) (angle 90) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 160.557258 116) (end 134.762742 116) (angle 90) (layer Edge.Cuts) (width 0.15))
