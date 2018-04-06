@@ -11,12 +11,15 @@
   <Data key="DataVersionKey" value="2" />
   <Group key="DWRInstGuidMapping">
     <Group key="Pin">
+      <Data key="6b61e8c6-08aa-4b01-b1c4-674820257c42" value="MISO" />
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/4c15b41e-e284-4978-99e7-5aaee19bd0ce" value="SPI_sclk_s" />
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/5e2b647c-52cb-4f09-80bd-87ed9563ab24" value="SPI_mosi_s" />
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/52f31aa9-2f0a-497d-9a1f-1424095e13e6" value="SPI_miso_s" />
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/3446580a-3b9d-491c-8730-f7ea34ca86e3" value="SPI_ss_s" />
+      <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="SCLK" />
+      <Data key="645f6e94-d634-46f6-ba06-daddc8c7143f" value="MOSI" />
       <Data key="3899b5dc-effb-43d8-8853-66d82e684bc9" value="RED_LED" />
-      <Data key="70648977-2cf2-48f9-b0ea-b4bdbfa992e0" value="BLUE_RED" />
+      <Data key="70648977-2cf2-48f9-b0ea-b4bdbfa992e0" value="BLUE_LED" />
       <Data key="bf10fafd-0b2b-433f-95d5-24cc426b237d" value="GREEN_LED" />
     </Group>
   </Group>
@@ -3556,6 +3559,11 @@
     </Group>
   </Group>
   <Group key="Pin2">
+    <Group key="6b61e8c6-08aa-4b01-b1c4-674820257c42">
+      <Group key="0">
+        <Data key="Port Format" value="1,5" />
+      </Group>
+    </Group>
     <Group key="7ca9760e-6931-4b43-a74b-782f631c6518/4c15b41e-e284-4978-99e7-5aaee19bd0ce">
       <Group key="0">
         <Data key="Port Format" value="1,7" />
@@ -3574,6 +3582,16 @@
     <Group key="7ca9760e-6931-4b43-a74b-782f631c6518/3446580a-3b9d-491c-8730-f7ea34ca86e3">
       <Group key="0">
         <Data key="Port Format" value="1,6" />
+      </Group>
+    </Group>
+    <Group key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba">
+      <Group key="0">
+        <Data key="Port Format" value="1,7" />
+      </Group>
+    </Group>
+    <Group key="645f6e94-d634-46f6-ba06-daddc8c7143f">
+      <Group key="0">
+        <Data key="Port Format" value="1,4" />
       </Group>
     </Group>
     <Group key="3899b5dc-effb-43d8-8853-66d82e684bc9">
