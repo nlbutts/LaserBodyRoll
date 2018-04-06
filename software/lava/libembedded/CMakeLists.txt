@@ -13,7 +13,8 @@ set(SRC_FILES src/embedded/micro/stm32/Timer.cpp
               src/embedded/micro/stm32/DigitalToAnalog.cpp
               src/embedded/memory/winbond/NORFlash.cpp
               src/embedded/micro/stm32/SPIInterface.cpp
-              src/embedded/memory/NVSection.cpp)
+              src/embedded/memory/NVSection.cpp
+              src/embedded/utility/checksum/crc/Crc32.cpp)
 
 # Analogs.cpp
 # CAN.cpp

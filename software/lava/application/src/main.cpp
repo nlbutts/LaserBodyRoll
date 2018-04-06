@@ -248,6 +248,8 @@ int main(void)
         status = sec1.save();
     } while (status != NVSection::SUCCESS);
 
+    int i = 0;
+
     while (1)
     {
         if (timer.isTimerExpired())
@@ -258,17 +260,7 @@ int main(void)
             blue.toggle();
             green = din.get();
 
-            // sendByteToBLE(psocTest[i++], ble_cs);
-
-            // memset(txBuf, 0, 10);
-            // memset(rxBuf, 0, 10);
-            // txBuf[0] = 0x9F;
-            // flash_cs = 0;
-            // Timer::delayUs(10);
-            // HAL_SPI_TransmitReceive(&hspi3, txBuf, rxBuf, 10, 1000);
-            // Timer::delayUs(10);
-            // flash_cs = 1;
-
+            //sendByteToBLE(psocTest[i++], ble_cs);
 
             laser.run();
             int32_t range = laser.getDistanceInMillimeters();

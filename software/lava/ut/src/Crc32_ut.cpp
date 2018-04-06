@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <gtest/gtest.h>
 
-#include <appareo/abercrombie/crc/Crc32.h>
-using Appareo::Abercrombie::Crc::Crc32_Normal;
+#include <embedded/utility/checksum/crc/Crc32.h>
+using Embedded::Utility::Checksum::Crc::Crc32_Normal;
 
 TEST(Crc32_NormalTest, TestInitialValue)
 {

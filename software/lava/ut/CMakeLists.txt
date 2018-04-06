@@ -13,16 +13,14 @@ if (BUILD_UT)
 
 
     # ------------------------------------------------------------- FIND SOURCE
-    # file(GLOB_RECURSE SRC_FILES
-    #     ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp
-    #     ${CMAKE_CURRENT_LIST_DIR}/src/*.c
-    # )
-    set(SRC_FILES ${CMAKE_CURRENT_LIST_DIR}/src/test.cpp
-                  ${CMAKE_CURRENT_LIST_DIR}/src/NVSection_ut.cpp)
+    file(GLOB_RECURSE SRC_FILES
+         ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp
+         ${CMAKE_CURRENT_LIST_DIR}/src/*.c
+     )
 
     # ------------------------------------------------------------ BUILD TARGET
     add_executable(${THIS} ${SRC_FILES})
-    target_link_libraries(${THIS} PUBLIC gmock_main embedded)
+    target_link_libraries(${THIS} PUBLIC gmock_main embedded ble)
 
 
     # ------------------------------------------------------- ADD INCLUDE PATHS

@@ -171,6 +171,7 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm_baremetal)
     add_subdirectory(libst)
     add_subdirectory(libembedded)
     add_subdirectory(libvl53l0x)
+    add_subdirectory(libBLE)
     #add_subdirectory(middleware)
 
     # Executables
@@ -190,6 +191,7 @@ else ()
 
     # Executables
     add_subdirectory(libembedded)
+    add_subdirectory(libBLE)
     add_subdirectory(ut)
 endif ()
 
