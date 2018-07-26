@@ -19,92 +19,54 @@ ECU Connector
 
 The goal is to fit into this ![box](https://www.digikey.com/product-detail/en/bud-industries/PN-1320-CMB/377-1887-ND/2674151 "enclosure")
 
-# Protocol between PSoC and Raspberry Pi
+# Protocol between Processor and BLE
 The PSoC and the Raspberry PI are connected via an SPI bus. The Pi is the SPI Master and the PSoC is a slave device. The packet that is transmitted to the PSOC is shown below
 
-| Byte | Description |
-| ---- | ------------|
-| 1    | Sync1 = 0x55 |
-| 2    | Sync2 = 0xAA |
-| 3    | Command |
-| 4    | Payload length |
-| 5    | Payload |
-| ...  | Payload |
-| N - 1| Checksum |
+| Sync1 (8) | Sync2 (8) | Version (4)/Msg ID (4) | Length (8) | payload (2040) | CRC (8) |
+| --------- | --------- | ---------------------- | ---------- | -------------- | ------- |
+| 0x55      | 0xAA      | 0x01 / MSG ID          |            |                |         |
 
-The following commands are defined
-| Command | Command Byte | Payload Length |
-| ---- | ------------|
-| Send Data to PSOC | 0 | 3 |
-| Send Data to Pi | 1 | 3 |
-| Jump to bootblock | 2 | 0 |
+The number in parenthesis is how many bits are used for the various fields
+The 4-bits of the version allows updates to the protocol. The 4-bits for the message ID allows
+128 different message IDs. Length is the number of bytes in the payload 0-255 bytes.
+The CRC is the CRC-8-CCITT using the following generator polynominal:
+x^8 + x^2 + x + 1 (0x7)
 
-## Send data to PSoC
 
-| Byte | Description |
-| ---- | ------------|
-| 1    | Sync1 = 0x55 |
-| 2    | Sync2 = 0xAA |
-| 3    | Command = 0 |
-| 4    | Payload Length = 3 |
-| 5    | Output Voltage MSB |
-| 6    | Output Voltage LSB |
-| 7    | Setting Bits |
-| 8    | Checksum |
+| MSG ID | Description |
+| ------ | ------------|
+| 0      | Data input  |
+| 1      | Data output |
+| 2      | Main programming image |
+| 3      | BLE programming image  |
 
-### Output Voltage
-The output voltage is a 16-bit value where each bit represents a millivolt. So a value of 100 would be a desired output of 100 millivolts. A value of 9876 would be a desired output of 9.876 volts.
+Data input is a generic pass through message from the BLE interface to the main processor. The
+data input is made up of an 8-bit UUID followed by the data item. Each data item has a unique
+length, format, scale, etc. Data output is the same as data input, just going in the other
+direction
 
-### Bits
+| UUID | Description             | Size (bytes) | Data type | Units |
+| ---- | ----------------------- | ------------ | --------- | ----- |
+| 0    | Analog 1 slope          | 4            | float     | mm/mv |
+| 1    | Analog 1 y offset       | 4            | float     | mv    |
+| 2    | Analog 2 slope          | 4            | float     | mm/mv |
+| 3    | Analog 2 y offset       | 4            | float     | mv    |
+| 4    | Open drain pull up enbl | 1            | uint8     | bool  |
+| 5    | Laser distance in mm    | 2            | uint16    | mm    |
+| 6    | Accel X in mg           | 2            | uint16    | mg    |
+| 7    | Accel Y in mg           | 2            | uint16    | mg    |
+| 8    | Accel Z in mg           | 2            | uint16    | mg    |
+| 9    | Gyro X in dps           | 2            | uint16    | dps   |
+| 10   | Gyro Y in dps           | 2            | uint16    | dps   |
+| 11   | Gyro Z in dps           | 2            | uint16    | dps   |
+| 12   | Auto level gain         | 4            | float     |       |
+| 13   | EPOCH time              | 4            | uint32    | epoch |
+| 14   | Super cap voltage       | 2            | uint32    | mv    |
 
-| Bit | Description |
-| --- | ------------|
-| 1   | Set digital out 1 high |
-| 2   | Set digital out 2 high |
-| 3   | Reserved |
-| 4   | Reserved |
-| 5   | Reserved |
-| 6   | Reserved |
-| 7   | Jump to bootblock |
-| 8   | Jump to bootblock |
 
-To jump to bootblock 4 packets need to be send where the jump to bootblock values count from 0 to 3. Once the fourth value is received it will jump to bootblock.
 
-### Send data to Pi
-The packet the PSoC sends back is shown below.
-
-| Byte | Description |
-| ---- | ------------|
-| 1    | Sync1 = 0x55 |
-| 2    | Sync2 = 0xAA |
-| 3    | Command = 1 |
-| 4    | Payload Length = 3 |
-| 3    | Input Voltage MSB |
-| 4    | Input Voltage LSB |
-| 5    | Status Bits |
-| 6    | Checksum |
-
-### Input Voltage
-Input voltage is the input voltage signal in millivolts. This is currently not implemented
-
-### Status Bits
-| Bit | Description |
-| --- | ------------|
-| 1   | Digital input 1 status |
-| 2   | Digital input 2 status |
-| 3   | Reserved |
-| 4   | Reserved |
-| 5   | Reserved |
-| 6   | Reserved |
-| 7   | Reserved |
-| 8   | Reserved |
-
-## Jump to bootblock
-This command causes the PSoC to jump to bootblock and prepare for reprogramming
-| Byte | Description |
-| ---- | ------------|
-| 1    | Sync1 = 0x55 |
-| 2    | Sync2 = 0xAA |
-| 3    | Command = 2 |
-| 4    | Payload Length = 0 |
-| 5    | Checksum |
+The main programming image is a LZMA compressed binary file. The BLE programming
+image is an LZMA compressed cyacd file. Each BLE packet is only 23 bytes or so.
+The programming images are transmitted with a byte counter as the first byte
+of the payload. This allows a check that a packet hasn't been dropped and they are being
+received in the correct order.
