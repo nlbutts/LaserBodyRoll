@@ -1,4 +1,4 @@
-update=4/2/2018 7:05:47 PM
+update=6/24/2018 4:44:24 PM
 version=1
 last_client=kicad
 [general]
@@ -62,3 +62,13 @@ LibName28=contrib
 LibName29=valves
 LibName30=C:/projects/digikey-kicad-library/digikey-symbols/dk_PMIC-Voltage-Regulators-Linear
 LibName31=C:/projects/KicadLib/General
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceAjustPassiveValues=0
+LabSize=60
+ERC_TestSimilarLabels=1

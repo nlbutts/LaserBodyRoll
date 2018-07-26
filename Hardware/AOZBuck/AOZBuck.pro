@@ -1,4 +1,4 @@
-update=3/30/2018 12:27:52 PM
+update=6/24/2018 10:27:57 AM
 version=1
 last_client=kicad
 [pcbnew]
@@ -63,3 +63,13 @@ LibName31=contrib
 LibName32=valves
 LibName33=dk_Fixed-Inductors
 LibName34=dk_PMIC-Voltage-Regulators-DC-DC-Switching-Regulators
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceAjustPassiveValues=0
+LabSize=60
+ERC_TestSimilarLabels=1
