@@ -42,7 +42,7 @@ add_custom_target(DEBUG_APP_SIZE ALL
 
 
 # --------------------------------------------------------- DEFINE BUILD TARGET
-set(THIS_LINK_LIBS st embedded vl53l0x)
+set(THIS_LINK_LIBS st embedded vl53l0x ble)
 add_executable(${THIS_RELEASE} ${SRC_FILES} ${SYSTEM_FILES})
 target_link_libraries(${THIS_RELEASE} ${THIS_LINK_LIBS})
 

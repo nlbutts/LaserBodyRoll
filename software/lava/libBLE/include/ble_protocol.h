@@ -14,8 +14,8 @@
 
 enum BLEMsgID
 {
-    DATA_IN,
-    DATA_OUT,
+    TO_BLE_DEV,
+    FROM_BLE_DEV,
     MAIN_IMG,
     BLE_IMG
 };

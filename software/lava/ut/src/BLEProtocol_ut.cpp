@@ -24,7 +24,7 @@ TEST(BLEProtocolTest, CreatePacket)
         payload[i] = i;
     }
 
-    int rv = ble_protocol_generatePacket(outBuffer, bufSize, 0, DATA_IN, payload, 5);
+    int rv = ble_protocol_generatePacket(outBuffer, bufSize, 0, TO_BLE_DEV, payload, 5);
 
     EXPECT_EQ(rv, 10);
     EXPECT_EQ(outBuffer[0], 0x55);          // sync1
@@ -95,17 +95,17 @@ TEST(BLEProtocolTest, TestPacketRx)
 {
     BLEProtocol ble;
     ble_protocol_init(&ble);
-    ble_protocol_registerCallback(&ble, DATA_IN,     dataInCallback);
-    ble_protocol_registerCallback(&ble, DATA_OUT,    dataOutCallback);
+    ble_protocol_registerCallback(&ble, TO_BLE_DEV,     dataInCallback);
+    ble_protocol_registerCallback(&ble, FROM_BLE_DEV,    dataOutCallback);
     ble_protocol_registerCallback(&ble, MAIN_IMG,    mainImgCallback);
     ble_protocol_registerCallback(&ble, BLE_IMG,     bleImgCallback);
 
     EXPECT_EQ(_dataInCallbackCnt, 0);
-    EXPECT_EQ(testMessagePushAndCallback(&ble, DATA_IN, 43), 0);
+    EXPECT_EQ(testMessagePushAndCallback(&ble, TO_BLE_DEV, 43), 0);
     EXPECT_EQ(_dataInCallbackCnt, 1);
 
     EXPECT_EQ(_dataOutCallbackCnt, 0);
-    EXPECT_EQ(testMessagePushAndCallback(&ble, DATA_OUT, 43), 0);
+    EXPECT_EQ(testMessagePushAndCallback(&ble, FROM_BLE_DEV, 43), 0);
     EXPECT_EQ(_dataOutCallbackCnt, 1);
 
     EXPECT_EQ(_mainImgCallbackCnt, 0);
@@ -121,8 +121,8 @@ TEST(BLEProtocolTest, MultipleMessagesInBuffer)
 {
     BLEProtocol ble;
     ble_protocol_init(&ble);
-    ble_protocol_registerCallback(&ble, DATA_IN,     dataInCallback);
-    ble_protocol_registerCallback(&ble, DATA_OUT,    dataOutCallback);
+    ble_protocol_registerCallback(&ble, TO_BLE_DEV,     dataInCallback);
+    ble_protocol_registerCallback(&ble, FROM_BLE_DEV,    dataOutCallback);
     ble_protocol_registerCallback(&ble, MAIN_IMG,    mainImgCallback);
     ble_protocol_registerCallback(&ble, BLE_IMG,     bleImgCallback);
 
@@ -178,8 +178,8 @@ TEST(BLEProtocolTest, BadCRC)
 {
     BLEProtocol ble;
     ble_protocol_init(&ble);
-    ble_protocol_registerCallback(&ble, DATA_IN,     dataInCallback);
-    ble_protocol_registerCallback(&ble, DATA_OUT,    dataOutCallback);
+    ble_protocol_registerCallback(&ble, TO_BLE_DEV,     dataInCallback);
+    ble_protocol_registerCallback(&ble, FROM_BLE_DEV,    dataOutCallback);
     ble_protocol_registerCallback(&ble, MAIN_IMG,    mainImgCallback);
     ble_protocol_registerCallback(&ble, BLE_IMG,     bleImgCallback);
 
@@ -201,7 +201,7 @@ TEST(BLEProtocolTest, BadCRC)
     _dataInCallbackCnt = 0;
 
     // Test a bad CRC
-    rv = ble_protocol_generatePacket(outBuffer, bufSize, 0, DATA_IN, payload, value);
+    rv = ble_protocol_generatePacket(outBuffer, bufSize, 0, TO_BLE_DEV, payload, value);
     outBuffer[value + PROTOCOL_PAYLOAD]++;
     success = ble_protocol_push_msg(&ble, outBuffer, rv);
     EXPECT_EQ(success, 1);
@@ -215,8 +215,8 @@ TEST(BLEProtocolTest, OverflowBuffer)
 {
     BLEProtocol ble;
     ble_protocol_init(&ble);
-    ble_protocol_registerCallback(&ble, DATA_IN,     dataInCallback);
-    ble_protocol_registerCallback(&ble, DATA_OUT,    dataOutCallback);
+    ble_protocol_registerCallback(&ble, TO_BLE_DEV,     dataInCallback);
+    ble_protocol_registerCallback(&ble, FROM_BLE_DEV,    dataOutCallback);
     ble_protocol_registerCallback(&ble, MAIN_IMG,    mainImgCallback);
     ble_protocol_registerCallback(&ble, BLE_IMG,     bleImgCallback);
 

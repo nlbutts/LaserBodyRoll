@@ -80,6 +80,10 @@ using Embedded::Memory::NVSection;
 #include <vl53l0x.h>
 using STSensors::VL53L0X;
 
+extern "C" {
+  #include "ble_protocol.h"
+}
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -206,8 +210,6 @@ int main(void)
     VL53L0X laser(hi2c3);
     laser.initialize();
 
-    std::array<uint8_t, 3> psocTest = {0x55, 0xAA, 0x12};
-
     DigitalToAnalog dac1(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
     DigitalToAnalog dac2(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
 
@@ -250,6 +252,16 @@ int main(void)
 
     int i = 0;
 
+    SPIInterface bleSPI(hspi1);
+
+    BLEProtocol ble;
+    ble_protocol_init(&ble);
+
+    uint8_t ble_payload[10];
+    ble_payload[0] = PUUID_LASER_DISTANCE;
+    uint8_t ble_packet[100];
+    int packet_len;
+
     while (1)
     {
         if (timer.isTimerExpired())
@@ -266,9 +278,14 @@ int main(void)
             int32_t range = laser.getDistanceInMillimeters();
             dac1.set(range / 100.0f);
             dac2.set(range / 100.0f);
+
+            memcpy(&ble_payload[1], &range, 4);
+            packet_len = ble_protocol_generatePacket(ble_packet, 100, 0, TO_BLE_DEV, ble_payload, 5);
+            bleSPI.write(ble_packet, packet_len);
         }
     }
 }
+
 
 void sendByteToBLE(uint8_t data, IGPIO & cs)
 {
