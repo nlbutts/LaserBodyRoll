@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:\projects\LaserBodyRoll\Hardware\AOZBuck\AOZBuck.sch</source>
+    <date>6/24/2018 8:24:19 AM</date>
+    <tool>Eeschema (2017-09-19 revision dddaa7e69)-makepkg</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>AOZBuck.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="U1">
+      <value>AOZ1280CI</value>
+      <footprint>digikey-footprints:SOT-23-6</footprint>
+      <datasheet>http://aosmd.com/res/data_sheets/AOZ1280CI.pdf</datasheet>
+      <fields>
+        <field name="Digi-Key_PN">785-1277-1-ND</field>
+        <field name="MPN">AOZ1280CI</field>
+        <field name="Category">Integrated Circuits (ICs)</field>
+        <field name="Family">PMIC - Voltage Regulators - DC DC Switching Regulators</field>
+        <field name="DK_Datasheet_Link">http://aosmd.com/res/data_sheets/AOZ1280CI.pdf</field>
+        <field name="DK_Detail_Page">/product-detail/en/alpha-omega-semiconductor-inc/AOZ1280CI/785-1277-1-ND/2769845</field>
+        <field name="Description">IC REG BUCK ADJ 1.2A SOT23-6</field>
+        <field name="Manufacturer">Alpha &amp; Omega Semiconductor Inc.</field>
+        <field name="Status">Active</field>
+      </fields>
+      <libsource lib="dk_PMIC-Voltage-Regulators-DC-DC-Switching-Regulators" part="AOZ1280CI"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE73B3</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805_HandSoldering</footprint>
+      <fields>
+        <field name="Digikey">490-5523-1-ND</field>
+        <field name="Partnum">GRM21BR61E106KA73L</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE745E</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>49.9k</value>
+      <footprint>Resistors_SMD:R_0603_HandSoldering</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE7501</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>9.53k</value>
+      <footprint>Resistors_SMD:R_0603_HandSoldering</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE75B4</tstamp>
+    </comp>
+    <comp ref="L1">
+      <value>4.7u</value>
+      <footprint>Inductors_SMD:L_Taiyo-Yuden_MD-3030</footprint>
+      <fields>
+        <field name="Digikey">490-15954-1-ND</field>
+        <field name="Partnum">LQH3NPN4R7MMEL</field>
+      </fields>
+      <libsource lib="device" part="L"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE75FE</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>10n</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <fields>
+        <field name="Digikey">399-1092-1-ND</field>
+        <field name="Partnum">C0603C103J5RACTU</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE766D</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:D_SOD-123</footprint>
+      <fields>
+        <field name="Digikey">B0540W-FDICT-ND</field>
+        <field name="Partnum">B0540W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE76FA</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>Conn_01x02</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm</footprint>
+      <libsource lib="conn" part="Conn_01x02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE7756</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>Conn_01x02</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm</footprint>
+      <libsource lib="conn" part="Conn_01x02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5ABE780E</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805_HandSoldering</footprint>
+      <fields>
+        <field name="Digikey">490-5523-1-ND</field>
+        <field name="Partnum">GRM21BR61E106KA73L</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5AC220D5</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="dk_PMIC-Voltage-Regulators-DC-DC-Switching-Regulators" part="AOZ1280CI">
+      <description>IC REG BUCK ADJ 1.2A SOT23-6</description>
+      <docs>http://aosmd.com/res/data_sheets/AOZ1280CI.pdf</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">AOZ1280CI</field>
+        <field name="Footprint">digikey-footprints:SOT-23-6</field>
+        <field name="Datasheet">http://aosmd.com/res/data_sheets/AOZ1280CI.pdf</field>
+        <field name="Digi-Key_PN">785-1277-1-ND</field>
+        <field name="MPN">AOZ1280CI</field>
+        <field name="Category">Integrated Circuits (ICs)</field>
+        <field name="Family">PMIC - Voltage Regulators - DC DC Switching Regulators</field>
+        <field name="DK_Datasheet_Link">http://aosmd.com/res/data_sheets/AOZ1280CI.pdf</field>
+        <field name="DK_Detail_Page">/product-detail/en/alpha-omega-semiconductor-inc/AOZ1280CI/785-1277-1-ND/2769845</field>
+        <field name="Description">IC REG BUCK ADJ 1.2A SOT23-6</field>
+        <field name="Manufacturer">Alpha &amp; Omega Semiconductor Inc.</field>
+        <field name="Status">Active</field>
+      </fields>
+      <pins>
+        <pin num="1" name="BST" type="input"/>
+        <pin num="2" name="GND" type="power_in"/>
+        <pin num="3" name="FB" type="input"/>
+        <pin num="4" name="EN" type="input"/>
+        <pin num="5" name="VIN" type="power_in"/>
+        <pin num="6" name="LX" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="C">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="Conn_01x02">
+      <description>Generic connector, single row, 01x02</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Pin?Header?Straight?1X*</fp>
+        <fp>Pin?Header?Angled?1X*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x02</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="D_Schottky">
+      <description>Schottky diode</description>
+      <footprints>
+        <fp>TO-???*</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>D_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Schottky</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="L">
+      <description>Inductor</description>
+      <footprints>
+        <fp>Choke_*</fp>
+        <fp>*Coil*</fp>
+        <fp>Inductor_*</fp>
+        <fp>L_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">L</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="device">
+      <uri>C:\Program Files\KiCad\share\kicad\library\device.lib</uri>
+    </library>
+    <library logical="conn">
+      <uri>C:\Program Files\KiCad\share\kicad\library\conn.lib</uri>
+    </library>
+    <library logical="dk_PMIC-Voltage-Regulators-DC-DC-Switching-Regulators">
+      <uri>C:\projects\digikey-kicad-library\digikey-symbols\dk_PMIC-Voltage-Regulators-DC-DC-Switching-Regulators.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(C2-Pad2)">
+      <node ref="U1" pin="1"/>
+      <node ref="C2" pin="2"/>
+    </net>
+    <net code="2" name="Net-(C2-Pad1)">
+      <node ref="D1" pin="1"/>
+      <node ref="L1" pin="1"/>
+      <node ref="C2" pin="1"/>
+      <node ref="U1" pin="6"/>
+    </net>
+    <net code="3" name="GND">
+      <node ref="D1" pin="2"/>
+      <node ref="J2" pin="2"/>
+      <node ref="U1" pin="2"/>
+      <node ref="C1" pin="2"/>
+      <node ref="R2" pin="2"/>
+      <node ref="J1" pin="2"/>
+      <node ref="C3" pin="2"/>
+    </net>
+    <net code="4" name="Net-(C3-Pad1)">
+      <node ref="J2" pin="1"/>
+      <node ref="L1" pin="2"/>
+      <node ref="R1" pin="1"/>
+      <node ref="C3" pin="1"/>
+    </net>
+    <net code="5" name="Net-(R1-Pad2)">
+      <node ref="R2" pin="1"/>
+      <node ref="U1" pin="3"/>
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="6" name="Net-(C1-Pad1)">
+      <node ref="J1" pin="1"/>
+      <node ref="U1" pin="4"/>
+      <node ref="U1" pin="5"/>
+      <node ref="C1" pin="1"/>
+    </net>
+  </nets>
+</export>
