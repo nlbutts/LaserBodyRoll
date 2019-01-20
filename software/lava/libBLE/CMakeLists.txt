@@ -11,6 +11,7 @@ set(SRC_FILES src/ble_protocol.c)
 
 # --------------------------------------------------------- DEFINE BUILD TARGET
 add_library(${LOCAL_PROJ_NAME} STATIC ${SRC_FILES})
+target_link_libraries(${LOCAL_PROJ_NAME} crc)
 
 # -------------------------------------------------------------- FIND SRC FILES
 target_include_directories(${LOCAL_PROJ_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)

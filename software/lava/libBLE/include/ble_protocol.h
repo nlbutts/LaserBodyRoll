@@ -20,15 +20,57 @@ enum BLEMsgID
     BLE_IMG
 };
 
-typedef void callbackFn(uint8_t * buf, uint32_t len);
+enum ProtocolPos
+{
+    PROTOCOL_SYNC1 = 0,
+    PROTOCOL_SYNC2,
+    PROTOCOL_VERID,
+    PROTOCOL_LEN,
+    PROTOCOL_PAYLOAD,
+    PROTOCOL_CRC,
+};
 
-#define MaxCallbacks        128
-#define MaxBufferSize       512
+
+enum ProtocolUUID
+{
+    PUUID_ANALOG1_SLOPE = 0,
+    PUUID_ANALOG1_OFFSET,
+    PUUID_ANALOG2_SLOPE,
+    PUUID_ANALOG2_OFFSET,
+    PUUID_OPEN_DRAIN_PULL_UP,
+    PUUID_LASER_DISTANCE,
+    PUUID_ACCELX,
+    PUUID_ACCELY,
+    PUUID_ACCELZ,
+    PUUID_GYROX,
+    PUUID_GYROY,
+    PUUID_GYROZ,
+    PUUID_AUTO_LEVEL_GAIN,
+    PUUID_EPOCH,
+    PUUID_SUPER_CAP_VOLTAGE,
+    PUUID_LAST
+};
+
 typedef struct
 {
-    uint8_t buffer[512];
-    uint8_t bufHead;
-    uint8_t bufTail;
+    enum ProtocolUUID id;
+    uint8_t length;
+} UUID_CONFIG;
+
+
+extern const UUID_CONFIG UUIDInfo[];
+
+
+typedef void callbackFn(uint8_t * buf, uint32_t len);
+
+#define MaxCallbacks        8
+#define MaxBufferSize       512
+
+typedef struct
+{
+    uint8_t buffer[MaxBufferSize];
+    uint32_t head;
+    uint32_t tail;
     callbackFn *callbacks[MaxCallbacks];
 } BLEProtocol;
 
@@ -57,7 +99,7 @@ int ble_protocol_parse(BLEProtocol * ble);
  * @param len the length of the data to push
  * @return bool true if there was room to push the data into the buffer
  */
-int ble_protocol_push(BLEProtocol * ble, uint8_t * data, uint32_t len);
+int ble_protocol_push_msg(BLEProtocol * ble, uint8_t * data, uint32_t len);
 
 /**
  * @brief Clears the internal BLE buffers
@@ -82,8 +124,10 @@ void ble_protocol_registerCallback(BLEProtocol * ble, uint8_t msgID, callbackFn 
  *
  * @param dst the destination pointer, it must be large enough to hold the full protocol
  * @param dstLen the size of the dst pointer
+ * @param version the version of the protocol
+ * @param msgID the message ID to use
  * @param payload a pointer to the payload
  * @param payloadLen the size of the payload
  * @return int the number of bytes placed in the dst or a negative value if an error
  */
-int ble_protocol_generatePacket(uint8_t * dst, uint32_t dstLen, uint8_t * payload, uint32_t payloadLen);
+int ble_protocol_generatePacket(uint8_t * dst, uint32_t dstLen, uint8_t version, uint8_t msgID, uint8_t * payload, uint32_t payloadLen);
