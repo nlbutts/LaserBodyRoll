@@ -1,0 +1,31 @@
+"Source:","C:\projects\LaserBodyRoll\Hardware\TILDO\TI_HV_LDO.sch"
+"Date:","6/24/2018 4:46:14 PM"
+"Tool:","Eeschema (2017-09-19 revision dddaa7e69)-makepkg"
+"Generator:","bom_csv_grouped_by_value.py"
+"Component Count:","10"
+
+"Individual Components:"
+
+"Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet"
+"","","C1","22u","device:C","Capacitors_SMD:C_1210_HandSoldering",""
+"","","C2","10u","device:C","Capacitors_SMD:C_0805_HandSoldering",""
+"","","C3","10u","device:C","Capacitors_SMD:C_0805_HandSoldering",""
+"","","J1","Conn_01x02","conn:Conn_01x02","Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm",""
+"","","J2","Conn_01x02","conn:Conn_01x02","Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm",""
+"","","J3","Conn_01x02","conn:Conn_01x02","Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm",""
+"","","R1","10k","device:R","Resistors_SMD:R_0603_HandSoldering",""
+"","","R2","30k","device:R","Resistors_SMD:R_0603_HandSoldering",""
+"","","R3","10k","device:R","Resistors_SMD:R_0603_HandSoldering",""
+"","","U1","TPS7A19","General:TPS7A19","Housings_DFN_QFN:DFN-8-1EP_3x3mm_Pitch0.65mm",""
+
+
+
+"Collated Components:"
+
+"Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet"
+"1","1","C1","22u","device:C","Capacitors_SMD:C_1210_HandSoldering",""
+"2","2","C2, C3","10u","device:C","Capacitors_SMD:C_0805_HandSoldering",""
+"3","3","J1, J2, J3","Conn_01x02","conn:Conn_01x02","Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm",""
+"4","2","R1, R3","10k","device:R","Resistors_SMD:R_0603_HandSoldering",""
+"5","1","R2","30k","device:R","Resistors_SMD:R_0603_HandSoldering",""
+"6","1","U1","TPS7A19","General:TPS7A19","Housings_DFN_QFN:DFN-8-1EP_3x3mm_Pitch0.65mm",""

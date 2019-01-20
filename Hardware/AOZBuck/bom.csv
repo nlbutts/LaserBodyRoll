@@ -1,0 +1,33 @@
+"Source:","C:\projects\LaserBodyRoll\Hardware\AOZBuck\AOZBuck.sch"
+"Date:","6/24/2018 8:24:19 AM"
+"Tool:","Eeschema (2017-09-19 revision dddaa7e69)-makepkg"
+"Generator:","bom_csv_grouped_by_value.py"
+"Component Count:","10"
+
+"Individual Components:"
+
+"Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet","Category","DK_Datasheet_Link","DK_Detail_Page","Description","Digi-Key_PN","Digikey","Family","MPN","Manufacturer","Partnum","Status"
+"","","C1","10u","device:C","Capacitors_SMD:C_0805_HandSoldering","","","","","","","490-5523-1-ND","","","","GRM21BR61E106KA73L",""
+"","","C2","10n","device:C","Capacitors_SMD:C_0603_HandSoldering","","","","","","","399-1092-1-ND","","","","C0603C103J5RACTU",""
+"","","C3","10u","device:C","Capacitors_SMD:C_0805_HandSoldering","","","","","","","490-5523-1-ND","","","","GRM21BR61E106KA73L",""
+"","","D1","D_Schottky","device:D_Schottky","Diodes_SMD:D_SOD-123","","","","","","","B0540W-FDICT-ND","","","","B0540W-7-F",""
+"","","J1","Conn_01x02","conn:Conn_01x02","Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm","","","","","","","","","","","",""
+"","","J2","Conn_01x02","conn:Conn_01x02","Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm","","","","","","","","","","","",""
+"","","L1","4.7u","device:L","Inductors_SMD:L_Taiyo-Yuden_MD-3030","","","","","","","490-15954-1-ND","","","","LQH3NPN4R7MMEL",""
+"","","R1","49.9k","device:R","Resistors_SMD:R_0603_HandSoldering","","","","","","","","","","","",""
+"","","R2","9.53k","device:R","Resistors_SMD:R_0603_HandSoldering","","","","","","","","","","","",""
+"","","U1","AOZ1280CI","dk_PMIC-Voltage-Regulators-DC-DC-Switching-Regulators:AOZ1280CI","digikey-footprints:SOT-23-6","http://aosmd.com/res/data_sheets/AOZ1280CI.pdf","Integrated Circuits (ICs)","http://aosmd.com/res/data_sheets/AOZ1280CI.pdf","/product-detail/en/alpha-omega-semiconductor-inc/AOZ1280CI/785-1277-1-ND/2769845","IC REG BUCK ADJ 1.2A SOT23-6","785-1277-1-ND","","PMIC - Voltage Regulators - DC DC Switching Regulators","AOZ1280CI","Alpha & Omega Semiconductor Inc.","","Active"
+
+
+
+"Collated Components:"
+
+"Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet","Category","DK_Datasheet_Link","DK_Detail_Page","Description","Digi-Key_PN","Digikey","Family","MPN","Manufacturer","Partnum","Status"
+"1","2","C1, C3","10u","device:C","Capacitors_SMD:C_0805_HandSoldering","","","","","","","490-5523-1-ND","","","","GRM21BR61E106KA73L",""
+"2","1","C2","10n","device:C","Capacitors_SMD:C_0603_HandSoldering","","","","","","","399-1092-1-ND","","","","C0603C103J5RACTU",""
+"3","1","D1","D_Schottky","device:D_Schottky","Diodes_SMD:D_SOD-123","","","","","","","B0540W-FDICT-ND","","","","B0540W-7-F",""
+"4","2","J1, J2","Conn_01x02","conn:Conn_01x02","Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm","","","","","","","","","","","",""
+"5","1","L1","4.7u","device:L","Inductors_SMD:L_Taiyo-Yuden_MD-3030","","","","","","","490-15954-1-ND","","","","LQH3NPN4R7MMEL",""
+"6","1","R1","49.9k","device:R","Resistors_SMD:R_0603_HandSoldering","","","","","","","","","","","",""
+"7","1","R2","9.53k","device:R","Resistors_SMD:R_0603_HandSoldering","","","","","","","","","","","",""
+"8","1","U1","AOZ1280CI","dk_PMIC-Voltage-Regulators-DC-DC-Switching-Regulators:AOZ1280CI","digikey-footprints:SOT-23-6","http://aosmd.com/res/data_sheets/AOZ1280CI.pdf","Integrated Circuits (ICs)","http://aosmd.com/res/data_sheets/AOZ1280CI.pdf","/product-detail/en/alpha-omega-semiconductor-inc/AOZ1280CI/785-1277-1-ND/2769845","IC REG BUCK ADJ 1.2A SOT23-6","785-1277-1-ND","","PMIC - Voltage Regulators - DC DC Switching Regulators","AOZ1280CI","Alpha & Omega Semiconductor Inc.","","Active"
