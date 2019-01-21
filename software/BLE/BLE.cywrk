@@ -3,13 +3,12 @@
 <!--This file is machine generated and read. It is not intended to be edited by hand.-->
 <!--Due to this, there is no schema for this file.-->
 <CyGuid_2867d519-54d2-4c01-9830-c51cb08bc3dd type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWorkspaceSerialize" version="5" xml_contents_version="3" name="BLE" persistent="BLE.cywrk" platform="NOT_USED">
-<current_project name=".\Design01.cydsn\Design01.cyprj" />
+<current_project name=".\BLE.cydsn\BLE.cyprj" />
 <wrkspc_folders />
 <files />
 <projects>
 <v>.\BLE.cydsn\BLE.cyprj</v>
 <v>.\BLE_Battery_Level01.cydsn\BLE_Battery_Level01.cyprj</v>
-<v>.\Design01.cydsn\Design01.cyprj</v>
 </projects>
 <workspace_id v="91bb04d1-6cf3-41de-b3ea-2e9e3973a6ed" />
 <WriteAppVersionLastSavedWith v="4.2.0.641" />

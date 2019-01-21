@@ -4,7 +4,7 @@
     <Group key="v1">
       <Data key="cy_boot" value="cy_boot_v5_70" />
       <Data key="cy_lfclk" value="cy_lfclk_v1_20" />
-      <Data key="Em_EEPROM_Dynamic" value="Em_EEPROM_Dynamic_v2_0" />
+      <Data key="Em_EEPROM_Dynamic" value="Em_EEPROM_Dynamic_v2_20" />
       <Data key="LIN_Dynamic" value="LIN_Dynamic_v4_0" />
     </Group>
   </Group>
@@ -16,11 +16,15 @@
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/5e2b647c-52cb-4f09-80bd-87ed9563ab24" value="SPI_mosi_s" />
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/52f31aa9-2f0a-497d-9a1f-1424095e13e6" value="SPI_miso_s" />
       <Data key="7ca9760e-6931-4b43-a74b-782f631c6518/3446580a-3b9d-491c-8730-f7ea34ca86e3" value="SPI_ss_s" />
+      <Data key="8c8734ef-3644-4eed-bc55-360072b94fff/4c15b41e-e284-4978-99e7-5aaee19bd0ce" value="SPI_sclk_s" />
+      <Data key="8c8734ef-3644-4eed-bc55-360072b94fff/5e2b647c-52cb-4f09-80bd-87ed9563ab24" value="SPI_mosi_s" />
+      <Data key="8c8734ef-3644-4eed-bc55-360072b94fff/52f31aa9-2f0a-497d-9a1f-1424095e13e6" value="SPI_miso_s" />
+      <Data key="8c8734ef-3644-4eed-bc55-360072b94fff/3446580a-3b9d-491c-8730-f7ea34ca86e3" value="SPI_ss_s" />
       <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="SCLK" />
       <Data key="645f6e94-d634-46f6-ba06-daddc8c7143f" value="MOSI" />
       <Data key="3899b5dc-effb-43d8-8853-66d82e684bc9" value="RED_LED" />
-      <Data key="70648977-2cf2-48f9-b0ea-b4bdbfa992e0" value="BLUE_LED" />
-      <Data key="bf10fafd-0b2b-433f-95d5-24cc426b237d" value="GREEN_LED" />
+      <Data key="70648977-2cf2-48f9-b0ea-b4bdbfa992e0" value="Advertising_LED" />
+      <Data key="bf10fafd-0b2b-433f-95d5-24cc426b237d" value="Disconnect_LED" />
     </Group>
   </Group>
   <Group key="FlashSecurity">
@@ -3580,6 +3584,26 @@
       </Group>
     </Group>
     <Group key="7ca9760e-6931-4b43-a74b-782f631c6518/3446580a-3b9d-491c-8730-f7ea34ca86e3">
+      <Group key="0">
+        <Data key="Port Format" value="1,6" />
+      </Group>
+    </Group>
+    <Group key="8c8734ef-3644-4eed-bc55-360072b94fff/4c15b41e-e284-4978-99e7-5aaee19bd0ce">
+      <Group key="0">
+        <Data key="Port Format" value="1,7" />
+      </Group>
+    </Group>
+    <Group key="8c8734ef-3644-4eed-bc55-360072b94fff/5e2b647c-52cb-4f09-80bd-87ed9563ab24">
+      <Group key="0">
+        <Data key="Port Format" value="1,4" />
+      </Group>
+    </Group>
+    <Group key="8c8734ef-3644-4eed-bc55-360072b94fff/52f31aa9-2f0a-497d-9a1f-1424095e13e6">
+      <Group key="0">
+        <Data key="Port Format" value="1,5" />
+      </Group>
+    </Group>
+    <Group key="8c8734ef-3644-4eed-bc55-360072b94fff/3446580a-3b9d-491c-8730-f7ea34ca86e3">
       <Group key="0">
         <Data key="Port Format" value="1,6" />
       </Group>
