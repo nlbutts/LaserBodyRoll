@@ -281,7 +281,9 @@ int main(void)
 
             memcpy(&ble_payload[1], &range, 4);
             packet_len = ble_protocol_generatePacket(ble_packet, 100, 0, TO_BLE_DEV, ble_payload, 5);
+            ble_cs = 0;
             bleSPI.write(ble_packet, packet_len);
+            ble_cs = 1;
         }
     }
 }
