@@ -9,12 +9,18 @@
 <projects>
 <v>.\BLE.cydsn\BLE.cyprj</v>
 <v>.\BLE_Battery_Level01.cydsn\BLE_Battery_Level01.cyprj</v>
+<v>.\protocol.cylib\protocol.cyprj</v>
+<v>.\checksum.cylib\checksum.cyprj</v>
 </projects>
 <workspace_id v="91bb04d1-6cf3-41de-b3ea-2e9e3973a6ed" />
 <WriteAppVersionLastSavedWith v="4.2.0.641" />
 <WriteAppMarketingVersionLastSavedWith v="4.2" />
 <CyGuid_dcbd9771-0334-43dc-9cc3-fe99dc3c5316 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWorkspaceSerialize+CyPrjDependencyList" version="4">
-<wrkspc_dependencies />
+<wrkspc_dependencies>
+<wrkspc_dependency project="BLE.cydsn\BLE.cyprj" dependency="protocol.cylib\protocol.cyprj" />
+<wrkspc_dependency project="BLE.cydsn\BLE.cyprj" dependency="checksum.cylib\checksum.cyprj" />
+<wrkspc_dependency project="protocol.cylib\protocol.cyprj" dependency="checksum.cylib\checksum.cyprj" />
+</wrkspc_dependencies>
 </CyGuid_dcbd9771-0334-43dc-9cc3-fe99dc3c5316>
 <CyGuid_63b68103-67f5-4406-8da6-5c8625765b82 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWorkspaceSerialize+CyIgnoredSystemDepsList" version="1">
 <wrkspc_dependencies />

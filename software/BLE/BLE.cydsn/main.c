@@ -4,15 +4,15 @@
 * Version: 1.0
 *
 * Description:
-*  BLE example project that measures the battery voltage using PSoC 4 BLE's 
-*  internal ADC and notifies the BLE central device on any change in battery 
+*  BLE example project that measures the battery voltage using PSoC 4 BLE's
+*  internal ADC and notifies the BLE central device on any change in battery
 *  voltage.
 *
 * Note:
 *
 * Hardware Dependency:
 *  CY8CKIT-042 BLE
-* 
+*
 ********************************************************************************
 * Copyright 2016, Cypress Semiconductor Corporation.  All rights reserved.
 * You may use this file only in accordance with the license, terms, conditions,
@@ -21,8 +21,12 @@
 *******************************************************************************/
 
 #include "common.h"
+#include "ble_protocol.h"
 
 uint32_t _oneSecondTimer = 0;
+
+uint8_t _laserNotify[2] = {0};
+CYBLE_GATT_HANDLE_VALUE_PAIR_T _laserNotificationCCDHandle;
 
 /*******************************************************************************
 * Function Name: AppCallBack()
@@ -41,6 +45,7 @@ uint32_t _oneSecondTimer = 0;
 void AppCallBack(uint32 event, void* eventParam)
 {
     CYBLE_API_RESULT_T apiResult;
+    CYBLE_GATTS_WRITE_REQ_PARAM_T *wrReqParam;
     CYBLE_GAP_BD_ADDR_T localAddr;
     uint8 i;
 
@@ -66,7 +71,7 @@ void AppCallBack(uint32 event, void* eventParam)
             }
             DBG_PRINTF("\r\n");
             break;
-		case CYBLE_EVT_TIMEOUT: 
+		case CYBLE_EVT_TIMEOUT:
 			break;
 		case CYBLE_EVT_HARDWARE_ERROR:    /* This event indicates that some internal HW error has occurred. */
             DBG_PRINTF("Hardware Error \r\n");
@@ -76,15 +81,15 @@ void AppCallBack(uint32 event, void* eventParam)
             DBG_PRINTF("CYBLE_EVT_HCI_STATUS: %x \r\n", *(uint8 *)eventParam);
             ShowError();
 			break;
-            
+
         /**********************************************************
         *                       GAP Events
         ***********************************************************/
         case CYBLE_EVT_GAPP_ADVERTISEMENT_START_STOP:
             DBG_PRINTF("CYBLE_EVT_GAPP_ADVERTISEMENT_START_STOP, state: %x\r\n", CyBle_GetState());
             if(CYBLE_STATE_DISCONNECTED == CyBle_GetState())
-            {   
-                /* Fast and slow advertising period complete, go to low power  
+            {
+                /* Fast and slow advertising period complete, go to low power
                  * mode (Hibernate mode) and wait for an external
                  * user event to wake up the device again */
                 DBG_PRINTF("Hibernate \r\n");
@@ -110,13 +115,13 @@ void AppCallBack(uint32 event, void* eventParam)
                 ShowError();
             }
             break;
-            
+
         /**********************************************************
         *                       GATT Events
         ***********************************************************/
         case CYBLE_EVT_GATT_CONNECT_IND:
-            DBG_PRINTF("CYBLE_EVT_GATT_CONNECT_IND: %x, %x \r\n", 
-                (*(CYBLE_CONN_HANDLE_T *)eventParam).attId, 
+            DBG_PRINTF("CYBLE_EVT_GATT_CONNECT_IND: %x, %x \r\n",
+                (*(CYBLE_CONN_HANDLE_T *)eventParam).attId,
                 (*(CYBLE_CONN_HANDLE_T *)eventParam).bdHandle);
             break;
         case CYBLE_EVT_GATT_DISCONNECT_IND:
@@ -129,16 +134,43 @@ void AppCallBack(uint32 event, void* eventParam)
             * This event could be ignored by application unless it need to response
             * by error response which needs to be set in gattErrorCode field of
             * event parameter. */
-            DBG_PRINTF("CYBLE_EVT_GATTS_READ_CHAR_VAL_ACCESS_REQ: handle: %x \r\n", 
+            DBG_PRINTF("CYBLE_EVT_GATTS_READ_CHAR_VAL_ACCESS_REQ: handle: %x \r\n",
                 ((CYBLE_GATTS_CHAR_VAL_READ_REQ_T *)eventParam)->attrHandle);
+            break;
+
+        case CYBLE_EVT_GATTS_WRITE_REQ:
+            DBG_PRINTF("CYBLE_EVT_GATTS_WRITE_REQ\n");
+            wrReqParam = (CYBLE_GATTS_WRITE_REQ_PARAM_T *) eventParam;
+
+            if(wrReqParam->handleValPair.attrHandle == CYBLE_OUTPUT_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_HANDLE)
+            {
+                /* only update the value and write the response if the requested write is allowed */
+                if(wrReqParam->handleValPair.value.val[CYBLE_OUTPUT_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_INDEX] == 1)
+                {
+                    _laserNotify[0] = 1;
+                }
+                else
+                {
+                    _laserNotify[0] = 1;
+                }
+
+                /* Update CCCD handle with notification status data*/
+                _laserNotificationCCDHandle.attrHandle = CYBLE_OUTPUT_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_HANDLE;
+                _laserNotificationCCDHandle.value.val  = _laserNotify;
+                _laserNotificationCCDHandle.value.len  = 2;
+
+                /* Report data to BLE component for sending data when read by Central device */
+                CyBle_GattsWriteAttributeValue(&_laserNotificationCCDHandle, 0, &cyBle_connHandle, CYBLE_GATT_DB_PEER_INITIATED);
+            }
+            CyBle_GattsWriteRsp(cyBle_connHandle);
             break;
 
         /**********************************************************
         *                       Other Events
         ***********************************************************/
         case CYBLE_EVT_PENDING_FLASH_WRITE:
-            /* Inform application that flash write is pending. Stack internal data 
-            * structures are modified and require to be stored in Flash using 
+            /* Inform application that flash write is pending. Stack internal data
+            * structures are modified and require to be stored in Flash using
             * CyBle_StoreBondingData() */
             DBG_PRINTF("CYBLE_EVT_PENDING_FLASH_WRITE\r\n");
             break;
@@ -159,7 +191,7 @@ CY_ISR(timerISR)
 void HandleLeds()
 {
     static uint32 ledTimer = 0;
-       
+
    /* Blink blue LED to indicate that device advertises */
     if(CyBle_GetState() == CYBLE_STATE_ADVERTISING)
     {
@@ -173,58 +205,68 @@ void HandleLeds()
 }
 
 
+void from_main(uint8_t * buf, uint32_t len)
+{
+    CYBLE_GATTS_HANDLE_VALUE_NTF_T  tempHandle;
 
-/*******************************************************************************
-* Function Name: main()
-********************************************************************************
-* Summary:
-*  Main function for the project.
-*
-* Parameters:
-*  None
-*
-* Return:
-*  None
-*
-* Theory:
-*  The function starts BLE and UART components.
-*  This function process all BLE events and also implements the low power 
-*  functionality.
-*
-*******************************************************************************/
+    if (len == 5)
+    {
+        Disconnect_LED_Write(!Disconnect_LED_Read());
+        //Advertising_LED_Write(!Advertising_LED_Read());
+        if (CyBle_GetState() == CYBLE_STATE_CONNECTED)
+        {
+    		/* Update notification data*/
+            tempHandle.attrHandle = CYBLE_OUTPUT_LASERDISTANCE_CHAR_HANDLE;
+            tempHandle.value.val = (uint8_t*)(buf + 1);
+            tempHandle.value.len = 4;
+    		/* Send the updated handle as part of attribute for notifications */
+            CyBle_GattsWriteAttributeValue(&tempHandle, 0, &cyBle_connHandle, CYBLE_GATT_DB_LOCALLY_INITIATED );
+            if (_laserNotify[0])
+            {
+    		    CyBle_GattsNotification(cyBle_connHandle, &tempHandle);
+            }
+        }
+	}
+}
+
 int main()
 {
     CYBLE_API_RESULT_T apiResult;
 
-    CyGlobalIntEnable;  
-    
+    CyGlobalIntEnable;
+
     //CySysTickEnable();
-    
+
     Disconnect_LED_Write(LED_OFF);
     Advertising_LED_Write(LED_OFF);
-    
-    //CyBle_Start(AppCallBack);
-   
+
+    CyBle_Start(AppCallBack);
+
     timerISR_StartEx(timerISR);
     Timer1_Start();
     Timer1_SetInterruptMode(Timer1_INTR_MASK_TC);
     Timer1_WritePeriod(32768);
-    
+
     SPI_Start();
-    
-	while(1) 
-    {              
+
+    BLEProtocol protocol;
+    ble_protocol_init(&protocol);
+    ble_protocol_registerCallback(&protocol, TO_BLE_DEV, from_main);
+
+	while(1)
+    {
         HandleLeds();
-        
+
         uint8_t rxBytes = SPI_SpiUartGetRxBufferSize();
         while (rxBytes--)
         {
             uint8_t data = SPI_SpiUartReadRxData();
-            Advertising_LED_Write(!Advertising_LED_Read());
+            ble_protocol_push_msg(&protocol, &data, 1);
+            ble_protocol_parse(&protocol);
         }
-        
 
-#if 0       
+
+#if 1
         /* Process all the generated events. */
         CyBle_ProcessEvents();
 
@@ -235,15 +277,15 @@ int main()
         {
             /*******************************************************************
             *  Periodically simulate Battery level charging.
-            *******************************************************************/        
+            *******************************************************************/
             //SimulateBattery();
             CyBle_ProcessEvents();
 
-            //MeasureBattery(); 
+            //MeasureBattery();
         }
 #endif
-	}   
-}  
+	}
+}
 
 
 /* [] END OF FILE */
