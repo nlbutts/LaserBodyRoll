@@ -28,6 +28,9 @@ uint32_t _oneSecondTimer = 0;
 uint8_t _laserNotify[2] = {0};
 CYBLE_GATT_HANDLE_VALUE_PAIR_T _laserNotificationCCDHandle;
 
+uint8_t programData[100];
+uint32_t programDataLength;
+
 /*******************************************************************************
 * Function Name: AppCallBack()
 ********************************************************************************
@@ -142,10 +145,10 @@ void AppCallBack(uint32 event, void* eventParam)
             DBG_PRINTF("CYBLE_EVT_GATTS_WRITE_REQ\n");
             wrReqParam = (CYBLE_GATTS_WRITE_REQ_PARAM_T *) eventParam;
 
-            if(wrReqParam->handleValPair.attrHandle == CYBLE_OUTPUT_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_HANDLE)
+            if(wrReqParam->handleValPair.attrHandle == CYBLE_LAVA_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_HANDLE)
             {
                 /* only update the value and write the response if the requested write is allowed */
-                if(wrReqParam->handleValPair.value.val[CYBLE_OUTPUT_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_INDEX] == 1)
+                if(wrReqParam->handleValPair.value.val[CYBLE_LAVA_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_INDEX] == 1)
                 {
                     _laserNotify[0] = 1;
                 }
@@ -155,15 +158,32 @@ void AppCallBack(uint32 event, void* eventParam)
                 }
 
                 /* Update CCCD handle with notification status data*/
-                _laserNotificationCCDHandle.attrHandle = CYBLE_OUTPUT_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_HANDLE;
+                _laserNotificationCCDHandle.attrHandle = CYBLE_LAVA_LASERDISTANCE_CLIENT_CHARACTERISTIC_CONFIGURATION_DESC_HANDLE;
                 _laserNotificationCCDHandle.value.val  = _laserNotify;
                 _laserNotificationCCDHandle.value.len  = 2;
 
                 /* Report data to BLE component for sending data when read by Central device */
                 CyBle_GattsWriteAttributeValue(&_laserNotificationCCDHandle, 0, &cyBle_connHandle, CYBLE_GATT_DB_PEER_INITIATED);
             }
+            /* Write request for time/date */
+            if(wrReqParam->handleValPair.attrHandle == CYBLE_LAVA_PROGRAM_CHAR_HANDLE)
+            {
+                programDataLength = wrReqParam->handleValPair.value.len;
+                memcpy(programData, wrReqParam->handleValPair.value.val, programDataLength);
+                /* only update the value and write the response if the requested write is allowed */
+//                if(CYBLE_GATT_ERR_NONE == CyBle_GattsWriteAttributeValue(&wrReqParam->handleValPair, 0, &cyBle_connHandle, CYBLE_GATT_DB_PEER_INITIATED))
+//                {
+//                    int len = wrReqParam->handleValPair.value.len;
+//                    int data = wrReqParam->handleValPair.value.val[0];
+//                }
+            }
+
+
             CyBle_GattsWriteRsp(cyBle_connHandle);
             break;
+
+
+
 
         /**********************************************************
         *                       Other Events
@@ -216,7 +236,7 @@ void from_main(uint8_t * buf, uint32_t len)
         if (CyBle_GetState() == CYBLE_STATE_CONNECTED)
         {
     		/* Update notification data*/
-            tempHandle.attrHandle = CYBLE_OUTPUT_LASERDISTANCE_CHAR_HANDLE;
+            tempHandle.attrHandle = CYBLE_LAVA_LASERDISTANCE_CHAR_HANDLE;
             tempHandle.value.val = (uint8_t*)(buf + 1);
             tempHandle.value.len = 4;
     		/* Send the updated handle as part of attribute for notifications */
@@ -265,6 +285,21 @@ int main()
             ble_protocol_parse(&protocol);
         }
 
+        if (programDataLength > 0)
+        {
+            uint8_t packet[100];
+            int txPacketLen;
+            CyGlobalIntDisable;
+            txPacketLen = ble_protocol_generatePacket(packet,
+                                                      100,
+                                                      0,
+                                                      FROM_BLE_DEV,
+                                                      programData,
+                                                      programDataLength);
+            SPI_SpiUartPutArray(packet, txPacketLen);
+            programDataLength = 0;
+            CyGlobalIntEnable;
+        }
 
 #if 1
         /* Process all the generated events. */
