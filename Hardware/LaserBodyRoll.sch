@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:LaserBodyRoll-cache
-EELAYER 26 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -525,7 +525,7 @@ F 5 "732-9779-1-ND" V 1300 7000 60  0001 C CNN "Digikey"
 	0    1    1    0   
 $EndComp
 $Comp
-L General:ITS42K5D U?
+L LaserBodyRoll-rescue:ITS42K5D-General U?
 U 1 1 5C6B60B2
 P 5200 6850
 AR Path="/59EA7C91/5C6B60B2" Ref="U?"  Part="1" 
@@ -830,7 +830,7 @@ F 3 "" H 10100 3000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L General:ICM-20602 U?
+L LaserBodyRoll-rescue:ICM-20602-General U?
 U 1 1 5C6C9317
 P 8950 3050
 AR Path="/5A8091D6/5C6C9317" Ref="U?"  Part="1" 
@@ -1045,7 +1045,7 @@ Connection ~ 10500 3600
 Wire Wire Line
 	10500 3600 10800 3600
 $Comp
-L General:MCP25625 U5
+L LaserBodyRoll-rescue:MCP25625-General U5
 U 1 1 5C6AA400
 P 9250 5350
 F 0 "U5" H 9550 4350 50  0000 C CNN
@@ -1057,7 +1057,7 @@ F 4 "MCP25625T-E/MLCT-ND" H 9950 4350 50  0001 C CNN "Digikey"
 	1    0    0    -1  
 $EndComp
 $Comp
-L General:MCP47X U3
+L LaserBodyRoll-rescue:MCP47X-General U3
 U 1 1 5C6AA4F5
 P 5600 3500
 F 0 "U3" H 5800 4400 60  0000 C CNN
@@ -1746,7 +1746,7 @@ Connection ~ 7650 5500
 Wire Wire Line
 	7650 5500 8450 5500
 $Comp
-L General:LD3985 U7
+L LaserBodyRoll-rescue:LD3985-General U7
 U 1 1 5C6B578A
 P 4950 5350
 F 0 "U7" H 4950 5815 50  0000 C CNN
