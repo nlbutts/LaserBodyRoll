@@ -1,42 +1,3 @@
-/**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
-  *
-  * COPYRIGHT(c) 2018 STMicroelectronics
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */
-/* Includes ------------------------------------------------------------------*/
-
 /*
 I'm sorry, but due to ST's crap this file will generate a fuck-ton of warnings. GCC 5.4 generates
 a lot of great warnings to help you write better code, but in this case I am pulling in a bunch
@@ -76,6 +37,9 @@ using Embedded::Memory::Winbond::NORFlash;
 
 #include "embedded/memory/NVSection.h"
 using Embedded::Memory::NVSection;
+
+#include "embedded/micro/stm32/CANInterface.h"
+using Embedded::Micro::STM32::CANInterface;
 
 #include <vl53l0x.h>
 using STSensors::VL53L0X;
@@ -211,7 +175,7 @@ int main(void)
     laser.initialize();
 
     DigitalToAnalog dac1(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
-    DigitalToAnalog dac2(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
+    //DigitalToAnalog dac2(hdac1, DigitalToAnalog::CHANNEL_0, 3.3);
 
     SPIInterface norSPI(hspi3);
     Timer norTimer;
@@ -262,6 +226,24 @@ int main(void)
     uint8_t ble_packet[100];
     int packet_len;
 
+    uint8_t data[10];
+
+    CANInterface can(hcan);
+    CanTxMsgTypeDef canTxMsg;
+
+    canTxMsg.StdId = 0x123;
+    canTxMsg.IDE   = CAN_ID_EXT;
+    canTxMsg.RTR   = CAN_RTR_DATA;
+    canTxMsg.DLC   = 8;
+    canTxMsg.Data[0] = 1;
+    canTxMsg.Data[1] = 2;
+    canTxMsg.Data[2] = 3;
+    canTxMsg.Data[3] = 4;
+    canTxMsg.Data[4] = 5;
+    canTxMsg.Data[5] = 6;
+    canTxMsg.Data[6] = 7;
+    canTxMsg.Data[7] = 8;
+
     while (1)
     {
         if (timer.isTimerExpired())
@@ -277,13 +259,22 @@ int main(void)
             laser.run();
             int32_t range = laser.getDistanceInMillimeters();
             dac1.set(range / 100.0f);
-            dac2.set(range / 100.0f);
+            //dac2.set(range / 100.0f);
+            //dac2.set(2.5f);
 
             memcpy(&ble_payload[1], &range, 4);
             packet_len = ble_protocol_generatePacket(ble_packet, 100, 0, TO_BLE_DEV, ble_payload, 5);
             ble_cs = 0;
             bleSPI.write(ble_packet, packet_len);
             ble_cs = 1;
+
+            can.send(canTxMsg);
+        }
+
+        bleSPI.read(data, 1);
+        if (data[0] == 0x55)
+        {
+            data[1]++;
         }
     }
 }
@@ -414,15 +405,15 @@ static void MX_ADC1_Init(void)
 static void MX_CAN_Init(void)
 {
     hcan.Instance = CAN;
-    hcan.Init.Prescaler = 16;
+    hcan.Init.Prescaler = 4;
     hcan.Init.Mode = CAN_MODE_NORMAL;
     hcan.Init.SJW = CAN_SJW_1TQ;
-    hcan.Init.BS1 = CAN_BS1_1TQ;
-    hcan.Init.BS2 = CAN_BS2_1TQ;
+    hcan.Init.BS1 = CAN_BS1_13TQ;
+    hcan.Init.BS2 = CAN_BS2_4TQ;
     hcan.Init.TTCM = DISABLE;
-    hcan.Init.ABOM = DISABLE;
+    hcan.Init.ABOM = ENABLE;
     hcan.Init.AWUM = DISABLE;
-    hcan.Init.NART = DISABLE;
+    hcan.Init.NART = ENABLE;
     hcan.Init.RFLM = DISABLE;
     hcan.Init.TXFP = DISABLE;
     if (HAL_CAN_Init(&hcan) != HAL_OK)

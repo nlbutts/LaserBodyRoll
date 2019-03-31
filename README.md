@@ -7,15 +7,20 @@ The system detects front end rise by using a laser rangefinder. The laser rangef
 
 
 # Hardware Connections
-The system will have three connectors: 1) to ECU connector, 2) to sensor connector, 3) USB connector. The ECU connector will supply power to the box, and provide the speed sensor signal back to the ECU. The sensor connector will provide power to the sensor and receive the PPS signal. The USB connector will be used for reprogramming and configuration.
+A single cable gland will be used to bring signals into and out of the ECU enclosure.
+
 ECU Connector
 
-| Pin | Description     |
-| --- | -----------     |
-| 1   | Power           |
-| 2   | Ground          |
-| 3   | Voltage Output  |
-| 4   | Button input    |
+| Wire   | Description   |
+| ------ | -----------   |
+| Purple  | Power        |
+| Black  | Ground        |
+| Grey   | Analog Out 1  |
+| Red    | Analog Out 2  |
+| Brown  | DIN           |
+| Orange | DOUT          |
+| Yellow | CAN High      |
+| Green  | CAN Low       |
 
 The goal is to fit into this ![box](https://www.digikey.com/product-detail/en/bud-industries/PN-1320-CMB/377-1887-ND/2674151 "enclosure")
 
