@@ -4,31 +4,63 @@ from gpiozero import Button
 import time
 import spidev
 
+"""This is a class for the MCP25625 CAN controller/transceiver.
+   It supports transmits, receives, configurations. It needs work.
+
+"""
 class MCP25625():
-   def __init__(self, clk, max_speed_hz):
-      self.clk = clk
-      self.reset = LED(18)
-      self.TxReq = LED(14)
-      self.CanInt = Button(24)
+   def __init__(self, crystal, max_speed_hz, reset_pin = 18, tx_req_pin = 14, int_pin = 24):
+      """Initialized object with the crystal frequency and the max SPI
+      bus frequency
+
+      Args:
+         crystal (int): The frequency of the crystal attached to the controller
+         max_speed_hz (int): The max speed of the SPI bus
+         reset_pin (int): The BCM pin number connected to the reset line
+         tx_req_pin (int): The BCM pin number connected to the Tx request line
+         int_pint (int): The BCM pin number connected to the interrupt pin (input)
+      """
+      self.crystal = crystal
+      self.reset = LED(reset_pin)
+      self.TxReq = LED(tx_req_pin)
+      self.CanInt = Button(int_pin)
       self.spi = spidev.SpiDev()
       self.spi.open(0, 0)
       self.spi.max_speed_hz = max_speed_hz
 
+      self.mode_normal   = 0
+      self.mode_sleep    = 1
+      self.mode_loopback = 2
+      self.mode_listen   = 3
+      self.mode_config   = 4
+
+
    def setMode(self, mode):
+      """Sets the mode of the controller, use the mode definitions above
+
+      Args:
+         mode (int): The mode definitions defined above in this class
+      """
       value = mode << 5 | 0x7
       self.spi.xfer2([0x05, 0x0F, 0xFF, value])
 
    def resetChip(self):
+      """Forces a reset of the CAN controller
+      """
       self.reset.off()
       time.sleep(0.1)
       self.reset.on()
 
    def transmit(self):
+      """Toggle the Tx request pin for Transmit object 1
+      """
       self.TxReq.on()
       time.sleep(0.1)
       self.TxReq.off()
 
    def printStatus(self):
+      """Debug function that prints the various status values of the CAN controller
+      """
       # Read CANCTRL
       ret = self.spi.xfer2([0x03, 0x0F, 0x00])
       control_reg = ret[2]
@@ -46,11 +78,21 @@ class MCP25625():
       TEC = ret[2]
       REC = ret[3]
 
-      print("CANCTRL: {:X} - CANSTATUS: {:X} - STATUS: {:X} - RX_STATUS: {:X} - TEC: {:} - REC: {:}".format(control_reg, canstat, status, rx_status, TEC, REC))
+      ret = self.spi.xfer2([0x03, 0x2D, 0x00])
+      errors = ret[2]
+
+      print("CANCTRL: {:X} - CANSTATUS: {:X} - STATUS: {:X} - RX_STATUS: {:X} - TEC: {:} - REC: {:} - ERRORS: {:X}".format(control_reg, canstat, status, rx_status, TEC, REC, errors))
 
    def configure(self, PRSEG, PHSEG1, PHSEG2):
+      """Configures the time quanta, refer to the datasheet
+
+      Args:
+         PRSEG (int): The pre sync TQ
+         PHSEG1 (int): The seg 1 TQ
+         PHSEG2 (int): The seg 2 TQ
+      """
       # Write CNF1
-      ret = self.spi.xfer2([0x05, 0x2A, 0xFF, 0x00])
+      ret = self.spi.xfer2([0x05, 0x2A, 0xFF, 0xC0])
       # Write CNF2
       value = (PHSEG1 - 1) << 3 | (PRSEG - 1)
       ret = self.spi.xfer2([0x05, 0x29, 0xFF, value])
@@ -60,7 +102,9 @@ class MCP25625():
       # Use B0RTSM to transmit a CAN message
       ret = self.spi.xfer2([0x05, 0x0D, 0xFF, 0x01])
 
-   def configure_rx(self):
+   def configure_rx_masks(self):
+      """This function needs more work, if configures the mask to receive all CAN messages
+      """
       # Set Receive acceptance mask to 0
       ret = self.spi.xfer2([0x20, 0x20, 0x00])
       ret = self.spi.xfer2([0x20, 0x24, 0x00])
@@ -68,6 +112,12 @@ class MCP25625():
       ret = self.spi.xfer2([0x20, 0x60, 0x60])
 
    def setTxObject(self, id, data):
+      """Sets Tx object 1 with the ID and data
+
+      Args:
+         id (int): The 11-bit or 29-bit CAN id (currently only supports 11-bit)
+         data (int): zero to eight bytes of data to transmit
+      """
       buf = []
       buf.append(0x02)
       buf.append(0x31)
@@ -89,6 +139,11 @@ class MCP25625():
       self.spi.xfer2(buf)
 
    def printRxObject(self, obj):
+      """Debug function to print one of the receive CAN buffers
+
+      Args:
+         obj (int): Which CAN Rx object to print
+      """
       buf = []
       buf.append(0x03)
       buf.append(0x61 | obj << 5)
@@ -105,6 +160,12 @@ class MCP25625():
       print(formatStr)
 
    def rxMessageAvailable(self):
+      """Returns True if a CAN message has been received and which buffer it was received in
+
+      Returns:
+         int: -1 no message, 0 message in buffer 0, 1 message in buffer 1
+      """
+
       # Read Rx Status
       ret = self.spi.xfer2([0xB0, 0x00, 0x00])
       rx_status = ret[2]
@@ -115,6 +176,12 @@ class MCP25625():
       return -1
 
    def printAddress(self, address, length):
+      """Debug function that prints data from address to address + length
+
+      Args:
+         address (int): The starting address to print
+         length (int): The length of registers to print
+      """
       buf = []
       buf.append(0x03)
       buf.append(address)
@@ -129,22 +196,3 @@ class MCP25625():
       print(temp)
 
 
-can = MCP25625(8000000, 1000000)
-can.resetChip()
-can.printStatus()
-can.setMode(4)
-can.configure(5, 8, 2)
-can.configure_rx()
-can.setMode(0)
-can.setTxObject(0x123, [0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF])
-can.printAddress(0x30, 16)
-can.printStatus()
-
-while True:
-   can.printStatus()
-   time.sleep(1)
-   can.transmit()
-   rxObjAvailable = can.rxMessageAvailable()
-   if rxObjAvailable >= 0:
-      print("Rx message received object {:}".format(rxObjAvailable))
-      can.printRxObject(rxObjAvailable)
