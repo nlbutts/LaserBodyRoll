@@ -4,6 +4,7 @@ from gpiozero import Button
 import time
 from mcp25625_can import MCP25625
 from mcp47Cx_dac import MCP47CX
+from icm20602 import ICM20602
 
 DIN = Button(15)
 DOUT = LED(22)
@@ -22,6 +23,9 @@ can.printStatus()
 
 print("Setting up DAC")
 dac = MCP47CX(0x60, 5.0)
+
+imu = ICM20602(0x68)
+imu.icm_20602_dumpFIFO()
 
 while True:
     dac.set_voltage(0, 2.0)

@@ -8,9 +8,6 @@ class MCP47CX():
         Args:
             address (int): I2C address of the DAC.
             vref (float): The reference voltage
-
-        Returns:
-            bool: The return value. True for success, False otherwise.
         """
         self.address = address
         self.vref = vref
