@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name LaserBodyRoll-rescue)(type Legacy)(uri ${KIPRJMOD}/LaserBodyRoll-rescue.lib)(options "")(descr ""))
+)

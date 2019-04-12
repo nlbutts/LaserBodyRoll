@@ -15,9 +15,18 @@ class ICM20602():
 
         #DEVICE RESET -- Set bit 7 of PWR_MGMT_1 to High to reset registers to default
         success = False
+<<<<<<< HEAD
         while success == False:
             time.sleep(0.1)
             try:
+=======
+        error = False
+        while success == False:
+            time.sleep(0.1)
+            try:
+                if error:
+                    who_am_i = self.bus.read_byte_data(self.address - 1, 0x75)
+>>>>>>> pi_board
                 #WHO_AM_I Register -- should be x12
                 who_am_i = self.bus.read_byte_data(self.address, 0x75)
                 print("WHO_AM_I: {:X}".format(who_am_i))
@@ -29,6 +38,10 @@ class ICM20602():
             except Exception as e:
                 print("I2C error, retrying")
                 print(e)
+<<<<<<< HEAD
+=======
+                error = not error
+>>>>>>> pi_board
 
         #PWR_MGMT_1 & 2 -- set 1 to x01 to wake, 2 should be x00 to ensure all sensors are on
         self.bus.write_byte_data(self.address, 0x6B, 0x01)

@@ -1,4 +1,0 @@
-This folder contains source that is needed to start an application on the
-mircocontroller. This should not be built as a library, but the source files
-should be added directly to each application being built (hence no
-CMakeLists.txt file)
