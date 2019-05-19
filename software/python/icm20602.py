@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import smbus
 import time
+import struct
 
 class ICM20602():
     def __init__(self, address):
@@ -51,12 +52,17 @@ class ICM20602():
         print("FIFO_EN: {:X}".format(fifo_en))
 
         #SMPLRT_DIV Register -- set to specified value at beginning of file
-        self.bus.write_byte_data(self.address, 0x19, 99)
+        self.bus.write_byte_data(self.address, 0x19, 9)
         smplrt = self.bus.read_byte_data(self.address, 0x19)
         print("SMPLRT_DIV: {:X}".format(smplrt))
 
         # Set the accelerometer sensitivity to 8g
         self.bus.write_byte_data(self.address, 0x1C, 0x08)
+        self.G_SETTING = 8
+
+        # Set the gyro sensitivity to 250dps
+        self.bus.write_byte_data(self.address, 0x1B, 0x00)
+        self.DPS_SETTING = 250
 
         # Set the low pass filter for the accelerometer
         self.bus.write_byte_data(self.address, 0x1D, 5)
@@ -72,9 +78,11 @@ class ICM20602():
 
     def icm_20602_dumpFIFO(self):
         timestamp = 0
+        overflow = False
         while True:
             intStatus = self.bus.read_byte_data(self.address, 0x3A)
-            overflow = intStatus & 0x10;
+            if (intStatus & 0x10):
+                overflow = True
 
             if overflow:
                 print("!!!OVERFLOW")
@@ -97,15 +105,25 @@ class ICM20602():
                     tempConversion /= 326.8
                     tempConversion += 25
 
-                    accelx = ((int(data[offset +  0])) << 8) + data[offset +  1]
-                    accely = ((int(data[offset +  2])) << 8) + data[offset +  3]
-                    accelz = ((int(data[offset +  4])) << 8) + data[offset +  5]
+                    accelx = struct.unpack(">h", bytearray(data[offset + 0:offset + 2]))[0]
+                    accely = struct.unpack(">h", bytearray(data[offset + 2:offset + 4]))[0]
+                    accelz = struct.unpack(">h", bytearray(data[offset + 4:offset + 6]))[0]
 
-                    gyrox = ((int(data[offset +  8])) << 8) + data[offset +  9]
-                    gyroy = ((int(data[offset + 10])) << 8) + data[offset + 11]
-                    gyroz = ((int(data[offset + 12])) << 8) + data[offset + 13]
+                    # Normalize to gs
+                    accelx = (accelx / 65535) * self.G_SETTING
+                    accely = (accely / 65535) * self.G_SETTING
+                    accelz = (accelz / 65535) * self.G_SETTING
 
-                    print("{:}, {:}, {:}, {:}, {:}, {:}, {:}, {:}, {:}, {:}, {:}".format(
+                    gyrox = struct.unpack(">h", bytearray(data[offset +  8:offset + 10]))[0]
+                    gyroy = struct.unpack(">h", bytearray(data[offset + 10:offset + 12]))[0]
+                    gyroz = struct.unpack(">h", bytearray(data[offset + 12:offset + 14]))[0]
+
+                    gyrox = (gyrox / 65535) * self.DPS_SETTING
+                    gyroy = (gyroy / 65535) * self.DPS_SETTING
+                    gyroz = (gyroz / 65535) * self.DPS_SETTING
+
+
+                    print("{:11.1F}, {:}, {:02.3F}, {:02.3F}, {:02.3F}, {:2.1F}, {:04.3F}, {:04.3F}, {:04.3F}, {:}, {:}".format(
                              fepoch,
                              timestamp,
                              accelx,
